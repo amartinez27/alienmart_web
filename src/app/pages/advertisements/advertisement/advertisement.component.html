@@ -1,0 +1,115 @@
+<div fxLayout="row wrap" fxLayoutAlign="center center">
+    <div fxFlex="100" fxFlex.gt-md="35" fxFlex.md="45">
+
+        <mat-card class="product-image">
+            <button mat-icon-button (click)="openZoomViewer()" fxHide="false" fxHide.gt-md>
+                <mat-icon>fullscreen</mat-icon>
+            </button>
+            <img *ngIf="image" [src]="image" (mousemove)="onMouseMove($event)" (mouseleave)="onMouseLeave($event)" />
+        </mat-card>
+
+        <div class="small-carousel">
+            <div class="swiper-container" [swiper]="config">
+                <div class="swiper-wrapper">
+                    <div *ngFor="let image of product?.images" class="swiper-slide">
+                        <mat-card (click)="selectImage(image)" class="p-1">
+                            <img [attr.data-src]="image.url" class="swiper-lazy" />
+                            <div class="swiper-lazy-preloader"></div>
+                        </mat-card>
+                    </div>
+                </div>
+                <button mat-icon-button class="swiper-button-prev swipe-arrow">
+                    <mat-icon>keyboard_arrow_left</mat-icon>
+                </button>
+                <button mat-icon-button class="swiper-button-next swipe-arrow">
+                    <mat-icon>keyboard_arrow_right</mat-icon>
+                </button>
+            </div>
+        </div>
+
+
+    </div>
+    <div fxFlex="100" fxFlex.gt-md="45" fxFlex.md="55" ngClass.gt-sm="px-3 m-0" ngClass.sm="mt-2" ngClass.xs="mt-2">
+
+        <div #zoomViewer fxShow="false" fxShow.gt-md>
+            <mat-card *ngIf="zoomImage" class="zoom-viewer mat-elevation-z18"
+                [ngStyle]="{'background-image': 'url(' + zoomImage + ')'}"></mat-card>
+        </div>
+
+        <h1>{{product?.name}}</h1>
+        <div class="py-1 lh">
+            <p><span class="text-muted fw-500">Categoría:
+                </span><span>{{ ( categories | filterById : product?.featured_type_id )?.description }}</span>
+            </p>
+            <!--<p><span class="text-muted fw-500">Disponibilidad:
+                </span><span>{{ (product?.availability > 0) ? 'En existencia':'No disponible'}}</span></p>-->
+            <p><span class="text-muted fw-500">Vendedor:
+                </span><span>{{ product?.seller?.name }}</span></p>
+            <p>{{ product?.city }}, {{product?.state_id}}</p>
+        </div>
+        <p class="py-1 text-muted lh" style="white-space: pre-line">
+            {{product?.description.length > 250 ? product?.description.substring(0,250) + '...' : product?.description}}
+        </p>
+        <button mat-button *ngIf="product?.description.length > 250" (click)="scroll()">ver más</button>
+
+        <div class="divider mt-1"></div>
+        <div class="py-2">
+
+            <h2 class="new-price">${{product?.price | number : '1.2-2'}}</h2>
+        </div>
+
+        <div class="py-1">
+            <app-controls [product]="product" [type]="'all'"></app-controls>
+        </div>
+    </div>
+</div>
+
+<div fxLayout="row wrap" class="mt-2" fxLayoutAlign="center center">
+    <div fxFlex="100" fxFlex.gt-md="78" fxFlex.md="74" id="description">
+        <mat-card class="ratings-section">
+            <mat-tab-group [@.disabled]="true" [selectedIndex]="0">
+                <mat-tab label="Descripción">
+                    <div class="full-desc lh">
+                        <p class="px-2 mt-1" style="white-space: pre-line">
+                            {{product?.description}}
+                        </p>
+                    </div>
+                </mat-tab>
+                <mat-tab label="Preguntas al vendedor">
+                    <div class="p-2">
+                        <div fxLayout="row wrap">
+                            <div fxFlex="100" fxLayout="column" *ngFor="let question of product?.questions" class="p-2">
+                                <h3 class="my-1">{{question.question}}</h3>
+                                <p>{{question.answer ? question.answer : 'El vendedor aún no ha respondido esta pregunta.'}}
+                                </p>
+                            </div>
+                            <h3 fxflex="100" class="mt-2">Hazle una pregunta al vendedor</h3>
+
+                            <form fxFlex="100" [formGroup]="questionForm"
+                                (ngSubmit)="onQuestionSubmit(questionForm.value)" fxLayout="row wrap">
+                                <div fxFlex="100" class="px-1 mt-1">
+                                    <mat-form-field appearance="outline" class="w-100">
+                                        <mat-label>Haz una pregunta</mat-label>
+                                        <textarea matInput formControlName="question" required rows="5"></textarea>
+                                        <mat-error *ngIf="questionForm.controls.question.errors?.required">La pregunta
+                                            es obligatoria
+                                        </mat-error>
+                                    </mat-form-field>
+                                </div>
+                                <div fxFlex="100" class="mt-1 text-center w-100">
+                                    <button mat-raised-button color="primary" type="submit">Preguntar</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </mat-tab>
+            </mat-tab-group>
+        </mat-card>
+    </div>
+</div>
+
+<div class="py-2 mt-2">
+    <h2>Anuncios relacionados</h2>
+    <div class="divider"></div>
+    <app-products-carousel [products]="relatedProducts"></app-products-carousel>
+</div>

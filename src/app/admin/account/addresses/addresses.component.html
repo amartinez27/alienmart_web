@@ -1,0 +1,199 @@
+<div fxLayout="row wrap" class="p-1">
+    <div fxFlex="100">
+        <h2 class="px-1">Mis direcciones</h2>
+    </div>
+    <div fxFlex="100">
+        <mat-tab-group [selectedIndex]="selected.value" (selectedIndexChange)="tabChange($event)">
+            <mat-tab label="Mis direcciones">
+                <div class="p-1" fxLayout="row wrap">
+                    <div fxFlex="100" fxFlex.gt-sm="25" *ngFor="let address of addresses" class="p-1">
+                        <mat-card class="mat-elevation-z2">
+                            <div fxLayout="column nowrap" class="h-100">
+                                <div fxLayout="column" fxFlex>
+                                    <h4>{{address.name}}</h4>
+                                    <span>{{address.street}} </span>
+                                    <span>{{address.city}}, {{address.state_name}}
+                                        {{address.postal_code}}</span>
+                                    <span>{{address.country_name}}</span>
+                                </div>
+                                <div class="flexible"></div>
+                                <div fxLayout="row" fxLayoutAlign="space-between center" fxFlex>
+                                    <button mat-button matTooltip="Editar dirección" color="primary"
+                                        (click)="editAddress(address)">
+                                        <mat-icon>edit</mat-icon>
+                                    </button>
+                                    <button mat-button matTooltip="Eliminar dirección" color="primary"
+                                        (click)="removeAddress(address)">
+                                        <mat-icon>delete</mat-icon>
+                                    </button>
+                                </div>
+                            </div>
+                        </mat-card>
+                    </div>
+                </div>
+            </mat-tab>
+            <mat-tab label="Agregar dirección">
+                <div class="p-2 mt-1">
+                    <form [formGroup]="addressForm">
+                        <div fxLayout="row wrap">
+                            <div fxFlex="100" class="px-1">
+                                <mat-form-field class="w-100" appearance="outline">
+                                    <mat-label>Nombre</mat-label>
+                                    <input matInput placeholder="Juan Ignacio Pérez" formControlName="name" required>
+                                    <mat-error *ngIf="addressForm.controls.name.errors?.required">El nombre es requerido
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div fxFlex="100" fxFlex.gt-sm="33.3" class="px-1">
+                                <mat-form-field class="w-100" appearance="outline">
+                                    <mat-label>Calle y número</mat-label>
+                                    <input matInput formControlName="street" required>
+                                    <mat-error *ngIf="addressForm.controls.street.errors?.required">La calle es
+                                        obligatoria</mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div fxFlex="100" fxFlex.gt-sm="33.3" class="px-1">
+                                <mat-form-field class="w-100" appearance="outline">
+                                    <mat-label>Nombre de colonia</mat-label>
+                                    <input matInput formControlName="suburb" required>
+                                    <mat-error *ngIf="addressForm.controls.suburb.errors?.required">El nombre de colonia
+                                        es requerido
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div fxFlex="100" fxFlex.gt-sm="33.3" class="px-1">
+                                <mat-form-field class="w-100" appearance="outline">
+                                    <mat-label>Ciudad</mat-label>
+                                    <input matInput formControlName="city" required>
+                                    <mat-error *ngIf="addressForm.controls.city.errors?.required">La ciudad es requerida
+                                    </mat-error>
+
+                                </mat-form-field>
+                            </div>
+                            <div fxFlex="100" fxFlex.gt-sm="33.3" class="px-1">
+                                <mat-form-field class="w-100" appearance="outline">
+                                    <mat-label>País</mat-label>
+                                    <mat-select formControlName="country_id" required>
+                                        <mat-option *ngFor="let country of countries" [value]="country.id">
+                                            {{country.name}}
+                                        </mat-option>
+                                    </mat-select>
+                                    <mat-error *ngIf="addressForm.controls.country_id.errors?.required">El país es
+                                        requerido</mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div fxFlex="100" fxFlex.gt-sm="33.3" class="px-1">
+                                <mat-form-field class="w-100" appearance="outline">
+                                    <mat-label>Estado</mat-label>
+                                    <mat-select formControlName="state_id" required>
+                                        <mat-option *ngFor="let state of countries[0]?.states" [value]="state.id">
+                                            {{state.name}}
+                                        </mat-option>
+                                    </mat-select>
+                                    <mat-error *ngIf="addressForm.controls.state_id.errors?.required">El estado es
+                                        requerido</mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div fxFlex="100" fxFlex.gt-sm="33.3" class="px-1">
+                                <mat-form-field class="w-100" appearance="outline">
+                                    <mat-label>Código postal</mat-label>
+                                    <input matInput formControlName="postal_code" required>
+                                    <mat-error *ngIf="addressForm.controls.postal_code.errors?.required">El código
+                                        postal es requerido
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div fxFlex="100" class="text-center mt-2">
+                                <button mat-button (click)="cancel($event)">Cancelar</button>
+                                <button mat-raised-button color="primary"
+                                    (click)="onAddressFormSubmit(addressForm.value)">Guardar
+                                    dirección</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </mat-tab>
+            <mat-tab label="Editar dirección existente" *ngIf="edition">
+                <div class="p-2 mt-1">
+                    <form [formGroup]="addressEditionForm">
+                        <div fxLayout="row wrap">
+                            <div fxFlex="100" class="px-1">
+                                <mat-form-field class="w-100" appearance="outline">
+                                    <mat-label>Nombre</mat-label>
+                                    <input matInput placeholder="Juan Ignacio Pérez" formControlName="name" required>
+                                    <mat-error *ngIf="addressForm.controls.name.errors?.required">El nombre es requerido
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div fxFlex="100" fxFlex.gt-sm="33.3" class="px-1">
+                                <mat-form-field class="w-100" appearance="outline">
+                                    <mat-label>Calle y número</mat-label>
+                                    <input matInput formControlName="street" required>
+                                    <mat-error *ngIf="addressForm.controls.street.errors?.required">La calle es
+                                        obligatoria</mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div fxFlex="100" fxFlex.gt-sm="33.3" class="px-1">
+                                <mat-form-field class="w-100" appearance="outline">
+                                    <mat-label>Nombre de colonia</mat-label>
+                                    <input matInput formControlName="suburb" required>
+                                    <mat-error *ngIf="addressForm.controls.suburb.errors?.required">El nombre de colonia
+                                        es requerido
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div fxFlex="100" fxFlex.gt-sm="33.3" class="px-1">
+                                <mat-form-field class="w-100" appearance="outline">
+                                    <mat-label>Ciudad</mat-label>
+                                    <input matInput formControlName="city" required>
+                                    <mat-error *ngIf="addressForm.controls.city.errors?.required">La ciudad es requerida
+                                    </mat-error>
+
+                                </mat-form-field>
+                            </div>
+                            <div fxFlex="100" fxFlex.gt-sm="33.3" class="px-1">
+                                <mat-form-field class="w-100" appearance="outline">
+                                    <mat-label>País</mat-label>
+                                    <mat-select formControlName="country_id" required>
+                                        <mat-option *ngFor="let country of countries" [value]="country.id">
+                                            {{country.name}}
+                                        </mat-option>
+                                    </mat-select>
+                                    <mat-error *ngIf="addressForm.controls.country_id.errors?.required">El país es
+                                        requerido</mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div fxFlex="100" fxFlex.gt-sm="33.3" class="px-1">
+                                <mat-form-field class="w-100" appearance="outline">
+                                    <mat-label>Estado</mat-label>
+                                    <mat-select formControlName="state_id" required>
+                                        <mat-option *ngFor="let state of countries[0].states" [value]="state.id">
+                                            {{state.name}}
+                                        </mat-option>
+                                    </mat-select>
+                                    <mat-error *ngIf="addressForm.controls.state_id.errors?.required">El estado es
+                                        requerido</mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div fxFlex="100" fxFlex.gt-sm="33.3" class="px-1">
+                                <mat-form-field class="w-100" appearance="outline">
+                                    <mat-label>Código postal</mat-label>
+                                    <input matInput formControlName="postal_code" required>
+                                    <mat-error *ngIf="addressForm.controls.postal_code.errors?.required">El código
+                                        postal es requerido
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div fxFlex="100" class="text-center mt-2">
+                                <button mat-button (click)="cancel($event)">Cancelar</button>
+                                <button mat-raised-button color="primary"
+                                    (click)="onAddressEditionFormSubmit(addressEditionForm.value)">Guardar
+                                    dirección</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </mat-tab>
+        </mat-tab-group>
+    </div>
+</div>

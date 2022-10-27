@@ -1,0 +1,236 @@
+<div fxLayout="row wrap" class="p-1" fxLayoutAlign="space-between center">
+    <div fxLayout="row wrap" fxLayoutAlign="start center">
+        <div>
+            <button routerLink=".." mat-icon-button color="primary">
+                <mat-icon>arrow_back_ios</mat-icon>
+            </button>
+        </div>
+        <div fxLayoutAlign="start center">
+            <h2>Detalle de vendedor</h2>
+        </div>
+    </div>
+</div>
+<div fxLayout="row wrap" class="p-1">
+    <mat-tab-group fxFlex="100">
+        <mat-tab label="Perfil">
+            <div fxLayout="row wrap">
+                <div fxFlex="100" class="p-1">
+                    <h3 class="text-muted mt-2">Información general</h3>
+                </div>
+                <div fxLayout="column" fxFlex="100" fxFlex.gt-sm="33.3" class="p-1">
+                    <p class="text-label">Nombre</p>
+                    <p>{{user?.first_name}}</p>
+                </div>
+                <div fxLayout="column" fxFlex="100" fxFlex.gt-sm="33.3" class="p-1">
+                    <p class="text-label">Apellido</p>
+                    <p>{{user?.last_name}}</p>
+                </div>
+                <div fxLayout="column" fxFlex="100" fxFlex.gt-sm="33.3" class="p-1">
+                    <p class="text-label">Género</p>
+                    <p>{{user?.gender}}</p>
+                </div>
+                <div fxLayout="column" fxFlex="100" fxFlex.gt-sm="33.3" class="p-1">
+                    <p class="text-label">Correo electrónico</p>
+                    <p>{{user?.email}}</p>
+                </div>
+                <div fxLayout="column" fxFlex="100" fxFlex.gt-sm="33.3" class="p-1">
+                    <p class="text-label">Teléfono</p>
+                    <p>{{user?.phone}}</p>
+                </div>
+                <div fxLayout="column" fxFlex="100" fxFlex.gt-sm="33.3" class="p-1">
+                    <p class="text-label">Estatus</p>
+                    <p><span *ngIf="user?.islockedout" fxLayoutAlign="start center" class="locked-out">Bloqueado
+                            <mat-icon>lock</mat-icon>
+                        </span> <span *ngIf="!user?.islockedout" fxLayoutAlign="start center"
+                            class="lock-free">Desbloqueado
+                            <mat-icon>
+                                lock_open</mat-icon></span></p>
+                </div>
+            </div>
+            <div class="divider"></div>
+
+            <div fxLayout="row wrap">
+                <div fxFlex="100" class="p-1">
+                    <h3 class="text-muted mt-2">Información fiscal</h3>
+                </div>
+                <div fxLayout="column" fxFlex="100" fxFlex.gt-sm="33.3" class="p-1">
+                    <p class="text-label">Representante legal</p>
+                    <p>{{user?.business_name}}</p>
+                </div>
+                <div fxLayout="column" fxFlex="100" fxFlex.gt-sm="33.3" class="p-1">
+                    <p class="text-label">RFC</p>
+                    <p>{{user?.rfc}}</p>
+                </div>
+                <div fxLayout="column" fxFlex="100" fxFlex.gt-sm="33.3" class="p-1">
+                    <p class="text-label">CURP</p>
+                    <p>{{user?.curp}}</p>
+                </div>
+                <div fxLayout="column" fxFlex="100" fxFlex.gt-sm="33.3" class="p-1">
+                    <p class="text-label">CLABE</p>
+                    <p>{{user?.clabe}}</p>
+                </div>
+                <div fxLayout="column" fxFlex="100" fxFlex.gt-sm="33.3" class="p-1">
+                    <p class="text-label">Dirección fiscal</p>
+                    <p>{{user?.fiscal_address}}</p>
+                </div>
+                <div fxLayout="column" fxFlex="100" fxFlex.gt-sm="33.3" class="p-1">
+                    <p class="text-label">Estado de cuenta</p>
+                    <a [href]="bank_statement?.url" fxLayoutAlign="start center" target="_blank"
+                        *ngIf="bank_statement?.url" download>Descargar
+                        <mat-icon>file_download
+                        </mat-icon></a>
+                </div>
+                <div fxLayout="column" fxFlex="100" fxFlex.gt-sm="33.3" class="p-1">
+                    <p class="text-label">Documento de identidad</p>
+                    <a target="_blank" fxLayoutAlign="start center" [href]="id_document?.url" *ngIf="id_document?.url"
+                        download>Descargar
+                        <mat-icon>file_download
+                        </mat-icon></a>
+                </div>
+                <div fxLayout="column" fxFlex="100" fxFlex.gt-sm="33.3" class="p-1">
+                    <p class="text-label">Acta constitutiva</p>
+                    <a [href]="constitutive_act?.url" *ngIf="constitutive_act?.url" fxLayoutAlign="start center"
+                        download target="_blank">Descargar
+                        <mat-icon>file_download
+                        </mat-icon></a>
+                </div>
+                <div fxLayout="column" fxFlex="100" fxFlex.gt-sm="33.3" class="p-1">
+                    <p class="text-label">RFC</p>
+                    <a [href]="rfc?.url" *ngIf="rfc?.url" fxLayoutAlign="start center" download
+                        target="_blank">Descargar
+                        <mat-icon>file_download
+                        </mat-icon></a>
+                </div>
+            </div>
+            <div class="divider"></div>
+        </mat-tab>
+        <mat-tab label="Productos">
+            <div class="p-1">
+                <!--<mat-card>-->
+                <div class="mat-table admin-table">
+                    <div class="mat-header-row">
+                        <div class="mat-header-cell">No.</div>
+                        <div class="mat-header-cell">Fecha de publicación</div>
+                        <div class="mat-header-cell">Nombre</div>
+                        <div class="mat-header-cell">Disponibilidad</div>
+                        <div class="mat-header-cell">Precio</div>
+                        <div class="mat-header-cell"></div>
+                    </div>
+                    <div *ngFor="let product of user?.products" class="mat-row">
+                        <div class="mat-cell"><span class="order">{{product.id}}</span></div>
+                        <div class="mat-cell">{{product.created_on | date}}</div>
+                        <div class="mat-cell">{{product.name}}</div>
+                        <div class="mat-cell">{{product.availability}}</div>
+                        <div class="mat-cell">{{product.price | number : '1.2-2'}}</div>
+                        <div class="mat-cell">
+                            <div class="p-1 actions">
+                                <a mat-icon-button target="_blank" matTooltip="Ver en el sitio"
+                                    [routerLink]="['/products', product.id, product.name]">
+                                    <mat-icon>remove_red_eye</mat-icon>
+                                </a>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div *ngIf="user?.products.length == 0" class="mat-row">
+                        <div class="mat-cell text-center" colspan="5">Todavía no ha publicado ningun producto.</div>
+                    </div>
+                </div>
+                <!--</mat-card>-->
+            </div>
+        </mat-tab>
+        <mat-tab label="Ventas">
+            <div class="p-1">
+                <!--<mat-card>-->
+                <div class="mat-table admin-table">
+                    <div class="mat-header-row">
+                        <div class="mat-header-cell">#</div>
+                        <div class="mat-header-cell">Fecha</div>
+                        <div class="mat-header-cell">Comprador</div>
+                        <div class="mat-header-cell">Artículos</div>
+                        <div class="mat-header-cell">Total</div>
+                        <div class="mat-header-cell">Ver detalle</div>
+                    </div>
+                    <div *ngFor="let order of user?.sales" class="mat-row">
+                        <div class="mat-cell"><span class="order">#{{order.id}}</span></div>
+                        <div class="mat-cell">{{order.created_on | date}}</div>
+                        <div class="mat-cell">{{order.buyer}}</div>
+                        <div class="mat-cell">{{order.items}}</div>
+                        <div class="mat-cell">{{order.total | currency:'MXN'}}</div>
+                        <div class="mat-cell">
+                            <div class="p-1">
+                                <button mat-icon-button matTooltip="Navegar al detalle del pedido"
+                                    [routerLink]="['/admin/sales', order.id]">
+                                    <mat-icon>remove_red_eye</mat-icon>
+                                </button>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div *ngIf="user?.sales.length == 0" class="mat-row">
+                        <div class="mat-cell text-center" colspan="5">Todavía no ha tenido ninguna venta.</div>
+                    </div>
+                </div>
+                <!--</mat-card>-->
+            </div>
+        </mat-tab>
+
+        <mat-tab label="Compras">
+            <div class="p-1">
+                <!--<mat-card>-->
+                <div class="mat-table admin-table">
+                    <div class="mat-header-row">
+                        <div class="mat-header-cell">No.</div>
+                        <div class="mat-header-cell">Fecha</div>
+                        <div class="mat-header-cell">Estatus</div>
+                        <div class="mat-header-cell">Total</div>
+                        <div class="mat-header-cell">Ver detalle</div>
+                    </div>
+                    <div *ngFor="let order of user?.orders" class="mat-row">
+                        <div class="mat-cell"><span class="order">{{order.id}}</span></div>
+                        <div class="mat-cell">{{order.created_on | date}}</div>
+                        <div class="mat-cell">{{order.statusDesc}}</div>
+                        <div class="mat-cell">{{order.total | currency:'MXN'}}</div>
+                        <div class="mat-cell">
+                            <div class="p-1">
+                                <button mat-icon-button matTooltip="Navegar al detalle del pedido"
+                                    [routerLink]="['/admin/sales', order.id]">
+                                    <mat-icon>remove_red_eye</mat-icon>
+                                </button>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div *ngIf="user?.orders.length == 0" class="mat-row">
+                        <div class="mat-cell text-center" colspan="5">Todavía no ha realizado ningún pedido.</div>
+                    </div>
+                </div>
+                <!--</mat-card>-->
+            </div>
+        </mat-tab>
+        <mat-tab label="Solicitudes de ayuda">
+            <div class="p-1">
+                <!--<mat-card>-->
+                <div class="mat-table admin-table">
+                    <div class="mat-header-row">
+                        <div class="mat-header-cell"># Pedido</div>
+                        <div class="mat-header-cell">Producto</div>
+                        <div class="mat-header-cell">Razón</div>
+                        <div class="mat-header-cell">Mensaje</div>
+                    </div>
+                    <div *ngFor="let issue of user?.issues" class="mat-row">
+                        <div class="mat-cell"><span class="order">#{{issue.order_id}}</span></div>
+                        <div class="mat-cell">{{issue.name}}</div>
+                        <div class="mat-cell">{{issue.reason}}</div>
+                        <div class="mat-cell">{{issue.message}}</div>
+                    </div>
+                    <div *ngIf="user?.issues.length == 0" class="mat-row">
+                        <div class="mat-cell text-center" colspan="5">Este usuario no ha solicitado ayuda en sus
+                            compras.</div>
+                    </div>
+                </div>
+                <!--</mat-card>-->
+            </div>
+        </mat-tab>
+    </mat-tab-group>
+</div>

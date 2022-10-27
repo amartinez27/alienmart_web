@@ -1,0 +1,52 @@
+<h1 mat-dialog-title class="text-center">Mensajes del producto</h1>
+<mat-dialog-content class="mat-typography">
+
+    <div fxLayout="column" fxLayoutAlign="space-around stretch">
+        <div *ngFor="let question of unanswered" class="question" fxLayout="row wrap">
+            <mat-divider fxFlex="100"></mat-divider>
+
+            <div fxFlex="100" fxLayout="row wrap" fxLayoutAlign="start center">
+                <p class="mt-2"> {{question.question}}</p>
+            </div>
+            <div fxFlex="100" fxLayout="row wrap" fxLayoutAlign="end center">
+
+                <button mat-button color="primary" (click)="remove(question.id)">
+                    <mat-icon>delete</mat-icon>
+                    Eliminar pregunta
+                </button>
+                <button mat-button class="approve-question" *ngIf="question.canApprove"
+                    (click)="approve(question.id)">Aprobar pregunta</button>
+                <button mat-raised-button color="primary" *ngIf="question.canAnswer"
+                    (click)="openAnswerDialog(question)">
+                    Responder
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <h3 *ngIf="unanswered.length == 0 && questions.length == 0" class="text-center">Este producto no tiene preguntas
+        publicadas.</h3>
+
+    <div fxLayout="column" fxLayoutAlign="space-around stretch">
+        <div *ngFor="let question of questions" class="question" fxLayout="row wrap">
+            <mat-divider fxFlex="100"></mat-divider>
+            <div fxFlex="100" fxLayout="row wrap" fxLayoutAlign="start center">
+                <p class="mt-2" fxFlex="100"> {{question.question}}</p>
+                <p>{{question.answer}}</p>
+
+            </div>
+            <div fxFlex="100" fxLayout="row wrap" fxLayoutAlign="end center">
+                <button mat-button color="primary" (click)="remove(question.id)">
+                    <mat-icon>delete</mat-icon>
+                    Eliminar comentario
+                </button>
+                <button mat-button class="approve-question" *ngIf="question.canApprove"
+                    (click)="approve(question.id)">Aprobar pregunta</button>
+
+            </div>
+        </div>
+    </div>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>Cerrar</button>
+</mat-dialog-actions>

@@ -1,0 +1,60 @@
+<div fxLayout="row wrap" class="p-1">
+    <div fxFlex="20" fxLayoutAlign="start center">
+        <h2>Clientes</h2>
+    </div>
+    <div fxFlex="80">
+        <mat-form-field fxFlex="40" appearance="outline" id="search-product">
+            <mat-label>Búsqueda general...</mat-label>
+            <input type="text" matInput (keyup)="applyFilter($event)"
+                placeholder="Busque por nombre, apellido o correo...">
+            <mat-icon matSuffix>search</mat-icon>
+        </mat-form-field>
+    </div>
+</div>
+<div fxLayout="row wrap" class="p-1">
+    <mat-card fxFlex="100">
+        <div class="mat-table admin-table">
+            <div class="mat-header-row">
+                <div class="mat-header-cell">Nombre</div>
+                <div class="mat-header-cell">Correo</div>
+                <div class="mat-header-cell text-center">Teléfono</div>
+                <div class="mat-header-cell text-center">Estatus</div>
+                <div class="mat-header-cell text-center">Acciones</div>
+            </div>
+            <div *ngFor="let user of users | paginate: { itemsPerPage: count, currentPage: page, totalItems: totalItems }"
+                class="mat-row">
+                <div class="mat-cell">{{user.first_name}} {{user.last_name}}</div>
+                <div class="mat-cell">{{user.email}}</div>
+                <div class="mat-cell text-center">{{user.phone}}</div>
+                <div class="mat-cell">
+                    <span *ngIf="user.islockedout" fxLayoutAlign="center center" class="locked-out">Bloqueado <mat-icon>
+                            lock</mat-icon>
+                    </span>
+                    <span *ngIf="!user.islockedout" fxLayoutAlign="center center" class="lock-free">Desbloqueado
+                        <mat-icon>
+                            lock_open</mat-icon>
+                    </span>
+                </div>
+                <div class="mat-cell">
+                    <div class="p-1 acts">
+                        <button mat-icon-button matTooltip="Ver usuario" (click)="viewUser(user)">
+                            <mat-icon>remove_red_eye</mat-icon>
+                        </button>
+                        <button mat-icon-button matTooltip="Bloquear" class="mx-1" (click)="remove(user)"
+                            *ngIf="!user.islockedout">
+                            <mat-icon>lock</mat-icon>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </mat-card>
+    <div *ngIf="users?.length > 0" fxLayout="row wrap" fxFlex="100">
+        <div fxFlex="100">
+            <mat-card class="p-0 text-center">
+                <pagination-controls class="product-pagination" autoHide="true" previousLabel="Anterior"
+                    nextLabel="Siguiente" (pageChange)="onPageChanged($event)"></pagination-controls>
+            </mat-card>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,18 @@
+:host::ng-deep.mat-checkbox-layout {
+    white-space: normal !important;
+}
+
+.cdk-overlay-container .cdk-overlay-pane .addresses-container {
+    .mat-option {
+        height: auto;
+        line-height: 20px;
+    }
+
+    .address-recipient {
+        font-weight: 500;
+    }
+
+    .unique_address {
+        padding: 9px 0;
+    }
+}

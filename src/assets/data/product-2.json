@@ -1,0 +1,44 @@
+{
+    "id": 2,
+    "name": "PC All-in-One",
+    "images": [{
+            "small": "assets/images/products/pc/1-small.png",
+            "medium": "assets/images/products/pc/1-medium.png",
+            "big": "assets/images/products/pc/1-big.png"
+        },
+        {
+            "small": "assets/images/products/pc/2-small.png",
+            "medium": "assets/images/products/pc/2-medium.png",
+            "big": "assets/images/products/pc/2-big.png"
+        },
+        {
+            "small": "assets/images/products/pc/3-small.png",
+            "medium": "assets/images/products/pc/3-medium.png",
+            "big": "assets/images/products/pc/3-big.png"
+        },
+        {
+            "small": "assets/images/products/pc/4-small.png",
+            "medium": "assets/images/products/pc/4-medium.png",
+            "big": "assets/images/products/pc/4-big.png"
+        },
+        {
+            "small": "assets/images/products/pc/5-small.png",
+            "medium": "assets/images/products/pc/5-medium.png",
+            "big": "assets/images/products/pc/5-big.png"
+        },
+        {
+            "small": "assets/images/products/pc/6-small.png",
+            "medium": "assets/images/products/pc/6-medium.png",
+            "big": "assets/images/products/pc/6-big.png"
+        }
+    ],
+    "comparison_price": 2510,
+    "price": 2179.99,
+    "discount": 15,
+    "ratings_count": 8,
+    "ratings_value": 800,
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut congue eleifend nulla vel rutrum. Donec tempus metus non erat vehicula, vel hendrerit sem interdum. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae.",
+    "availability": 3,
+    "cart_count": 0,
+    "category_id": 100
+}

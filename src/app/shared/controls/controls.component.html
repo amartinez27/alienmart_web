@@ -1,0 +1,33 @@
+<div fxLayout="row" fxLayout.xs="column" [fxLayoutAlign]="align" class="text-muted">
+    <div *ngIf="product?.availability > 0 && (type=='all' || type=='wish')">
+        <bdi>
+            <span *ngIf="type!='wish'" class="fw-500">Cantidad:</span>
+            <button mat-icon-button matTooltip="Remove" (click)="decrement()">
+                <mat-icon>remove</mat-icon>
+            </button>
+            <span> {{count}} </span>
+            <button mat-icon-button matTooltip="Add" (click)="increment()">
+                <mat-icon>add</mat-icon>
+            </button>
+        </bdi>
+    </div>
+    <div *ngIf="type!='wish'">
+        <button *ngIf="!product?.liked" mat-icon-button matTooltip="Agregar a mis favoritos"
+            (click)="addToWishList(product)">
+            {{product?.likes > 0 ? product?.likes: ''}}
+            <mat-icon>favorite_border</mat-icon>
+        </button>
+        <button *ngIf="product?.liked" mat-icon-button class="liked" matTooltip="Quitar de mis favoritos"
+            (click)="removeFromWishlist(product)">
+            {{product?.likes > 0 ? product?.likes: ''}}
+            <mat-icon>favorite</mat-icon>
+        </button>
+        <button mat-raised-button matTooltip="Agregar al carrito" color="primary"
+            *ngIf="product?.availability > 0 && type=='all'" (click)="addToCart(product)">
+            Agregar al carrito <mat-icon>shopping_cart</mat-icon>
+        </button>
+    </div>
+</div>
+<div *ngIf="product?.availability == 0 && type=='all'" class="bg-warn p-1 mt-2">
+    Sorry, this item is unavailable. Please choose a different one.
+</div>

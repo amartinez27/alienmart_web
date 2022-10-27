@@ -1,0 +1,43 @@
+<!--<button mat-icon-button [matMenuTriggerFor]="userMenu" #userMenuTrigger="matMenuTrigger">
+    <mat-icon>account_circle</mat-icon>
+</button>-->
+
+<div fxLayout="row wrap" fxLayoutAlign="center center" [matMenuTriggerFor]="userMenu" #userMenuTrigger="matMenuTrigger"
+    class="info">
+    <div fxLayoutAlign="center end" fxLayout="column" class="px-1">
+        <p class="name-label">{{appSettings.currentUser?.first_name.split(' ')[0]}}
+            {{appSettings.currentUser?.last_name?.split(' ')[0]}}</p>
+        <span class="level-lbl">{{appSettings.currentUser?.seller_type_desc}}</span>
+    </div>
+
+    <div fxLayoutAlign="center center">
+        <img *ngIf="appSettings.currentUser.image_url" [src]="appSettings.currentUser?.image_url" alt="user-image"
+            width="42" height="42">
+        <img *ngIf="!appSettings.currentUser.image_url" src="assets/images/others/user.jpg" alt="user-image" width="42"
+            height="42">
+    </div>
+</div>
+
+<mat-menu #userMenu="matMenu" [overlapTrigger]="false" class="toolbar-dropdown-menu user-menu">
+    <span (mouseleave)="userMenuTrigger.closeMenu()">
+        <!--<mat-toolbar color="primary">
+            <div fxLayout="row" fxLayoutAlign="space-around center" class="user-info">
+                <p>{{appSettings.currentUser?.first_name.split(' ')[0]}}
+                    {{appSettings.currentUser?.last_name?.split(' ')[0]}}</p>
+            </div>
+        </mat-toolbar>-->
+        <a mat-menu-item routerLink="/admin/account/information">
+            <mat-icon>person</mat-icon>
+            <span>Perfil</span>
+        </a>
+        <!--<a mat-menu-item routerLink="/admin">
+            <mat-icon>settings</mat-icon>
+            <span>Settings</span>
+        </a>-->
+        <div class="divider"></div>
+        <a mat-menu-item routerLink="/sign-in">
+            <mat-icon>power_settings_new</mat-icon>
+            <span (click)="logOut()">Cerrar sesión</span>
+        </a>
+    </span>
+</mat-menu>

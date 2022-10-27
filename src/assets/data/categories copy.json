@@ -1,0 +1,169 @@
+[{
+        "id": 1,
+        "name": "Todas las categorías",
+        "is_featured": false,
+        "parentId": 0
+    },
+    {
+        "id": 20,
+        "name": "Fashion",
+        "is_featured": true,
+        "parentId": 0
+    },
+    {
+        "id": 30,
+        "name": "Women",
+        "is_featured": true,
+        "parentId": 20
+    },
+    {
+        "id": 31,
+        "name": "Dresses & Skirts",
+        "is_featured": false,
+        "parentId": 30
+    },
+    {
+        "id": 32,
+        "name": "Jackets",
+        "is_featured": false,
+        "parentId": 30
+    },
+    {
+        "id": 33,
+        "name": "Tops & Blouses",
+        "is_featured": false,
+        "parentId": 30
+    },
+    {
+        "id": 34,
+        "name": "Shoes & Boots",
+        "is_featured": false,
+        "parentId": 30
+    },
+    {
+        "id": 35,
+        "name": "Knitwear",
+        "is_featured": false,
+        "parentId": 30
+    },
+    {
+        "id": 40,
+        "name": "Men",
+        "is_featured": true,
+        "parentId": 20
+    },
+    {
+        "id": 50,
+        "name": "T-shirts & Polos",
+        "is_featured": false,
+        "parentId": 40
+    },
+    {
+        "id": 51,
+        "name": "Shoes & Boots",
+        "is_featured": false,
+        "parentId": 40
+    },
+    {
+        "id": 52,
+        "name": "Jeans",
+        "is_featured": false,
+        "parentId": 40
+    },
+    {
+        "id": 53,
+        "name": "Coats",
+        "is_featured": false,
+        "parentId": 40
+    },
+    {
+        "id": 60,
+        "name": "Kids",
+        "is_featured": true,
+        "parentId": 20
+    },
+    {
+        "id": 70,
+        "name": "Top",
+        "is_featured": false,
+        "parentId": 60
+    },
+    {
+        "id": 71,
+        "name": "Pants & Shorts",
+        "is_featured": false,
+        "parentId": 60
+    },
+    {
+        "id": 72,
+        "name": "Dresses",
+        "is_featured": false,
+        "parentId": 60
+    },
+    {
+        "id": 73,
+        "name": "Skirts",
+        "is_featured": false,
+        "parentId": 60
+    },
+    {
+        "id": 74,
+        "name": "Set & Body",
+        "is_featured": false,
+        "parentId": 60
+    },
+    {
+        "id": 80,
+        "name": "Accessories",
+        "is_featured": true,
+        "parentId": 20
+    },
+    {
+        "id": 90,
+        "name": "Watches",
+        "is_featured": false,
+        "parentId": 80
+    },
+    {
+        "id": 91,
+        "name": "Bags & Wallet",
+        "is_featured": false,
+        "parentId": 80
+    },
+    {
+        "id": 92,
+        "name": "Sunglasses",
+        "is_featured": false,
+        "parentId": 80
+    },
+    {
+        "id": 93,
+        "name": "Belts & Hats",
+        "is_featured": false,
+        "parentId": 80
+    },
+    {
+        "id": 100,
+        "name": "Electronics",
+        "is_featured": false,
+        "parentId": 0
+    },
+    {
+        "id": 150,
+        "name": "Jewellery",
+        "is_featured": false,
+        "parentId": 0
+    },
+    {
+        "id": 200,
+        "name": "Sports",
+        "is_featured": false,
+        "parentId": 0
+    },
+    {
+        "id": 250,
+        "name": "Motors",
+        "is_featured": false,
+        "parentId": 0
+    }
+]

@@ -1,0 +1,38 @@
+<div fxLayout="row wrap" class="p-1">
+    <div fxFlex="100" fxLayoutAlign="start center">
+        <h2>Mis compras</h2>
+    </div>
+</div>
+<div class="p-1">
+    <mat-card class="p-0">
+        <div class="mat-table orders-table">
+            <div class="mat-header-row">
+                <div class="mat-header-cell">#</div>
+                <div class="mat-header-cell">Fecha</div>
+                <div class="mat-header-cell">Estatus</div>
+                <div class="mat-header-cell">Artículos</div>
+                <div class="mat-header-cell">Total</div>
+                <div class="mat-header-cell">Ver detalle</div>
+            </div>
+            <div *ngFor="let order of orders" class="mat-row">
+                <div class="mat-cell"><span class="order">#{{order.id}}</span></div>
+                <div class="mat-cell">{{order.created_on | date}}</div>
+                <div class="mat-cell">{{order.statusDesc}}</div>
+                <div class="mat-cell">{{order.items}}</div>
+                <div class="mat-cell">{{order.total | currency:'MXN'}}</div>
+                <div class="mat-cell">
+                    <div class="p-1 ">
+                        <button mat-icon-button matTooltip="Ver detalle"
+                            [routerLink]="['/admin/account/orders', order.id]">
+                            <mat-icon>remove_red_eye</mat-icon>
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+            <div *ngIf="orders.length == 0" class="mat-row">
+                <div class="mat-cell text-center" colspan="5">Todavía no ha realizado ningún pedido.</div>
+            </div>
+        </div>
+    </mat-card>
+</div>

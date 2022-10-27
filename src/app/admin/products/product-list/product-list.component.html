@@ -1,0 +1,74 @@
+<div>
+    <div fxLayout="row wrap" fxLayoutAlign="space-between center" class="w-100 p-1">
+        <h2 fxFlex="20">Productos</h2>
+        <mat-form-field fxFlex="40" appearance="outline" id="search-product">
+            <mat-label>Búsqueda general...</mat-label>
+            <input type="text" matInput (keyup)="applyFilter($event)" placeholder="Busque por nombre o precio...">
+            <mat-icon matSuffix>search</mat-icon>
+        </mat-form-field>
+        <mat-form-field fxFlex="20" appearance="outline" id="category-search">
+            <mat-label>Categoría</mat-label>
+            <mat-select (selectionChange)="applyCategoryFilter($event)">
+                <mat-option *ngFor="let cat of categories" [value]="cat.id">
+                    <span>{{cat.description}}</span>
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+        <button mat-raised-button color="primary" [routerLink]="['/admin/products/add-product']">Publicar
+            producto</button>
+    </div>
+</div>
+<div>
+    <mat-card class="p-1">
+
+        <div class="mat-table admin-table">
+            <div class="mat-header-row">
+                <div class="mat-header-cell">#</div>
+                <div class="mat-header-cell">Nombre</div>
+                <div class="mat-header-cell">Inventario</div>
+                <div class="mat-header-cell">Categoría</div>
+                <div class="mat-header-cell">Precio</div>
+                <div class="mat-header-cell"></div>
+            </div>
+            <div *ngFor="let product of filteredProds | paginate: { itemsPerPage: count, currentPage: page }; let i = index;"
+                class="mat-row">
+                <div class="mat-cell">{{i+1}}</div>
+                <div class="mat-cell">{{product.name}}</div>
+                <div class="mat-cell">
+                    {{(product.availability > 0) ? product.availability:'Sin existencias'}}
+                </div>
+                <div class="mat-cell">{{( categories | filterById : product.category_id )?.description }}
+                </div>
+                <div class="mat-cell">{{ product.price | currency:'MXN' }}</div>
+                <div class="mat-cell">
+                    <div class="p-1 actions">
+                        <button mat-button matTooltip="Ver preguntas" (click)="openQuestionDialog(product.id)">
+                            <mat-icon>question_answer</mat-icon>
+                        </button>
+                        <button mat-button matTooltip="Editar"
+                            [routerLink]="['/admin/products/add-product', product.id]">
+                            <mat-icon>edit</mat-icon>
+                        </button>
+                        <button mat-button matTooltip="Eliminar" class="mx-1" (click)="remove(product)">
+                            <mat-icon>delete</mat-icon>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="mat-row" *ngIf="filteredProds?.length < 1">
+                <div class="mat-cell text-center" [attr.rowspan]="5">No has publicado productos o no existen productos
+                    con los
+                    criterios de búsqueda que ingresaste.</div>
+            </div>
+        </div>
+    </mat-card>
+
+    <div *ngIf="products?.length > 0" fxLayout="row wrap">
+        <div fxFlex="100">
+            <mat-card class="p-0 text-center">
+                <pagination-controls class="product-pagination" autoHide="true" (pageChange)="onPageChanged($event)">
+                </pagination-controls>
+            </mat-card>
+        </div>
+    </div>
+</div>

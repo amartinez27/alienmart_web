@@ -1,0 +1,54 @@
+<div fxLayout="row wrap" class="p-1">
+    <div fxFlex="100" fxLayoutAlign="start center">
+        <h2>Mis paquetes de anuncios</h2>
+    </div>
+</div>
+<div fxLayout="row wrap" class="p-1">
+    <mat-card fxFlex="100">
+        <div class="mat-table admin-table">
+            <div class="mat-header-row">
+                <div class="mat-header-cell">No. Pedido</div>
+                <div class="mat-header-cell">Nombre</div>
+                <div class="mat-header-cell">Duración</div>
+                <div class="mat-header-cell">Precio</div>
+                <div class="mat-header-cell">Confirmación de pago</div>
+                <div class="mat-header-cell">Vigencia</div>
+                <div class="mat-header-cell">Estatus</div>
+                <div>Pago</div>
+            </div>
+            <div *ngFor="let bundle of bundles" class="mat-row">
+                <div class="mat-cell">#{{bundle.orderid}}</div>
+                <div class="mat-cell">{{bundle.name}}</div>
+                <div class="mat-cell">{{bundle.duration}}
+                    día{{bundle.duration > 1 ? 's': ''}}</div>
+                <div class="mat-cell">${{bundle.price | number : '1.2-2'}}
+                </div>
+                <div class="mat-cell">
+                    {{ bundle.approval_date ? (bundle.approval_date | date: 'dd/MMMM/yyyy HH:mm') : 'Pago por confirmar'}}
+                </div>
+                <div class="mat-cell">
+                    {{ bundle.expiration ? (bundle.expiration | date: 'dd/MMMM/yyyy HH:mm') : 'Sin fecha'}}
+                </div>
+                <div class="mat-cell">
+                    {{bundle.estatus}}
+                </div>
+                <div>
+                    <button mat-icon-button matTooltip="Ver información de pago" (click)="payment(bundle)">
+                        <mat-icon>remove_red_eye</mat-icon>
+                    </button>
+                </div>
+            </div>
+            <div *ngIf="bundles.length == 0" class="mat-row">
+                <div class="mat-cell text-center" colspan="">No tienes ningún paquete de anuncios.</div>
+            </div>
+        </div>
+    </mat-card>
+    <!--<div *ngIf="bundles?.length > 0" fxLayout="row wrap" fxFlex="100">
+        <div fxFlex="100">
+            <mat-card class="p-0 text-center">
+                <pagination-controls class="product-pagination" autoHide="true" previousLabel="Anterior"
+                    nextLabel="Siguiente" (pageChange)="onPageChanged($event)"></pagination-controls>
+            </mat-card>
+        </div>
+    </div>-->
+</div>

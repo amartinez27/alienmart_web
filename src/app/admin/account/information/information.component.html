@@ -1,0 +1,278 @@
+<div fxLayout="row wrap" class="p-1">
+    <div fxFlex="100" fxLayoutAlign="start center">
+        <h1 class="px-1">Perfil</h1>
+    </div>
+</div>
+
+<div fxLayout="row wrap" class="p-1">
+    <div fxFlex="100" fxFlex.gt-sm="25" class="p-1" class="profile-img-container" fxLayoutAlign="center center">
+        <div>
+            <img [src]="userInfo?.image_url" alt="">
+            <div class="level-counter">
+                <mat-progress-spinner class="progress-spinner" color="primary" mode="determinate" [value]="percentage"
+                    diameter="80">
+                </mat-progress-spinner>
+
+            </div>
+            <div class="counter-label" fxLayout="column" fxLayoutAlign="center center">
+                <span class="real-sales">{{sales_count}}</span>
+                <span>/{{top}}</span>
+            </div>
+
+        </div>
+
+    </div>
+    <div fxFlex="100" fxFlex.gt-sm="75" fxLayoutAlign="center center" class="level-container">
+        <div class="swiper-container w-100 p-1" [swiper]="config">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide">
+                    <mat-card class="p-1 first" fxLayout="column" fxLayoutAlign="center center">
+                        <h3>Nuevo vendedor</h3>
+                        <p class="mt-1">0-10 ventas</p>
+                    </mat-card>
+                </div>
+                <div class="swiper-slide">
+                    <mat-card class="p-1 second" fxLayout="column" fxLayoutAlign="center center">
+                        <h3>Vendedor Premium</h3>
+                        <p class="mt-1">11-100 ventas</p>
+                    </mat-card>
+                </div>
+                <div class="swiper-slide">
+                    <mat-card class="p-1 third" fxLayout="column" fxLayoutAlign="center center">
+                        <h3>Vendedor Super Premium</h3>
+                        <p class="mt-1">101-500 ventas</p>
+                    </mat-card>
+                </div>
+                <div class="swiper-slide">
+                    <mat-card class="p-1 fourth" fxLayout="column" fxLayoutAlign="center center">
+                        <h3>Vendedor Ultra</h3>
+                        <p class="mt-1">501-3000</p>
+                    </mat-card>
+
+                </div>
+
+                <div class="swiper-slide">
+                    <mat-card class="p-1 fifth" fxLayout="column" fxLayoutAlign="center center">
+                        <h3>Vendedor Élite</h3>
+                        <p class="mt-1">3001 -></p>
+                    </mat-card>
+                </div>
+            </div>
+            <button mat-icon-button class="swiper-button-prev swipe-arrow">
+                <mat-icon>keyboard_arrow_left</mat-icon>
+            </button>
+            <button mat-icon-button class="swiper-button-next swipe-arrow">
+                <mat-icon class="mat-icon-lg">keyboard_arrow_right</mat-icon>
+            </button>
+        </div>
+    </div>
+
+</div>
+<div class="divider"></div>
+
+<div fxLayout="row wrap" class="p-1">
+    <!--<div fxFlex="100" fxFlex.gt-sm="100" class="p-2">-->
+    <h3 fxflex="100" class="px-1">Información general</h3>
+    <form [formGroup]="infoForm" (ngSubmit)="onInfoFormSubmit(infoForm.value)" fxLayout="row wrap">
+        <div fxFlex="100" fxFlex.gt-sm="33.3" class="px-1">
+            <mat-form-field appearance="outline" class="w-100 mt-1">
+                <mat-label>Nombre(s)</mat-label>
+                <input matInput placeholder="Nombre(s)" formControlName="first_name" required>
+                <mat-error *ngIf="infoForm.controls.first_name.errors?.required">El campo Nombre(s) es
+                    obligatorio
+                </mat-error>
+                <mat-error *ngIf="infoForm.controls.first_name.hasError('minlength')">El campo Nombre(s) debe
+                    contener mínimo 3 caracteres</mat-error>
+            </mat-form-field>
+        </div>
+
+        <div fxFlex="100" fxFlex.gt-sm="33.3" class="px-1">
+            <mat-form-field appearance="outline" class="w-100 mt-1">
+                <mat-label>Apellidos</mat-label>
+                <input matInput placeholder="Apellidos" formControlName="last_name" required>
+                <mat-error *ngIf="infoForm.controls.last_name.errors?.required">El campo Apellidos es
+                    obligatorio
+                </mat-error>
+                <mat-error *ngIf="infoForm.controls.last_name.hasError('minlength')">El campo Apellidos debe
+                    contener mínimo 3 caracteres</mat-error>
+            </mat-form-field>
+        </div>
+
+        <div fxFlex="100" fxFlex.gt-sm="33.3" class="px-1">
+            <mat-form-field class="w-100 mt-1" appearance="outline">
+                <input matInput placeholder="Correo electrónico" formControlName="email" required>
+                <mat-error *ngIf="infoForm.controls.email.errors?.required">Email is required</mat-error>
+                <mat-error *ngIf="infoForm.controls.email.hasError('invalidEmail')">Invalid email address</mat-error>
+            </mat-form-field>
+        </div>
+
+        <div fxFlex="100" fxFlex.gt-sm="33.3" class="px-1">
+            <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Género</mat-label>
+                <mat-select formControlName="gender">
+                    <mat-option *ngFor="let gender of generos" [value]="gender.value">
+                        {{gender.viewValue}}
+                    </mat-option>
+                </mat-select>
+                <mat-error *ngIf="infoForm.controls.gender.errors?.required">El campo Género es obligatorio
+                </mat-error>
+            </mat-form-field>
+        </div>
+
+        <div fxFlex="100" fxFlex.gt-sm="33.3" class="px-1">
+            <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Fecha de nacimiento</mat-label>
+                <input matInput [matDatepicker]="birth_date" formControlName="birth_date" [max]="maxDate"
+                    placeholder="Fecha de nacimiento">
+                <mat-datepicker-toggle matSuffix [for]="birth_date"></mat-datepicker-toggle>
+                <mat-datepicker #birth_date></mat-datepicker>
+                <mat-error *ngIf="infoForm.controls.birth_date.errors?.required">El campo Fecha de nacimiento es
+                    obligatorio
+                </mat-error>
+            </mat-form-field>
+        </div>
+
+        <div fxFlex="100" fxFlex.gt-sm="33.3" class="px-1">
+            <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Teléfono</mat-label>
+                <input type="tel" matInput placeholder="XXX-XXX-XXXX" formControlName="phone">
+                <mat-icon matSuffix>phone</mat-icon>
+                <mat-error *ngIf="infoForm.controls.phone.errors?.required">El campo Teléfono es obligatorio
+                </mat-error>
+                <mat-error *ngIf="infoForm.controls.phone.errors?.minlength || infoForm.controls.phone.errors?.pattern">
+                    Introduzca un número de
+                    teléfono válido</mat-error>
+                <mat-error *ngIf="infoForm.controls.phone.hasError('maxlength')">No puede contener más de 14
+                    dígitos</mat-error>
+            </mat-form-field>
+        </div>
+
+        <div fxFlex="100" fxFlex.gt-sm="100" class="px-1">
+            <div class="text-right">
+                <button mat-raised-button color="primary" type="submit">Guardar
+                    información</button>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="divider"></div>
+<div fxLayout="row wrap" class="mt-1 p-1">
+    <!--<div fxFlex="100" fxFlex.gt-sm="100" class="p-2" ngClass.sm="mt-2" ngClass.xs="mt-2">-->
+    <h3 class="px-1">Información fiscal</h3>
+    <p fxFlex="100" class="px-1">Para comenzar a vender en la plataforma es necesario que llenes completos tus datos
+        fiscales.</p>
+    <form [formGroup]="fiscalForm" (ngSubmit)="onFiscalFormSubmit(fiscalForm.value)" fxLayout="row wrap">
+        <div fxFlex="100" fxFlex.gt-sm="33.3" class="px-1">
+
+            <mat-form-field appearance="outline" class="w-100 mt-1">
+                <mat-label>Representante legal</mat-label>
+                <input matInput placeholder="Representante legal" formControlName="business_name" required>
+                <mat-error *ngIf="fiscalForm.controls.business_name.errors?.required">El campo Razón social es
+                    obligatorio
+                </mat-error>
+                <mat-error *ngIf="fiscalForm.controls.business_name.hasError('minlength')">El campo Razón social debe
+                    contener mínimo 3 caracteres</mat-error>
+            </mat-form-field>
+
+        </div>
+        <div fxFlex="100" fxFlex.gt-sm="33.3" class="px-1">
+
+            <mat-form-field appearance="outline" class="w-100 mt-1">
+                <mat-label>RFC</mat-label>
+                <input matInput placeholder="RFC" formControlName="rfc" required>
+                <mat-error *ngIf="fiscalForm.controls.rfc.errors?.required">El campo RFC es
+                    obligatorio
+                </mat-error>
+                <mat-error *ngIf="fiscalForm.controls.rfc.hasError('minlength')">El RFC ingresado debe contener entre 12
+                    y 13 caracteres.</mat-error>
+            </mat-form-field>
+        </div>
+        <div fxFlex="100" fxFlex.gt-sm="33.3" class="px-1">
+
+            <mat-form-field appearance="outline" class="w-100 mt-1">
+                <mat-label>Cuenta CLABE</mat-label>
+                <input matInput placeholder="CLABE" formControlName="clabe" required>
+                <mat-error *ngIf="fiscalForm.controls.clabe.errors?.required">El campo CLABE es
+                    obligatorio
+                </mat-error>
+                <mat-error
+                    *ngIf="fiscalForm.controls.clabe.hasError('minlength') || fiscalForm.controls.clabe.hasError('maxlength')">
+                    El campo CLABE debe contener 18
+                    caracteres.</mat-error>
+            </mat-form-field>
+
+        </div>
+        <div fxFlex="100" fxFlex.gt-sm="33.3" class="px-1">
+            <mat-form-field appearance="outline" class="w-100">
+                <mat-label>CURP</mat-label>
+                <input matInput placeholder="CURP" formControlName="curp" required>
+                <mat-error *ngIf="fiscalForm.controls.curp.errors?.required">El campo CURP es
+                    obligatorio
+                </mat-error>
+                <mat-error
+                    *ngIf="fiscalForm.controls.curp.hasError('minlength') || fiscalForm.controls.curp.hasError('maxlength')">
+                    El campo CURP debe contener 18
+                    caracteres.</mat-error>
+            </mat-form-field>
+        </div>
+        <div fxFlex="100" fxFlex.gt-sm="66.6" class="px-1">
+
+            <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Dirección fiscal</mat-label>
+                <input matInput placeholder="Dirección fiscal" formControlName="fiscal_address" required>
+                <mat-error *ngIf="fiscalForm.controls.fiscal_address.errors?.required">El campo dirección fiscal es
+                    obligatorio
+                </mat-error>
+            </mat-form-field>
+        </div>
+        <div fxFlex="100" fxFlex.gt-sm="100" class="px-1 mt-1">
+            <div class="text-right">
+                <button mat-raised-button color="primary" type="submit">Guardar
+                    datos fiscales</button>
+            </div>
+        </div>
+    </form>
+    <form [formGroup]="docsForm" fxLayout="row wrap" fxFlex="100" fxLayoutAlign="center center">
+
+        <div fxFlex="100" fxFlex.gt-sm="20" fxFlex.gt-xs="33.3" class="px-1 mt-2">
+            <span class="text-muted px-1">Foto personal</span>
+            <input-file formControlName="profile_pic" fileLimit="1" fileAccept="image/*"
+                [ngClass]="{'file-error': profile_pic_error}" (acceptedFile)="acceptFile($event, 'profile_pic')"
+                (deletedFile)="deletedFile($event, 'profile_pic')">
+            </input-file>
+        </div>
+
+        <div fxFlex="100" fxFlex.gt-sm="20" fxFlex.gt-xs="33.3" class="px-1 mt-2">
+            <span class="text-muted px-1">Estado de cuenta</span>
+            <input-file formControlName="bank_statement" fileLimit="1" fileAccept=".pdf"
+                [ngClass]="{'file-error': bank_statement_error}" (acceptedFile)="acceptFile($event, 'bank_statement')"
+                (deletedFile)="deletedFile($event, 'bank_statement')">
+            </input-file>
+        </div>
+
+        <div fxFlex="100" fxFlex.gt-sm="20" fxFlex.gt-xs="33.3" class="px-1 mt-2">
+            <span class="text-muted px-1">Documento de identidad</span>
+            <input-file formControlName="id_document" fileLimit="1" fileAccept=".pdf"
+                [ngClass]="{'file-error': id_document_error}" (acceptedFile)="acceptFile($event, 'id_document')"
+                (deletedFile)="deletedFile($event, 'id_document')">
+            </input-file>
+        </div>
+
+        <div fxFlex="100" fxFlex.gt-sm="20" fxFlex.gt-xs="33.3" class="px-1 mt-2">
+            <span class="text-muted px-1">Acta constitutiva</span>
+            <input-file formControlName="constitutive_act" fileLimit="1" fileAccept=".pdf"
+                [ngClass]="{'file-error': constitutive_act_error}"
+                (acceptedFile)="acceptFile($event, 'constitutive_act')"
+                (deletedFile)="deletedFile($event, 'constitutive_act')">
+            </input-file>
+        </div>
+
+        <div fxFlex="100" fxFlex.gt-sm="20" fxFlex.gt-xs="33.3" class="px-1 mt-2">
+            <span class="text-muted px-1">RFC</span>
+            <input-file formControlName="rfc" fileLimit="1" fileAccept=".pdf"
+                [ngClass]="{'file-error': constitutive_act_error}" (acceptedFile)="acceptFile($event, 'rfc')"
+                (deletedFile)="deletedFile($event, 'rfc')">
+            </input-file>
+        </div>
+    </form>
+</div>

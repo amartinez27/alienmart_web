@@ -1,0 +1,205 @@
+[{
+        "id": 1,
+        "name": "Teclado",
+        "images": [{
+                "small": "assets/images/products/keyboard/1-small.png",
+                "medium": "assets/images/products/keyboard/1-medium.png",
+                "big": "assets/images/products/keyboard/1-big.png"
+            },
+            {
+                "small": "assets/images/products/keyboard/2-small.png",
+                "medium": "assets/images/products/keyboard/2-medium.png",
+                "big": "assets/images/products/keyboard/2-big.png"
+            },
+            {
+                "small": "assets/images/products/keyboard/3-small.png",
+                "medium": "assets/images/products/keyboard/3-medium.png",
+                "big": "assets/images/products/keyboard/3-big.png"
+            }
+        ],
+        "comparison_price": null,
+        "price": 175,
+        "discount": null,
+        "ratings_count": 4,
+        "ratings_value": 350,
+        "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut congue eleifend nulla vel rutrum. Donec tempus metus non erat vehicula, vel hendrerit sem interdum. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae.",
+        "availability": 5,
+        "cart_count": 0,
+        "category_id": 100
+    },
+    {
+        "id": 2,
+        "name": "PC Todo en uno",
+        "images": [{
+                "small": "assets/images/products/pc/1-small.png",
+                "medium": "assets/images/products/pc/1-medium.png",
+                "big": "assets/images/products/pc/1-big.png"
+            },
+            {
+                "small": "assets/images/products/pc/2-small.png",
+                "medium": "assets/images/products/pc/2-medium.png",
+                "big": "assets/images/products/pc/2-big.png"
+            },
+            {
+                "small": "assets/images/products/pc/3-small.png",
+                "medium": "assets/images/products/pc/3-medium.png",
+                "big": "assets/images/products/pc/3-big.png"
+            },
+            {
+                "small": "assets/images/products/pc/4-small.png",
+                "medium": "assets/images/products/pc/4-medium.png",
+                "big": "assets/images/products/pc/4-big.png"
+            },
+            {
+                "small": "assets/images/products/pc/5-small.png",
+                "medium": "assets/images/products/pc/5-medium.png",
+                "big": "assets/images/products/pc/5-big.png"
+            },
+            {
+                "small": "assets/images/products/pc/6-small.png",
+                "medium": "assets/images/products/pc/6-medium.png",
+                "big": "assets/images/products/pc/6-big.png"
+            }
+        ],
+        "comparison_price": 2510,
+        "price": 2179.99,
+        "discount": 15,
+        "ratings_count": 8,
+        "ratings_value": 800,
+        "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut congue eleifend nulla vel rutrum. Donec tempus metus non erat vehicula, vel hendrerit sem interdum. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae.",
+        "availability": 3,
+        "cart_count": 0,
+        "category_id": 100
+    },
+    {
+        "id": 3,
+        "name": "Headset",
+        "images": [{
+                "small": "assets/images/products/headset/1-small.png",
+                "medium": "assets/images/products/headset/1-medium.png",
+                "big": "assets/images/products/headset/1-big.png"
+            },
+            {
+                "small": "assets/images/products/headset/2-small.png",
+                "medium": "assets/images/products/headset/2-medium.png",
+                "big": "assets/images/products/headset/2-big.png"
+            },
+            {
+                "small": "assets/images/products/headset/3-small.png",
+                "medium": "assets/images/products/headset/3-medium.png",
+                "big": "assets/images/products/headset/3-big.png"
+            }
+        ],
+        "comparison_price": null,
+        "price": 30,
+        "discount": null,
+        "ratings_count": 12,
+        "ratings_value": 1150,
+        "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut congue eleifend nulla vel rutrum. Donec tempus metus non erat vehicula, vel hendrerit sem interdum. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae.",
+        "availability": 5,
+        "cart_count": 0,
+        "category_id": 100
+    },
+    {
+        "id": 4,
+        "name": "ProBook",
+        "images": [{
+                "small": "assets/images/products/probook/1-small.png",
+                "medium": "assets/images/products/probook/1-medium.png",
+                "big": "assets/images/products/probook/1-big.png"
+            },
+            {
+                "small": "assets/images/products/probook/2-small.png",
+                "medium": "assets/images/products/probook/2-medium.png",
+                "big": "assets/images/products/probook/2-big.png"
+            },
+            {
+                "small": "assets/images/products/probook/3-small.png",
+                "medium": "assets/images/products/probook/3-medium.png",
+                "big": "assets/images/products/probook/3-big.png"
+            },
+            {
+                "small": "assets/images/products/probook/4-small.png",
+                "medium": "assets/images/products/probook/4-medium.png",
+                "big": "assets/images/products/probook/4-big.png"
+            },
+            {
+                "small": "assets/images/products/probook/5-small.png",
+                "medium": "assets/images/products/probook/5-medium.png",
+                "big": "assets/images/products/probook/5-big.png"
+            }
+        ],
+        "comparison_price": 1655,
+        "price": 1379.99,
+        "discount": 20,
+        "ratings_count": 6,
+        "ratings_value": 500,
+        "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut congue eleifend nulla vel rutrum. Donec tempus metus non erat vehicula, vel hendrerit sem interdum. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae.",
+        "availability": 2,
+        "cart_count": 0,
+        "category_id": 40
+    },
+    {
+        "id": 5,
+        "name": "Teléfono oficina",
+        "images": [{
+                "small": "assets/images/products/phone/1-small.png",
+                "medium": "assets/images/products/phone/1-medium.png",
+                "big": "assets/images/products/phone/1-big.png"
+            },
+            {
+                "small": "assets/images/products/phone/2-small.png",
+                "medium": "assets/images/products/phone/2-medium.png",
+                "big": "assets/images/products/phone/2-big.png"
+            }
+        ],
+        "comparison_price": null,
+        "price": 476,
+        "discount": null,
+        "ratings_count": 2,
+        "ratings_value": 200,
+        "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut congue eleifend nulla vel rutrum. Donec tempus metus non erat vehicula, vel hendrerit sem interdum. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae.",
+        "availability": 0,
+        "cart_count": 0,
+        "category_id": 32
+    },
+    {
+        "id": 6,
+        "name": "All-in-One Impresora",
+        "images": [{
+                "small": "assets/images/products/printer/1-small.png",
+                "medium": "assets/images/products/printer/1-medium.png",
+                "big": "assets/images/products/printer/1-big.png"
+            },
+            {
+                "small": "assets/images/products/printer/2-small.png",
+                "medium": "assets/images/products/printer/2-medium.png",
+                "big": "assets/images/products/printer/2-big.png"
+            },
+            {
+                "small": "assets/images/products/printer/3-small.png",
+                "medium": "assets/images/products/printer/3-medium.png",
+                "big": "assets/images/products/printer/3-big.png"
+            },
+            {
+                "small": "assets/images/products/printer/4-small.png",
+                "medium": "assets/images/products/printer/4-medium.png",
+                "big": "assets/images/products/printer/4-big.png"
+            },
+            {
+                "small": "assets/images/products/printer/5-small.png",
+                "medium": "assets/images/products/printer/5-medium.png",
+                "big": "assets/images/products/printer/5-big.png"
+            }
+        ],
+        "comparison_price": null,
+        "price": 450,
+        "discount": null,
+        "ratings_count": 4,
+        "ratings_value": 300,
+        "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut congue eleifend nulla vel rutrum. Donec tempus metus non erat vehicula, vel hendrerit sem interdum. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae.",
+        "availability": 3,
+        "cart_count": 0,
+        "category_id": 100
+    }
+]

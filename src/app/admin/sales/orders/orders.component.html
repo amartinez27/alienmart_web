@@ -1,0 +1,234 @@
+<div>
+    <div fxLayout="row wrap" fxLayoutAlign="space-between center" class="w-100 p-1">
+        <h2 fxFlex="100" fxFlex.gt-sm="15">Pedidos</h2>
+        <mat-form-field fxFlex="100" fxFlex.gt-sm="45" appearance="outline" id="search-product">
+            <mat-label>Búsqueda general...</mat-label>
+            <input type="text" matInput (keyup)="applyFilter($event)" placeholder="Busque por nombre o precio...">
+            <mat-icon matSuffix>search</mat-icon>
+        </mat-form-field>
+        <mat-form-field fxFlex="100" fxFlex.gt-sm="20" appearance="outline" id="end-date-search">
+            <mat-label>Fecha de pedido </mat-label>
+            <mat-date-range-input [formGroup]="range" [rangePicker]="picker">
+                <input matStartDate formControlName="start" placeholder="Fecha de inicio">
+                <input matEndDate formControlName="end" placeholder="Fecha fin" (dateChange)="onDateChange()">
+            </mat-date-range-input>
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-date-range-picker #picker></mat-date-range-picker>
+        </mat-form-field>
+    </div>
+</div>
+
+<div fxLayout="row wrap" class="p-1">
+    <mat-tab-group fxFlex="100" [selectedIndex]="selected.value" (selectedIndexChange)="tabChange($event)">
+        <mat-tab label="Todos">
+            <div class="p-2">
+                <mat-card class="p-1">
+                    <div class="mat-table admin-table">
+                        <div class="mat-header-row">
+                            <div class="mat-header-cell">Pedido</div>
+                            <div class="mat-header-cell">Fecha</div>
+                            <div class="mat-header-cell">Cliente</div>
+                            <div class="mat-header-cell">Total</div>
+                            <div class="mat-header-cell">Estatus</div>
+                            <div class="mat-header-cell">Artículos</div>
+                            <div class="mat-header-cell"></div>
+                        </div>
+                        <div *ngFor="let order of orders | paginate: { itemsPerPage: count, currentPage: page, totalItems: totalItems, id: 'first' }"
+                            class="mat-row">
+                            <div class="mat-cell"><span class="order">#{{order.id}}</span></div>
+                            <div class="mat-cell">{{order.created_on | date}}</div>
+                            <div class="mat-cell">{{order.buyer}}</div>
+                            <div class="mat-cell">${{order.total | number: '1.2-2'}}</div>
+                            <div class="mat-cell">{{order.statusDesc}}</div>
+                            <div class="mat-cell">{{order.items}}</div>
+                            <div class="mat-cell ">
+                                <div class="p-1 actions help-buttons">
+                                    <button *ngIf="order.status == 1" mat-stroked-button color="primary"
+                                        matTooltip="Revisar y generar guía" (click)="viewOrder(order)">
+                                        Enviar ya
+                                    </button>
+                                    <button *ngIf="order.status == 2 || order.status == 3" mat-icon-button
+                                        color="primary" matTooltip="Ver detalle" class="btn-invoice"
+                                        (click)="viewOrder(order)">
+                                        <mat-icon>remove_red_eye</mat-icon>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mat-row" *ngIf="orders.length <= 0">
+                            <div class="mat-cell">No tiene pedidos... todavía.</div>
+                        </div>
+                    </div>
+                </mat-card>
+
+                <div *ngIf="orders.length > 0" fxLayout="row wrap">
+                    <div fxFlex="100">
+                        <mat-card class="p-0 text-center pagination">
+                            <pagination-controls class="product-pagination" autoHide="true" previousLabel="Anterior"
+                                nextLabel="Siguiente" (pageChange)="onPageChanged($event)" id="first">
+                            </pagination-controls>
+                        </mat-card>
+                    </div>
+                </div>
+            </div>
+        </mat-tab>
+        <mat-tab label="No preparados">
+            <div class="p-2">
+                <mat-card class="p-1">
+                    <div class="mat-table admin-table">
+                        <div class="mat-header-row">
+                            <div class="mat-header-cell">Pedido</div>
+                            <div class="mat-header-cell">Fecha</div>
+                            <div class="mat-header-cell">Cliente</div>
+                            <div class="mat-header-cell">Total</div>
+                            <div class="mat-header-cell">Estatus</div>
+                            <div class="mat-header-cell">Artículos</div>
+                            <div class="mat-header-cell"></div>
+                        </div>
+                        <div *ngFor="let order of notPrepared | paginate: { itemsPerPage: count, currentPage: pageUnprepared, totalItems: totalUnprepared, id: 'second' }"
+                            class="mat-row">
+                            <div class="mat-cell"><span class="order">#{{order.id}}</span></div>
+                            <div class="mat-cell">{{order.created_on | date}}</div>
+                            <div class="mat-cell">{{order.buyer}}</div>
+                            <div class="mat-cell">${{order.total | number: '1.2-2'}}</div>
+                            <div class="mat-cell">{{order.statusDesc}}</div>
+                            <div class="mat-cell">{{order.items}}</div>
+                            <div class="mat-cell ">
+                                <div class="p-1 actions help-buttons">
+                                    <button *ngIf="order.status == 1" mat-stroked-button color="primary"
+                                        matTooltip="Revisar y generar guía" (click)="viewOrder(order)">
+                                        Enviar ya
+                                    </button>
+                                    <button *ngIf="order.status == 2 || order.status == 3" mat-icon-button
+                                        color="primary" matTooltip="Ver detalle" class="btn-invoice"
+                                        (click)="viewOrder(order)">
+                                        <mat-icon>remove_red_eye</mat-icon>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mat-row" *ngIf="notPrepared.length <= 0">
+                            <div class="mat-cell">No existen pedidos con este estatus</div>
+                        </div>
+
+                    </div>
+                </mat-card>
+
+                <div *ngIf="notPrepared.length > 0" fxLayout="row wrap">
+                    <div fxFlex="100">
+                        <mat-card class="p-0 text-center pagination">
+                            <pagination-controls class="product-pagination" autoHide="true" previousLabel="Anterior"
+                                nextLabel="Siguiente" (pageChange)="onPageChanged($event)" id="second"
+                                (click)="viewOrder(order)">
+                            </pagination-controls>
+                        </mat-card>
+                    </div>
+                </div>
+            </div>
+        </mat-tab>
+        <mat-tab label="Abiertos">
+            <div class="p-2">
+                <mat-card class="p-1">
+                    <div class="mat-table admin-table">
+                        <div class="mat-header-row">
+                            <div class="mat-header-cell">Pedido</div>
+                            <div class="mat-header-cell">Fecha</div>
+                            <div class="mat-header-cell">Cliente</div>
+                            <div class="mat-header-cell">Total</div>
+                            <div class="mat-header-cell">Estatus</div>
+                            <div class="mat-header-cell">Artículos</div>
+                            <div class="mat-header-cell"></div>
+                        </div>
+                        <div *ngFor="let order of openOrders | paginate: { itemsPerPage: count, currentPage: pageOpen, totalItems: totalOpen, id: 'third' }"
+                            class="mat-row">
+                            <div class="mat-cell"><span class="order">#{{order.id}}</span></div>
+                            <div class="mat-cell">{{order.created_on | date}}</div>
+                            <div class="mat-cell">{{order.buyer}}</div>
+                            <div class="mat-cell">${{order.total | number: '1.2-2'}}</div>
+                            <div class="mat-cell">{{order.statusDesc}}</div>
+                            <div class="mat-cell">{{order.items}}</div>
+                            <div class="mat-cell ">
+                                <div class="p-1 actions help-buttons">
+                                    <button *ngIf="order.status == 1" mat-stroked-button color="primary"
+                                        matTooltip="Revisar y generar guía" (click)="viewOrder(order)">
+                                        Enviar ya
+                                    </button>
+                                    <button *ngIf="order.status == 2 || order.status == 3" mat-icon-button
+                                        color="primary" matTooltip="Ver detalle" class="btn-invoice"
+                                        (click)="viewOrder(order)">
+                                        <mat-icon>remove_red_eye</mat-icon>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mat-row" *ngIf="openOrders.length <= 0">
+                            <div class="mat-cell">No existen pedidos con este estatus</div>
+                        </div>
+                    </div>
+                </mat-card>
+
+                <div *ngIf="openOrders.length > 0" fxLayout="row wrap">
+                    <div fxFlex="100">
+                        <mat-card class="p-0 text-center pagination">
+                            <pagination-controls class="product-pagination" autoHide="true" previousLabel="Anterior"
+                                nextLabel="Siguiente" (pageChange)="onPageChanged($event)" id="third">
+                            </pagination-controls>
+                        </mat-card>
+                    </div>
+                </div>
+            </div>
+        </mat-tab>
+        <mat-tab label="Cerrados">
+            <div class="p-2">
+                <mat-card class="p-1">
+                    <div class="mat-table admin-table">
+                        <div class="mat-header-row">
+                            <div class="mat-header-cell">Pedido</div>
+                            <div class="mat-header-cell">Fecha</div>
+                            <div class="mat-header-cell">Cliente</div>
+                            <div class="mat-header-cell">Total</div>
+                            <div class="mat-header-cell">Estatus</div>
+                            <div class="mat-header-cell">Artículos</div>
+                            <div class="mat-header-cell"></div>
+                        </div>
+                        <div *ngFor="let order of closedOrders | paginate: { itemsPerPage: count, currentPage: pageClosed, totalItems: totalClosed, id: 'fourth' }"
+                            class="mat-row">
+                            <div class="mat-cell"><span class="order">#{{order.id}}</span></div>
+                            <div class="mat-cell">{{order.created_on | date}}</div>
+                            <div class="mat-cell">{{order.buyer}}</div>
+                            <div class="mat-cell">${{order.total | number: '1.2-2'}}</div>
+                            <div class="mat-cell">{{order.statusDesc}}</div>
+                            <div class="mat-cell">{{order.items}}</div>
+                            <div class="mat-cell ">
+                                <div class="p-1 actions help-buttons">
+                                    <button *ngIf="order.status == 1" mat-stroked-button color="primary"
+                                        matTooltip="Revisar y generar guía" (click)="viewOrder(order)">
+                                        Enviar ya
+                                    </button>
+                                    <button *ngIf="order.status == 2 || order.status == 3" mat-icon-button
+                                        color="primary" matTooltip="Ver detalle" class="btn-invoice"
+                                        (click)="viewOrder(order)">
+                                        <mat-icon>remove_red_eye</mat-icon>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mat-row" *ngIf="closedOrders.length <= 0">
+                            <div class="mat-cell">No existen pedidos con este estatus</div>
+                        </div>
+                    </div>
+                </mat-card>
+
+                <div *ngIf="closedOrders.length > 0" fxLayout="row wrap">
+                    <div fxFlex="100">
+                        <mat-card class="p-0 text-center pagination">
+                            <pagination-controls class="product-pagination" autoHide="true" previousLabel="Anterior"
+                                nextLabel="Siguiente" (pageChange)="onPageChanged($event)" id="fourth">
+                            </pagination-controls>
+                        </mat-card>
+                    </div>
+                </div>
+            </div>
+        </mat-tab>
+    </mat-tab-group>
+</div>

@@ -1,0 +1,11 @@
+:host ::ng-deep #search-product .mat-form-field-wrapper,
+:host ::ng-deep #end-date-search .mat-form-field-wrapper,
+:host ::ng-deep #start-date-search .mat-form-field-wrapper {
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+.help-buttons .mat-stroked-button {
+    color: #d32f2f;
+    border: 1px solid #d32f2f;
+}

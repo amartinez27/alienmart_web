@@ -1,0 +1,39 @@
+{
+    "id": 4,
+    "name": "ProBook",
+    "images": [{
+            "small": "assets/images/products/probook/1-small.png",
+            "medium": "assets/images/products/probook/1-medium.png",
+            "big": "assets/images/products/probook/1-big.png"
+        },
+        {
+            "small": "assets/images/products/probook/2-small.png",
+            "medium": "assets/images/products/probook/2-medium.png",
+            "big": "assets/images/products/probook/2-big.png"
+        },
+        {
+            "small": "assets/images/products/probook/3-small.png",
+            "medium": "assets/images/products/probook/3-medium.png",
+            "big": "assets/images/products/probook/3-big.png"
+        },
+        {
+            "small": "assets/images/products/probook/4-small.png",
+            "medium": "assets/images/products/probook/4-medium.png",
+            "big": "assets/images/products/probook/4-big.png"
+        },
+        {
+            "small": "assets/images/products/probook/5-small.png",
+            "medium": "assets/images/products/probook/5-medium.png",
+            "big": "assets/images/products/probook/5-big.png"
+        }
+    ],
+    "comparison_price": 1655,
+    "price": 1379.99,
+    "discount": 20,
+    "ratings_count": 6,
+    "ratings_value": 500,
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut congue eleifend nulla vel rutrum. Donec tempus metus non erat vehicula, vel hendrerit sem interdum. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae.",
+    "availability": 2,
+    "cart_count": 0,
+    "category_id": 40
+}

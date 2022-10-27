@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "alienmart-shop": {
+      "hosting": {
+        "alienmart": [
+          "alienmart-shop"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "alienmart-shop"
+  }
+}

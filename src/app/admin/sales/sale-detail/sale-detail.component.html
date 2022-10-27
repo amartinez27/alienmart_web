@@ -1,0 +1,114 @@
+<div fxLayout="row wrap" class="p-1" fxLayoutAlign="space-between center">
+    <div fxLayout="row wrap" fxLayoutAlign="start center">
+        <div>
+            <button routerLink=".." mat-icon-button color="primary">
+                <mat-icon>arrow_back_ios</mat-icon>
+            </button>
+        </div>
+        <div fxLayoutAlign="start center">
+            <h2>#{{order?.id}}</h2>
+        </div>
+    </div>
+</div>
+<div fxLayout="row wrap" class="p-1">
+    <div fxFlex="65" fxLayout="row wrap">
+        <div class="p-1" fxFlex="100">
+            <mat-card fxLayout="row wrap">
+                <p class="px-1" fxFlex="100">{{order?.created_on | date: 'dd/MMMM/yyyy HH:mm'}}</p>
+
+                <h3 class="p-1">{{order?.statusDesc}}</h3>
+                <div fxFlex="100" *ngFor="let item of order?.order_items" fxLayout="row wrap">
+                    <mat-divider></mat-divider>
+                    <div fxFlex="10" class="prod-thumb">
+                        <img [src]="item.images[0]?.url" alt="">
+                    </div>
+                    <div fxFlex="55" fxLayout="row wrap" class="py-1">
+                        <h5 fxFlex="100" class="mt-1">{{item.name}}</h5>
+                        <p class="item-desc">{{item.description}}</p>
+                        <span class="seller" fxFlex="100" *ngIf="isAdmin">Vendedor: {{item.seller}}</span>
+                    </div>
+                    <div fxFlex="17.5" fxLayoutAlign="start center">${{item.price | number: '1.2-2'}} X
+                        {{item.quantity}}
+                    </div>
+                    <div fxFlex="17.5" fxLayoutAlign="start center">${{item.price * item.quantity | number: '1.2-2'}}
+                    </div>
+                </div>
+                <div fxFlex="100" fxLayoutAlign="end center" class="mt-1" *ngIf="canSend">
+                    <button mat-raised-button color="primary" *ngIf="pdf_url == null" (click)="sendMyItems()">Aprobar y
+                        generar guía de
+                        envío</button>
+                    <a mat-raised-button color="primary" *ngIf="pdf_url" [href]="pdfSource" target="_blank">Ver guía</a>
+                    <a mat-button color="primary" *ngIf="pdf_url"> Cerrar pedido</a>
+                </div>
+
+            </mat-card>
+        </div>
+
+        <div fxFlex="100" class="p-1">
+            <mat-card fxLayout="row wrap">
+                <h3 class="px-1">Pago</h3>
+                <div fxFlex="100" fxLayout="row wrap" fxLayoutAlign="space-between center" class="p-1">
+                    <span>Subtotal</span>
+                    <span>{{totalItems}} artículo{{totalItems > 1 ? 's': ''}}</span>
+                    <span>${{totalMoney | number: '1.1-2'}}</span>
+                </div>
+                <div fxFlex="100" fxLayout="row wrap" fxLayoutAlign="space-between center" class="p-1">
+                    <span>Envíos</span>
+                    <span>Fedex Express</span>
+                    <span>${{0 | number: '1.1-2'}}</span>
+                </div>
+                <div fxFlex="100" fxLayout="row wrap" fxLayoutAlign="space-between center" class="p-1 total-row">
+                    <span>TOTAL</span>
+                    <span>${{totalMoney | number: '1.1-2'}}</span>
+                </div>
+            </mat-card>
+        </div>
+    </div>
+
+    <div fxFlex="35" fxLayout="row wrap" fxLayoutAlign="center start">
+        <div class="p-1" fxFlex="100">
+            <mat-card fxLayout="row wrap">
+                <h3 class="px-1" fxFlex="100">Cliente</h3>
+                <span class="px-1">{{order?.customer}}</span>
+            </mat-card>
+        </div>
+
+        <div class="p-1" fxFlex="100" *ngIf="canSend">
+            <mat-card fxLayout="row wrap">
+                <form [formGroup]="docsForm" fxLayout="row wrap">
+                    <h3 class="px-1" fxFlex="100">Adjuntar mi factura</h3>
+                    <div fxFlex="100" fxFlex.gt-sm="50" class="p-1" *ngIf="canSend">
+                        <span class="text-muted">Archivo PDF</span>
+                        <input-file formControlName="pdf_invoice" fileLimit="1" fileAccept=".pdf"
+                            (acceptedFile)="acceptFile($event, 'pdf')" (deletedFile)="deletedFile($event,'pdf')">
+                        </input-file>
+                    </div>
+                    <div fxFlex="100" fxFlex.gt-sm="50" class="p-1" *ngIf="canSend">
+                        <span class="text-muted">Archivo XML</span>
+                        <input-file formControlName="xml_invoice" fileLimit="1" fileAccept=".xml"
+                            (acceptedFile)="acceptFile($event, 'xml')" (deletedFile)="deletedFile($event, 'xml')">
+                        </input-file>
+                    </div>
+                </form>
+            </mat-card>
+        </div>
+
+        <div class="p-1" fxFlex="100" *ngIf="isAdmin && otherInvoices.length > 0">
+            <mat-card fxLayout="row wrap">
+                <h3 class="px-1" fxFlex="100">Facturas</h3>
+                <div fxLayout="row wrap" fxFlex="100" fxLayoutAlign="space-between center" class="p-1"
+                    *ngFor="let invoice of otherInvoices; let i = index;">
+                    <span>{{i+1}}.</span>
+                    <a download mat-button target="_blank" *ngIf="invoice.pdf_invoice"
+                        [href]="invoice.pdf_invoice">PDF</a>
+                    <a download mat-button target="_blank" *ngIf="invoice.xml_invoice"
+                        [href]="invoice.xml_invoice">XML</a>
+                </div>
+            </mat-card>
+        </div>
+
+    </div>
+
+
+
+</div>

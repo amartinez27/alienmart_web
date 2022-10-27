@@ -1,0 +1,204 @@
+<div fxLayout="row wrap">
+    <form [formGroup]="form" (ngSubmit)="onSubmit(form.value)" autocomplete="off" fxLayout="row wrap" fxFlex="100">
+        <div fxFlex="100" class="p-1">
+            <h2>{{(id) ? 'Editar' : 'Añadir nuevo'}} anuncio</h2>
+        </div>
+        <div fxFlex="100" fxFlex.gt-sm="65" class="p-1">
+            <mat-card>
+                <mat-card-header>
+                    <mat-card-title>General</mat-card-title>
+                </mat-card-header>
+                <mat-card-content>
+                    <div fxFlex="100" class="px-1">
+                        <div fxLayout="row wrap">
+                            <div fxFlex="100">
+                                <mat-form-field class="w-100" appearance="outline">
+                                    <mat-label>Paquete de anuncios</mat-label>
+                                    <mat-select formControlName="featured_order_id"
+                                        [required]="userInfo.roles.includes('admin') ? false : true"
+                                        (selectionChange)="changeBundle($event)" [disabled]="advertisement">
+                                        <mat-option *ngFor="let bundle of bundles" [value]="bundle.orderid">
+                                            {{bundle.name}} - {{bundle.expiration | date: 'dd/MMMM/yyyy HH:mm'}} -
+                                            {{bundle.adspaces}} restante{{bundle.adspaces > 1 ? 's': ''}}
+                                        </mat-option>
+                                    </mat-select>
+                                    <mat-error *ngIf="form.controls.featured_order_id.errors?.required">El paquete al
+                                        que pertenecerá el anuncio es
+                                        requerido</mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div fxFlex="100">
+                                <mat-form-field appearance="outline" class="w-100">
+                                    <mat-label>Nombre del anuncio</mat-label>
+                                    <input matInput formControlName="name" required placeholder="Nombre del producto">
+                                    <mat-error *ngIf="form.controls.name.errors?.required">Este campo es obligatorio
+                                    </mat-error>
+                                    <mat-error *ngIf="form.controls.name.hasError('minlength')">El nombre debe contener
+                                        al
+                                        menos 6 caracteres</mat-error>
+                                    <mat-error *ngIf="form.controls.name.hasError('maxlength')">El nombre no puede
+                                        contener más de 100 caracteres</mat-error>
+                                </mat-form-field>
+                            </div>
+
+                            <div fxFlex="100">
+                                <mat-form-field appearance="outline" class="w-100">
+                                    <mat-label>Descripción</mat-label>
+                                    <textarea matInput formControlName="description" rows="7" required
+                                        placeholder="Inserte una descripción detallada del anuncio o servicio que desea publicar."></textarea>
+                                </mat-form-field>
+                            </div>
+
+                            <div fxFlex="100" fxFlex.gt-sm="50">
+                                <mat-form-field appearance="outline" class="w-100">
+                                    <mat-label>Precio</mat-label>
+                                    <input type="number" matInput formControlName="price" required placeholder="$0.00">
+                                    <mat-error *ngIf="form.controls.price.errors?.required">El precio es obligatorio
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+        </div>
+        <div *ngIf="id != null" fxFlex="100" fxFlex.gt-sm="35" class="p-1">
+            <mat-card>
+                <mat-card-header>
+                    <mat-card-title>Estado del anuncio</mat-card-title>
+                </mat-card-header>
+                <mat-card-content class="text-center">
+                    <button mat-raised-button color="primary" type="button">Eliminar este anuncio</button>
+                </mat-card-content>
+            </mat-card>
+        </div>
+        <div fxFlex="100" fxFlex.gt-sm="65" class="p-1">
+            <mat-card>
+                <mat-card-header>
+                    <mat-card-title>Ubicación</mat-card-title>
+                </mat-card-header>
+                <mat-card-content>
+                    <div fxFlex="100" fxFlex.gt-sm="33.3" class="px-1">
+                        <mat-form-field appearance="outline" class="w-100">
+                            <mat-label>Ciudad</mat-label>
+                            <input type="text" matInput formControlName="city" required>
+                            <mat-error *ngIf="form.controls.city.errors?.required">La ciudad es obligatorio
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div fxFlex="100" fxFlex.gt-sm="33.3" class="px-1">
+                        <mat-form-field class="w-100" appearance="outline">
+                            <mat-label>País</mat-label>
+                            <mat-select formControlName="country_id" required>
+                                <mat-option *ngFor="let country of countries" [value]="country.id">
+                                    {{country.name}}
+                                </mat-option>
+                            </mat-select>
+                            <mat-error *ngIf="form.controls.country_id.errors?.required">El país es
+                                requerido</mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div fxFlex="100" fxFlex.gt-sm="33.3" class="px-1">
+                        <mat-form-field class="w-100" appearance="outline">
+                            <mat-label>Estado</mat-label>
+                            <mat-select formControlName="state_id" required>
+                                <mat-option *ngFor="let state of countries[0]?.states" [value]="state.id">
+                                    {{state.name}}
+                                </mat-option>
+                            </mat-select>
+                            <mat-error *ngIf="form.controls.state_id.errors?.required">El estado es
+                                requerido</mat-error>
+                        </mat-form-field>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+        </div>
+        <div fxFlex="100" fxFlex.gt-sm="65" class="p-1">
+            <mat-card>
+                <mat-card-header>
+                    <mat-card-title>Elementos multimedia</mat-card-title>
+                </mat-card-header>
+                <mat-card-content>
+                    <div fxFlex="100" class="px-1">
+                        <p class="mt-1">
+                            <!--<span class="uppercase fw-500">Galería</span>--><span class="text-muted px-1">(máx
+                                7
+                                imágenes)</span></p>
+                        <input-file formControlName="images" (acceptedFile)="acceptFile($event)"
+                            (deletedFile)="deletedFile($event)" fileLimit="7" fileAccept="image/*" id="img-products">
+                        </input-file>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+        </div>
+        <div fxFlex="100" fxFlex.gt-sm="65" class="p-1">
+            <mat-card>
+                <mat-card-header>
+                    <mat-card-title>Categoría</mat-card-title>
+                </mat-card-header>
+                <mat-card-content>
+                    <div fxLayout="row wrap">
+
+                        <div fxFlex="100" fxFlex.gt-sm="33.3" class="px-1">
+                            <mat-form-field appearance="outline" class="w-100">
+                                <mat-label>Categoría principal</mat-label>
+                                <mat-select formControlName="featured_type_id" required
+                                    [disabled]="!userInfo.roles.includes('admin')"
+                                    (selectionChange)="applyCategoryFilter($event)">
+                                    <mat-option *ngFor="let cat of categories" [value]="cat.id">
+                                        <span>{{cat.description}}</span>
+                                    </mat-option>
+                                </mat-select>
+                                <mat-error *ngIf="form.controls.featured_type_id.errors?.required">La categoría es
+                                    requerida
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                        <!--
+                        <div fxFlex="100" fxFlex.gt-sm="33.3" class="px-1" *ngIf="secondCategories.length > 0">
+                            <mat-form-field appearance="outline" class="w-100">
+                                <mat-label>Segunda categoría</mat-label>
+                                <mat-select formControlName="subCatId"
+                                    (selectionChange)="applySecondCategoryFilter($event)">
+                                    <mat-option *ngFor="let cat of secondCategories" [value]="cat.id">
+                                        <span>{{cat.description}}</span>
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+
+                        <div fxFlex="100" fxFlex.gt-sm="33.3" class="px-1" *ngIf="thirdCategories.length > 0">
+                            <mat-form-field appearance="outline" class="w-100">
+                                <mat-label>Tercera subcategoría</mat-label>
+                                <mat-select formControlName="subSubCatId"
+                                    (selectionChange)="applyThirdCategoryFilter($event)">
+                                    <mat-option *ngFor="let cat of thirdCategories" [value]="cat.id">
+                                        <span>{{cat.description}}</span>
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+
+                        <div fxFlex="100" fxFlex.gt-sm="33.3" class="px-1" *ngIf="fourthCategories.length > 0">
+                            <mat-form-field appearance="outline" class="w-100">
+                                <mat-label>Cuarta subcategoría</mat-label>
+                                <mat-select formControlName="subSubCatId"
+                                    (selectionChange)="applyFourthCategoryFilter($event)">
+                                    <mat-option *ngFor="let cat of fourthCategories" [value]="cat.id">
+                                        <span>{{cat.description}}</span>
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>-->
+                    </div>
+                </mat-card-content>
+            </mat-card>
+        </div>
+        <div fxFlex="100" fxFlex.gt-sm="65" fxLayout="row wrap" fxLayoutAlign="end center" class="p-1">
+            <button mat-button color="primary" type="button" routerLink="/admin/advertisements">Cancelar</button>
+            <button mat-raised-button color="primary"
+                type="submit">{{(id) ? 'Guardar cambios' : 'Publicar anuncio'}}</button>
+        </div>
+    </form>
+
+</div>

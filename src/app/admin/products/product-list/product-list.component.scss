@@ -1,0 +1,14 @@
+:host ::ng-deep #search-product .mat-form-field-wrapper,
+:host ::ng-deep #category-search .mat-form-field-wrapper {
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+.mat-button {
+    min-width: 24px;
+    padding: 0;
+}
+
+.question-dialog {
+    width: 60vw;
+}

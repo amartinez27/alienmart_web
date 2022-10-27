@@ -1,0 +1,50 @@
+<app-main-carousel [slides]="slides" *ngIf="cid == null"></app-main-carousel>
+
+<div fxLayout="column" fxLayoutAlign="center center">
+    <h3 *ngIf="query && totalItems > -1">{{totalItems > -1? totalItems : 0}}
+        resultado{{totalItems>1 || totalItems == -1? 's' : ''}} para:
+        "{{query}}"</h3>
+    <h1 *ngIf="cid">{{categoryDesc}}</h1>
+    <h3 *ngIf="cid && totalItems > -1">{{totalItems}} resultado{{totalItems>1? 's' : ''}}</h3>
+</div>
+
+<div fxLayout="row wrap" class="products-wrapper">
+    <div *ngFor="let advertisement of advertisements | paginate: { itemsPerPage: count, currentPage: page, totalItems: totalItems }"
+        fxFlex="100" fxFlex.gt-sm="20" fxFlex.sm="33.3" class="col" ngClass.gt-md="p-2" ngClass.lt-lg="p-1">
+        <mat-card class="product-item">
+            <a [routerLink]="['/advertisements', advertisement.id, advertisement.name]" class="image-link">
+                <img [src]="advertisement.images[0]?.url" alt="">
+            </a>
+            <a [routerLink]="['/advertisements', advertisement.id, advertisement.name]" class="title text-truncate">
+                {{advertisement.name}}
+            </a>
+            <p class="text-muted prod-desc">{{advertisement.description}}</p>
+            <div fxLayout="row" fxLayoutAlign="space-between center" class="prices">
+                <div fxLayout="column" fxLayoutAlign="center start">
+
+                    <p class="new-price">${{advertisement.price | number : '1.2-2'}}</p>
+                </div>
+                <div class="icons">
+                    <app-controls [product]="advertisement" (onOpenProductDialog)="openProductDialog(advertisement)">
+                    </app-controls>
+                </div>
+            </div>
+        </mat-card>
+    </div>
+</div>
+<div *ngIf="totalItems > 0" fxLayout="row wrap">
+    <div fxFlex="100">
+        <mat-card class="p-0 text-center">
+            <pagination-controls class="product-pagination" autoHide="true" maxSize="15"
+                (pageChange)="onPageChanged($event)" previousLabel="Anterior" nextLabel="Siguiente" responsive="true">
+            </pagination-controls>
+        </mat-card>
+    </div>
+</div>
+
+<div *ngIf="totalItems == 0" fxLayout="row wrap">
+    <div fxFlex="100" fxLayoutAlign="center">
+        <p>No existen anuncios para esta búsqueda... todavía. Intenta buscando en otra categoría o realizando una
+            búsqueda.</p>
+    </div>
+</div>

@@ -1,0 +1,192 @@
+<div fxLayout="row wrap" class="p-1">
+    <div fxFlex="20" fxLayoutAlign="start center">
+        <h1>Inicio</h1>
+    </div>
+</div>
+
+<div fxLayout="row wrap">
+    <div fxFlex="100" fxFlex.gt-sm="65" fxLayout="row wrap" class="first">
+        <div fxFlex="100" fxFlex.gt-sm="33.3" class="p-1">
+            <mat-card>
+                <div fxLayout="row wrap" fxLayoutAlign="center center">
+                    <p>TOTAL DE VENTAS HOY</p>
+                    <div fxLayout="row wrap" fxFlex="100" fxLayoutAlign="space-between center">
+                        <span class="number-label">${{todaySales | number : '1.2-2'}}</span>
+                        <mat-icon>stacked_line_chart</mat-icon>
+                    </div>
+                    <div class="divider" fxFlex="100"></div>
+                    <span class="total-span" fxFlex="100">{{data?.todayNumbers?.count}} pedidos en total</span>
+                </div>
+            </mat-card>
+        </div>
+        <div fxFlex="100" fxFlex.gt-sm="33.3" class="p-1">
+            <mat-card>
+                <div fxLayout="row wrap" fxLayoutAlign="center center">
+                    <p>VENTAS DE ESTE MES</p>
+                    <div fxLayout="row wrap" fxFlex="100" fxLayoutAlign="space-between center">
+                        <span class="number-label">${{monthSales | number : '1.2-2'}}</span>
+                        <mat-icon>stacked_line_chart</mat-icon>
+                    </div>
+                    <div class="divider" fxFlex="100"></div>
+                    <span class="total-span" fxFlex="100">{{data?.monthNumbers?.count}} pedidos en total</span>
+                </div>
+            </mat-card>
+        </div>
+        <div fxFlex="100" fxFlex.gt-sm="33.3" class="p-1">
+            <mat-card>
+                <div fxLayout="row wrap" fxLayoutAlign="center center">
+                    <p>GANANCIAS NETAS</p>
+                    <div fxLayout="row wrap" fxFlex="100" fxLayoutAlign="space-between center">
+                        <span class="number-label">${{netIncome | number : '1.2-2'}}</span>
+                        <mat-icon>attach_money</mat-icon>
+                    </div>
+                    <div class="divider" fxFlex="100"></div>
+                    <span class="total-span" fxFlex="100">{{data?.netIncome?.count}} pedidos en total</span>
+                </div>
+            </mat-card>
+        </div>
+        <div fxFlex="100" class="p-1">
+            <mat-card>
+                <div fxLayout="row wrap" fxLayoutAlign="space-between center">
+                    <p><span class="order-number">{{toPrepare}} pedidos</span> necesitan prepararse</p>
+                    <button mat-raised-button color="primary" [routerLink]="['/admin/sales']">Ver pedidos</button>
+                </div>
+            </mat-card>
+        </div>
+        <div fxFlex="100" class="p-1">
+            <p class="mt-1 px-2">TOP 5 PRODUCTOS MÁS VENDIDOS</p>
+            <mat-card>
+                <table mat-table [dataSource]="dataSource" class="w-100">
+                    <ng-container matColumnDef="number">
+                        <th mat-header-cell *matHeaderCellDef>#</th>
+                        <td mat-cell *matCellDef="let row; let i = index">#{{i+1}}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="name">
+                        <th mat-header-cell *matHeaderCellDef>Nombre</th>
+                        <td mat-cell *matCellDef="let row">{{row.name}}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="description">
+                        <th mat-header-cell *matHeaderCellDef>Categoría</th>
+                        <td mat-cell *matCellDef="let row">{{row.description}}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="availability">
+                        <th mat-header-cell *matHeaderCellDef>
+                            Inventario
+                        </th>
+                        <td mat-cell *matCellDef="let row">{{row.availability}}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="price">
+                        <th mat-header-cell *matHeaderCellDef>Precio</th>
+                        <td mat-cell *matCellDef="let row">{{row.price}}</td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                </table>
+            </mat-card>
+        </div>
+    </div>
+    <div fxFlex="100" fxFlex.gt-sm="35" fxLayout="row wrap">
+
+        <div fxFlex="100" class="p-1">
+            <mat-card>
+                <div fxLayout="row wrap">
+                    <mat-form-field appearance="outline" fxFlex="100">
+                        <mat-label>Fecha </mat-label>
+                        <input matInput [matDatepicker]="report_picker" [max]="maxDate" [formControl]="defaultDate"
+                            placeholder="Fecha" (dateChange)="onDateChange($event)">
+                        <mat-datepicker-toggle matSuffix [for]="report_picker"></mat-datepicker-toggle>
+                        <mat-datepicker #report_picker></mat-datepicker>
+                    </mat-form-field>
+                    <div fxFlex="100" #resizedDiv>
+                        <ngx-charts-bar-vertical [scheme]="colorScheme" [results]="single" [gradient]="gradient"
+                            [xAxis]="showXAxis" [yAxis]="showYAxis" [legend]="showLegend"
+                            [showXAxisLabel]="showXAxisLabel" [showYAxisLabel]="showYAxisLabel"
+                            (select)="onSelect($event)">
+                        </ngx-charts-bar-vertical>
+                    </div>
+                    <div class="divider mt-2" fxFlex="100"></div>
+                    <div class="mt-2">
+                        DESGLOSE TOTAL
+
+                    </div>
+                    <div fxLayout="row wrap" fxFlex="100" fxLayoutAlign="space-between center" class="mt-2">
+                        <span>Pedidos</span>
+                        <span>${{totalOrder | number: '1.2-2'}}</span>
+
+                    </div>
+                    <div fxLayout="row wrap" fxFlex="100" fxLayoutAlign="space-between center" class="mt-2">
+                        <span>Devoluciones</span>
+                        <span>${{totalReturns | number: '1.2-2'}}</span>
+
+                    </div>
+                    <div class="divider mt-2" fxFlex="100"></div>
+                    <div fxLayout="row wrap" fxFlex="100" fxLayoutAlign="space-between center" class="mt-2">
+                        <span>TOTAL</span>
+                        <span>${{(totalOrder + totalReturns) | number: '1.2-2'}}</span>
+
+                    </div>
+                </div>
+            </mat-card>
+        </div>
+
+
+    </div>
+</div>
+
+<!--<app-tiles></app-tiles>
+<app-info-cards></app-info-cards>
+
+<div fxLayout="row wrap">
+    <div fxFlex="100" fxFlex.gt-sm="45" class="p-1">
+        <app-montly-sales></app-montly-sales>
+    </div>
+    <div fxFlex="100" fxFlex.gt-sm="55" class="p-1">
+        <app-latest-orders></app-latest-orders>
+    </div>
+</div>
+
+<div fxLayout="row wrap">
+    <div fxFlex="100" fxFlex.gt-sm="70" class="p-1">
+        <app-analytics></app-analytics>
+    </div>
+    <div fxFlex="100" fxFlex.gt-sm="30" fxLayout="column">
+        <div fxFlex="100" class="p-1">
+            <mat-card>
+                <div fxLayout="row" fxLayoutAlign="space-between center" class="text-muted">
+                    <mat-icon class="mat-icon-xlg">monetization_on</mat-icon>
+                    <div>
+                        <h1>$ 35700</h1>
+                        <h2 class="fw-400">Ganancias</h2>
+                    </div>
+                </div>
+            </mat-card>
+        </div>
+        <div fxFlex="100" class="p-1">
+            <mat-card>
+                <div fxLayout="row" fxLayoutAlign="space-between center" class="text-muted">
+                    <mat-icon class="mat-icon-xlg">cloud_download</mat-icon>
+                    <div>
+                        <h1>187230</h1>
+                        <h2 class="fw-400">Descargas</h2>
+                    </div>
+                </div>
+            </mat-card>
+        </div>
+        <div fxFlex="100" class="p-1">
+            <mat-card>
+                <div fxLayout="row" fxLayoutAlign="space-between center" class="text-muted">
+                    <mat-icon class="mat-icon-xlg">shopping_cart</mat-icon>
+                    <div>
+                        <h1>78,25 %</h1>
+                        <h2 class="fw-400">Ventas</h2>
+                    </div>
+                </div>
+            </mat-card>
+        </div>
+    </div>
+</div>-->

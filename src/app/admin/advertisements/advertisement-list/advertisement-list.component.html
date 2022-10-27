@@ -1,0 +1,61 @@
+<div fxLayout="row wrap" class="p-1">
+    <div fxFlex="20" fxLayoutAlign="start center">
+        <h2>Mis anuncios</h2>
+    </div>
+    <div fxFlex="80">
+        <mat-form-field fxFlex="40" appearance="outline" id="search-product">
+            <mat-label>Búsqueda general...</mat-label>
+            <input type="text" matInput (keyup)="applyFilter($event)"
+                placeholder="Busque por nombre, apellido o correo...">
+            <mat-icon matSuffix>search</mat-icon>
+        </mat-form-field>
+    </div>
+</div>
+<div class="p-1">
+    <mat-card class="p-0">
+        <div class="mat-table admin-table">
+            <div class="mat-header-row">
+                <div class="mat-header-cell">Nombre</div>
+                <div class="mat-header-cell">Ubicación</div>
+                <div class="mat-header-cell">Categoría</div>
+                <div class="mat-header-cell">Precio</div>
+                <div class="mat-header-cell"></div>
+            </div>
+            <div *ngFor="let product of filteredProds | paginate: { itemsPerPage: count, currentPage: page }"
+                class="mat-row">
+                <div class="mat-cell">{{product.name}}</div>
+                <div class="mat-cell">
+                    {{product.city}}
+                </div>
+                <div class="mat-cell">{{( categories | filterById : product.featured_type_id )?.description }}
+                </div>
+                <div class="mat-cell">{{ product.price | currency:'MXN' }}</div>
+                <div class="mat-cell">
+                    <div class="p-1 actions">
+                        <button mat-button matTooltip="Editar"
+                            [routerLink]="['/admin/advertisements/add-advertisement', product.id]">
+                            <mat-icon>edit</mat-icon>
+                        </button>
+                        <button mat-button matTooltip="Eliminar" class="mx-1" (click)="remove(product)">
+                            <mat-icon>delete</mat-icon>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="mat-row" *ngIf="filteredProds?.length < 1">
+                <div class="mat-cell text-center" [attr.rowspan]="5">No has publicado anuncios o no existen anuncios
+                    con los
+                    criterios de búsqueda que ingresaste.</div>
+            </div>
+        </div>
+    </mat-card>
+    <div *ngIf="products.length > 0" fxLayout="row wrap">
+        <div fxFlex="100">
+            <mat-card class="p-0 text-center">
+                <pagination-controls class="product-pagination" autoHide="true" maxSize="10"
+                    (pageChange)="onPageChanged($event)"></pagination-controls>
+            </mat-card>
+        </div>
+    </div>
+
+</div>

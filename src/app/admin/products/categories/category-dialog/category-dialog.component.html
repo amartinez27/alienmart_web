@@ -1,0 +1,47 @@
+<h1 mat-dialog-title>Categoría</h1>
+<form [formGroup]="form" (ngSubmit)="onSubmit(form.value)" autocomplete="off">
+    <div mat-dialog-content>
+        <div fxLayout="row wrap">
+            <div fxFlex="100">
+                <mat-form-field appearance="outline" class="w-100">
+                    <mat-label>Descripción/Nombre</mat-label>
+                    <input matInput formControlName="description" required>
+                    <mat-error *ngIf="form.controls.description.errors?.required">La descripción es requerida
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div fxFlex="100">
+                <mat-form-field appearance="outline" class="w-100">
+                    <mat-label>Categoría padre</mat-label>
+                    <mat-select formControlName="parent_id">
+                        <mat-option *ngFor="let cat of data.categories" [value]="cat.id">
+                            <span>{{cat.description}}</span>
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div fxFlex="50" class="px-1">
+                <mat-form-field appearance="outline" class="w-100">
+                    <mat-label>Valor hexadecimal</mat-label>
+                    <input matInput formControlName="hex_color" required>
+                </mat-form-field>
+            </div>
+            <div fxFlex="50" class="px-1">
+                <mat-form-field appearance="outline" class="w-100">
+                    <mat-label>Etiqueta de ícono</mat-label>
+                    <input matInput formControlName="icon_name" required>
+                </mat-form-field>
+            </div>
+            <div fxFlex="100" class="py-1">
+                <mat-checkbox formControlName="is_featured" color="primary">¿Es categoría de clasificados?
+                </mat-checkbox>
+            </div>
+        </div>
+    </div>
+    <div mat-dialog-actions>
+        <div fxLayout="row" fxLayoutAlign="space-between center" class="w-100">
+            <button mat-raised-button color="warn" type="button" mat-dialog-close>Cerrar</button>
+            <button mat-raised-button color="primary" type="submit">Guardar</button>
+        </div>
+    </div>
+</form>

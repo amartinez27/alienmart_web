@@ -1,0 +1,94 @@
+<div class="wishlist-banner">
+  <img src="/assets/images/others/wishlist.png" alt="banner">
+  <div class="centered">
+    <h1>Favoritos</h1>
+  </div>
+</div>
+<mat-chip-list *ngIf="appService.Data.wishList.length == 0">
+  <mat-chip *ngIf="auth.isLoggedIn" color="warn" selected="true">No tienes productos agregados a tus favoritos.
+  </mat-chip>
+  <mat-chip *ngIf="!auth.isLoggedIn" color="warn" selected="true">Inicia sesión para ver tus favoritos.</mat-chip>
+</mat-chip-list>
+<div fxLayout="row wrap">
+  <div fxFlex="100" fxFlex.gt-sm="20" fxFlex.sm="33.3" fxFlex.xs="50" ngClass.gt-md="p-2" ngClass.lt-lg="p-1"
+    *ngFor="let product of appService.Data.wishList">
+    <mat-card class="product-item">
+      <div fxLayout="row wrap">
+        <div fxFlex="100">
+          <a *ngIf="product.featured_type_id" [routerLink]="['/advertisements', product.id, product.name]"
+            class="image-link">
+            <img [src]="product.images[0]?.url" alt="">
+          </a>
+          <a *ngIf="!product.featured_type_id" [routerLink]="['/products', product.id, product.name]"
+            class="image-link">
+            <img [src]="product.images[0]?.url" alt="">
+          </a>
+        </div>
+        <div fxFlex="100">
+          <a *ngIf="!product.featured_type_id" [routerLink]="['/products', product.id, product.name]"
+            class="title text-truncate">
+            {{product.name}}
+          </a>
+          <a *ngIf="product.featured_type_id" [routerLink]="['/advertisements', product.id, product.name]"
+            class="title text-truncate">
+            {{product.name}}
+          </a>
+          <p class="text-muted prod-desc">{{product.description}}</p>
+          <div fxLayout="row" fxLayoutAlign="space-between center" class="prices">
+            <div fxLayout="column" fxLayoutAlign="center start">
+              <p class="old-price text-muted"><span
+                  *ngIf="product.comparison_price">${{product.comparison_price | number : '1.2-2'}}</span>
+              </p>
+              <p class="new-price">${{product.price | number : '1.2-2'}}</p>
+            </div>
+            <div class="icons">
+              <app-controls [product]="product" (onOpenProductDialog)="openProductDialog(product)">
+              </app-controls>
+            </div>
+          </div>
+        </div>
+      </div>
+    </mat-card>
+  </div>
+</div>
+
+<!--
+<mat-card *ngIf="appService.Data.wishList?.length > 0" class="p-0">
+
+  <div class="mat-table wishlist-table">
+    <div class="mat-header-row">
+      <div class="mat-header-cell">producto</div>
+      <div class="mat-header-cell">Nombre</div>
+      <div class="mat-header-cell">Precio</div>
+      <div class="mat-header-cell">Disponibilidad</div>
+      <div class="mat-header-cell">Cantidad</div>
+      <div class="mat-header-cell">
+        <div class="px-1">
+          <button mat-raised-button color="warn" (click)="clear()">Quitar todos</button>
+        </div>
+      </div>
+    </div>
+    <div *ngFor="let product of appService.Data.wishList" class="mat-row">
+      <div class="mat-cell"><img [src]="product.images[0]?.url"></div>
+      <div class="mat-cell"><a [routerLink]="['/products', product.id, product.name]"
+          class="product-name">{{product.name}}</a></div>
+      <div class="mat-cell">${{product.price | number : '1.2-2'}}</div>
+      <div class="mat-cell">{{ (product.availability > 0) ? 'Disponible':'No Disponible'}}</div>
+      <div class="mat-cell text-muted">
+        <app-controls [product]="product" [type]="'wish'" (onQuantityChange)="getQuantity($event)"></app-controls>
+      </div>
+      <div class="mat-cell">
+        <div class="p-1">
+          <button mat-mini-fab color="primary" (click)="addToCart(product)" matTooltip="Agregar al carrito">
+            <mat-icon>add_shopping_cart</mat-icon>
+          </button>
+          <button mat-mini-fab color="warn" (click)="remove(product)" matTooltip="Quitar" class="remove">
+            <mat-icon>close</mat-icon>
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</mat-card>-->

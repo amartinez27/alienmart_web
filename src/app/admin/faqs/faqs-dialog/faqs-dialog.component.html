@@ -1,0 +1,35 @@
+<h1 mat-dialog-title>Pregunta frecuente</h1>
+<form [formGroup]="form" (ngSubmit)="onSubmit(form.value)" autocomplete="off">
+    <div mat-dialog-content>
+        <div fxLayout="row wrap">
+            <div fxFlex="100">
+                <mat-form-field appearance="outline" class="w-100">
+                    <mat-label>Pregunta</mat-label>
+                    <input matInput formControlName="question" required>
+                    <mat-error *ngIf="form.controls.question.errors?.required">La pregunta es requerida
+                    </mat-error>
+                    <mat-error *ngIf="form.controls.question.errors?.maxLength">Ha excedido el máximo de caracteres
+                        permitidos
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div fxFlex="100">
+                <mat-form-field appearance="outline" class="w-100">
+                    <mat-label>Respuesta</mat-label>
+                    <textarea matInput formControlName="answer" required rows="6"> </textarea>
+                    <mat-error *ngIf="form.controls.answer.errors?.required">La respuesta es requerida
+                    </mat-error>
+                    <mat-error *ngIf="form.controls.answer.errors?.maxLength">Ha excedido el máximo de caracteres
+                        permitidos
+                    </mat-error>
+                </mat-form-field>
+            </div>
+        </div>
+    </div>
+    <div mat-dialog-actions>
+        <div fxLayout="row" fxLayoutAlign="space-between center" class="w-100">
+            <button mat-raised-button type="button" [mat-dialog-close]="false">Cerrar</button>
+            <button mat-raised-button color="primary" type="submit">Guardar</button>
+        </div>
+    </div>
+</form>

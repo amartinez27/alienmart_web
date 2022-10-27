@@ -1,0 +1,120 @@
+<h1 mat-dialog-title class="text-center">Necesito ayuda</h1>
+<div mat-dialog-content [ngSwitch]="step" fxLayout="row wrap">
+    <div fxLayout="row wrap" class="issue-first" fxFlex="100" *ngSwitchCase="0">
+        <div fxFlex="50" class="issue-card" fxLayout="row wrap">
+            <mat-card fxFlex="100" fxLayoutAlign="center stretch">
+                <div fxLayout="column" fxLayoutAlign="center center">
+                    <img src="assets/images/towing.svg" alt="">
+                    <p class="mt-1">Recibí el producto con un problema</p>
+                    <button mat-raised-button class="mt-1" color="primary" (click)="withProblem()">Seleccionar</button>
+                </div>
+            </mat-card>
+        </div>
+        <div fxFlex="50" class="issue-card" fxLayout="row wrap">
+            <!--<mat-card fxFlex="100">
+                <div fxLayout="column" fxLayoutAlign="center center">
+                    <p class="issue-button" fxFlex="80" (click)="notReceived()">No recibí el producto</p>
+                </div>
+            </mat-card>-->
+            <mat-card fxFlex="100" fxLayoutAlign="center stretch">
+                <div fxLayout="column" fxLayoutAlign="center center">
+                    <img src="assets/images/questions.svg" alt="">
+                    <p class="mt-1">No recibí el producto</p>
+                    <button mat-raised-button class="mt-1" color="primary" (click)="notReceived()">Seleccionar</button>
+                </div>
+            </mat-card>
+        </div>
+    </div>
+
+    <div fxLayout="column" *ngSwitchCase="1" fxFlex="100">
+        <div>
+            <button mat-button (click)="backFirst()">
+                <mat-icon>arrow_back_ios</mat-icon>Atrás
+            </button>
+        </div>
+
+        <div class="p-1">
+            <mat-card class="issue-option" (click)="setReason('Es lo que compré pero no sirve')">
+                <div fxLayout="row wrap" fxLayoutAlign="space-between center">
+                    <span>Es lo que compré pero no sirve</span>
+                    <mat-icon>play_circle_filled</mat-icon>
+                </div>
+            </mat-card>
+        </div>
+        <div class="p-1">
+            <mat-card class="issue-option" (click)="setReason('El producto tiene una falla')">
+                <div fxLayout="row wrap" fxLayoutAlign="space-between center">
+                    <span>El producto tiene una falla</span>
+                    <mat-icon>play_circle_filled</mat-icon>
+                </div>
+            </mat-card>
+        </div>
+
+        <div class="p-1">
+            <mat-card class="issue-option" (click)="setReason('El paquete no llegó completo')">
+                <div fxLayout="row wrap" fxLayoutAlign="space-between center">
+                    <span>El paquete no llegó completo</span>
+                    <mat-icon>play_circle_filled</mat-icon>
+                </div>
+            </mat-card>
+        </div>
+
+        <div class="p-1">
+            <mat-card class="issue-option" (click)="setReason('Es diferente a lo que pedí')">
+                <div fxLayout="row wrap" fxLayoutAlign="space-between center">
+                    <span>Es diferente a lo que pedí</span>
+                    <mat-icon>play_circle_filled</mat-icon>
+                </div>
+            </mat-card>
+        </div>
+    </div>
+
+    <div fxLayout="column" *ngSwitchCase="2" fxFlex="100">
+        <div>
+            <button mat-button (click)="backFirst()">
+                <mat-icon>arrow_back_ios</mat-icon>Atrás
+            </button>
+        </div>
+
+        <div class="p-1">
+            <mat-card class="issue-option" (click)="setReason('Necesito que llegue el producto')">
+                <div fxLayout="row wrap" fxLayoutAlign="space-between center">
+                    <span>Necesito que llegue el producto</span>
+                    <mat-icon>play_circle_filled</mat-icon>
+                </div>
+            </mat-card>
+        </div>
+        <div class="p-1">
+            <mat-card class="issue-option" (click)="setReason('Quiero cancelar la compra y obtener mi dinero')">
+                <div fxLayout="row wrap" fxLayoutAlign="space-between center">
+                    <span>Quiero cancelar la compra y obtener mi dinero</span>
+                    <mat-icon>play_circle_filled</mat-icon>
+                </div>
+            </mat-card>
+
+        </div>
+    </div>
+
+    <div fxLayout="column" *ngSwitchCase="4" fxFlex="100">
+        <div>
+            <button mat-button (click)="backFirst()">
+                <mat-icon>arrow_back_ios</mat-icon>Atrás
+            </button>
+        </div>
+        <div class="p-1">
+            {{reason}}
+        </div>
+        <form [formGroup]="form" (ngSubmit)="onSubmit(form.value)" autocomplete="off" class="p-1" fxLayout="row wrap">
+            <div fxFlex="100">
+                <mat-form-field appearance="outline" class="w-100">
+                    <mat-label>Manda un mensaje al vendedor para iniciar un acuerdo</mat-label>
+                    <textarea matInput formControlName="message" required rows="10"></textarea>
+                </mat-form-field>
+            </div>
+            <div fxFlex="100" fxLayoutAlign="end center">
+                <button mat-raised-button color="primary" type="submit">Enviar</button>
+            </div>
+        </form>
+
+    </div>
+</div>

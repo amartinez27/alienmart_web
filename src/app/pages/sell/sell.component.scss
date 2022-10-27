@@ -1,0 +1,95 @@
+.sell-container {
+    margin-top: -16px;
+    height: 360px;
+    background-image: url('../../../assets/images/sell.png');
+    background-size: cover;
+    background-position: bottom;
+    color: white;
+}
+
+.sell-container p {
+    font-size: 16px;
+    padding-top: 16px;
+}
+
+.first {
+
+    div {
+        padding-top: 10px;
+    }
+
+    p {
+        margin-left: 8px;
+        font-size: 15px;
+    }
+
+    .success-check {
+        color: #29cc77;
+    }
+}
+
+.side-img {
+    img {
+        max-width: 100%;
+    }
+}
+
+.tiles mat-card {
+    padding-bottom: 15%;
+    height: 140px;
+
+    div {
+        height: 100%;
+    }
+}
+
+.footer-container {
+    margin-bottom: -16px;
+    margin-top: 36px;
+    height: 360px;
+    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('../../../assets/images/footer.png');
+    background-size: cover;
+    background-position: center;
+    color: white;
+}
+
+/******* Responsive *******/
+// Extra small devices (portrait phones, less than 576px)
+@media (max-width: 575px) {
+    img {
+        margin-top: 16px;
+    }
+
+    h1 {
+        font-size: 1.4em !important;
+    }
+
+    p {
+        font-size: 14px;
+    }
+}
+
+// Small devices (landscape phones, 576px and up)
+@media (min-width: 576px) and (max-width: 767px) {
+    img {
+        margin-top: 16px;
+    }
+}
+
+// Medium devices (tablets, 768px and up)
+@media (min-width: 768px) and (max-width: 991px) {
+    img {
+        margin-top: 16px;
+    }
+}
+
+// Large devices (desktops, 992px and up)
+@media (min-width: 992px) and (max-width: 1199px) {}
+
+// Extra large devices (large desktops, 1200px and up)
+@media (min-width: 1200px) {
+    .sell-container {
+        height: 420px;
+        background-position: center;
+    }
+}

@@ -1,0 +1,39 @@
+{
+    "id": 6,
+    "name": "All-in-One Printer",
+    "images": [{
+            "small": "assets/images/products/printer/1-small.png",
+            "medium": "assets/images/products/printer/1-medium.png",
+            "big": "assets/images/products/printer/1-big.png"
+        },
+        {
+            "small": "assets/images/products/printer/2-small.png",
+            "medium": "assets/images/products/printer/2-medium.png",
+            "big": "assets/images/products/printer/2-big.png"
+        },
+        {
+            "small": "assets/images/products/printer/3-small.png",
+            "medium": "assets/images/products/printer/3-medium.png",
+            "big": "assets/images/products/printer/3-big.png"
+        },
+        {
+            "small": "assets/images/products/printer/4-small.png",
+            "medium": "assets/images/products/printer/4-medium.png",
+            "big": "assets/images/products/printer/4-big.png"
+        },
+        {
+            "small": "assets/images/products/printer/5-small.png",
+            "medium": "assets/images/products/printer/5-medium.png",
+            "big": "assets/images/products/printer/5-big.png"
+        }
+    ],
+    "comparison_price": null,
+    "price": 450,
+    "discount": null,
+    "ratings_count": 4,
+    "ratings_value": 300,
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut congue eleifend nulla vel rutrum. Donec tempus metus non erat vehicula, vel hendrerit sem interdum. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae.",
+    "availability": 3,
+    "cart_count": 0,
+    "category_id": 100
+}

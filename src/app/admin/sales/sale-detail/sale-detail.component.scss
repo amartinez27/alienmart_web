@@ -1,0 +1,42 @@
+.item-desc {
+    font-size: 12px;
+    height: 3em;
+    overflow: hidden;
+}
+
+.seller {
+    font-size: 12px;
+}
+
+.prod-thumb {
+    position: relative;
+
+    img {
+        max-width: calc(100% - 10px);
+        max-height: 100%;
+        width: auto;
+        height: auto;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        margin: auto;
+    }
+}
+
+.total-row {
+    font-weight: bold;
+
+}
+
+::ng-deep.file-container {
+    border: 3px dashed #757575;
+    border-radius: 18px;
+    width: 100% !important;
+    margin-right: 0 !important;
+
+    .file-button {
+        width: 100% !important;
+    }
+}

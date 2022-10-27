@@ -1,0 +1,61 @@
+[{
+        "id": 1,
+        "description": "Todas las categorías",
+        "is_featured": false,
+        "parent_id": 0
+    },
+    {
+        "id": 20,
+        "description": "Inmuebles",
+        "is_featured": false,
+        "parent_id": 0
+    },
+    {
+        "id": 30,
+        "description": "Vehículos",
+        "is_featured": true,
+        "parent_id": 0
+    },
+    {
+        "id": 31,
+        "description": "Empleos",
+        "is_featured": true,
+        "parent_id": 0
+    },
+    {
+        "id": 32,
+        "description": "Servicios profesionales",
+        "is_featured": false,
+        "parent_id": 31
+    },
+    {
+        "id": 33,
+        "description": "Servicios del hogar",
+        "is_featured": true,
+        "parent_id": 31
+    },
+    {
+        "id": 34,
+        "description": "Servicios financieros",
+        "is_featured": false,
+        "parent_id": 0
+    },
+    {
+        "id": 3,
+        "description": "Tecnología",
+        "is_featured": false,
+        "parent_id": 0
+    },
+    {
+        "id": 40,
+        "description": "Productos de belleza",
+        "is_featured": false,
+        "parent_id": 33
+    },
+    {
+        "id": 50,
+        "description": "Deportes",
+        "is_featured": false,
+        "parent_id": 0
+    }
+]

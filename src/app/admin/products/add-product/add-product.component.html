@@ -1,0 +1,273 @@
+<div fxLayout="row wrap">
+    <form [formGroup]="form" (ngSubmit)="onSubmit(form.value)" autocomplete="off" fxLayout="row wrap" fxFlex="100">
+        <div fxFlex="100" class="p-1">
+            <h2>{{(id) ? 'Editar' : 'Añadir nuevo'}} producto</h2>
+        </div>
+        <div fxFlex="100" fxFlex.gt-sm="65" class="p-1">
+            <mat-card>
+                <mat-card-header>
+                    <mat-card-title>General</mat-card-title>
+                </mat-card-header>
+                <mat-card-content>
+                    <div fxFlex="100" class="px-1">
+                        <div fxLayout="row wrap">
+                            <div fxFlex="100">
+                                <mat-form-field appearance="outline" class="w-100">
+                                    <mat-label>Nombre del producto</mat-label>
+                                    <input matInput formControlName="name" required placeholder="Nombre del producto">
+                                    <mat-error *ngIf="form.controls.name.errors?.required">Este campo es obligatorio
+                                    </mat-error>
+                                    <mat-error *ngIf="form.controls.name.hasError('minlength')">El nombre debe contener
+                                        al
+                                        menos 6 caracteres</mat-error>
+                                    <mat-error *ngIf="form.controls.name.hasError('maxlength')">El nombre no puede
+                                        contener más de 100 caracteres</mat-error>
+                                </mat-form-field>
+                            </div>
+
+                            <div fxFlex="100">
+                                <mat-form-field appearance="outline" class="w-100">
+                                    <mat-label>Descripción</mat-label>
+                                    <textarea matInput formControlName="description" rows="7" required
+                                        placeholder="Inserte una descripción detallada del producto o servicio que desea publicar."></textarea>
+                                </mat-form-field>
+                            </div>
+
+                            <div fxFlex="100">
+                                <mat-form-field appearance="outline" class="w-100">
+                                    <mat-label>Dirección de recolección</mat-label>
+                                    <mat-select formControlName="pickup_address_id" panelClass="addresses-container">
+                                        <mat-option *ngFor="let address of addresses" [value]="address.id">
+                                            <div fxLayout="column" class="unique_address">
+                                                <span class="address-recipient">{{address.name}}&nbsp;</span>
+                                                <span>{{address.street}}&nbsp; </span>
+                                                <span>{{address.city}}, {{address.state_name}}
+                                                    {{address.postal_code}}&nbsp;</span>
+                                                <span>{{address.country_name}}</span>
+                                            </div>
+                                        </mat-option>
+                                    </mat-select>
+                                    <mat-error *ngIf="form.controls.pickup_address_id.errors?.required">Este campo es
+                                        obligatorio. Si no tiene ninguna dirección registrada, las puede dar de alta en
+                                        el apartado de su perfil.</mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div fxFlex="100">
+                                <mat-form-field appearance="outline" class="w-100">
+                                    <mat-label>Exposición del producto</mat-label>
+                                    <mat-select formControlName="exposure_type_id">
+                                        <mat-option *ngFor="let exposure_type of exposure_types"
+                                            [value]="exposure_type.id">
+                                            {{exposure_type.name}} ({{exposure_type.description}})
+                                        </mat-option>
+                                    </mat-select>
+                                    <mat-error *ngIf="form.controls.exposure_type_id.errors?.required">Esta campo es
+                                        obligatorio</mat-error>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+        </div>
+        <div *ngIf="id != null" fxFlex="100" fxFlex.gt-sm="35" class="p-1">
+            <mat-card>
+                <mat-card-header>
+                    <mat-card-title>Estado del producto</mat-card-title>
+                </mat-card-header>
+                <mat-card-content class="text-center">
+                    <button mat-raised-button color="primary">Esconder este producto</button>
+                    <p class="p-1">Al esconder este producto se ocultará de la tienda online.</p>
+
+                </mat-card-content>
+            </mat-card>
+        </div>
+        <div fxFlex="100" fxFlex.gt-sm="65" class="p-1">
+            <mat-card>
+                <mat-card-header>
+                    <mat-card-title>Elementos multimedia</mat-card-title>
+                </mat-card-header>
+                <mat-card-content>
+                    <div fxFlex="100" class="px-1">
+                        <p class="mt-1">
+                            <!--<span class="uppercase fw-500">Galería</span>--><span class="text-muted px-1">(máx
+                                7
+                                imágenes)</span></p>
+                        <input-file formControlName="images" fileLimit="7" (acceptedFile)="acceptFile($event)"
+                            (deletedFile)="deletedFile($event)" fileAccept="image/*" id="img-products">
+                        </input-file>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+        </div>
+        <div fxFlex="100" fxFlex.gt-sm="65" class="p-1">
+            <mat-card>
+                <mat-card-header>
+                    <mat-card-title>Precio</mat-card-title>
+                </mat-card-header>
+                <mat-card-content>
+                    <div fxLayout="row wrap">
+                        <div fxFlex="50" fxFlex.gt-sm="50" class="px-1">
+                            <mat-form-field appearance="outline" class="w-100">
+                                <mat-label>Precio</mat-label>
+                                <input type="number" matInput formControlName="price" required placeholder="$0.00">
+                                <mat-error *ngIf="form.controls.price.errors?.required">El precio es obligatorio
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                        <div fxFlex="50" fxFlex.gt-sm="50" class="px-1">
+
+                            <mat-form-field appearance="outline" class="w-100">
+                                <mat-label>Precio de comparación (opcional)</mat-label>
+                                <input matInput formControlName="comparison_price" placeholder="$0.00">
+                                <mat-error *ngIf="form.controls.comparison_price.errors?.lessThan">El precio de
+                                    comparación debe ser mayor al precio real
+                                </mat-error>
+
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+        </div>
+        <div fxFlex="100" fxFlex.gt-sm="65" class="p-1">
+            <mat-card>
+                <mat-card-header>
+                    <mat-card-title>Inventario</mat-card-title>
+                </mat-card-header>
+                <mat-card-content>
+                    <div fxLayout="row wrap">
+                        <div fxFlex="100" fxFlex.gt-sm="50" class="px-1">
+                            <mat-form-field appearance="outline" class="w-100">
+                                <mat-label>SKU</mat-label>
+                                <input matInput formControlName="sku" placeholder="SKU">
+                            </mat-form-field>
+                        </div>
+                        <div fxFlex="100" fxFlex.gt-sm="50" class="px-1">
+                            <mat-form-field appearance="outline" class="w-100">
+                                <mat-label>Inventario</mat-label>
+                                <input matInput formControlName="availability" required type="number"
+                                    placeholder="Inventario">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <!--<div fxLayout="column wrap">
+                        <div fxFlex="100" class="px-1">
+                            <mat-checkbox color="primary" formControlName="quantityTrack" class="w-100">Rastrear
+                                cantidad
+                            </mat-checkbox>
+                        </div>
+
+                        <div fxFlex="100" class="px-1">
+                            <mat-checkbox color="primary" formControlName="permanentSale" class="w-100">Continuar
+                                vendiendo cuando se haya agotado.
+                            </mat-checkbox>
+                        </div>
+                    </div>-->
+                </mat-card-content>
+            </mat-card>
+        </div>
+        <div fxFlex="100" fxFlex.gt-sm="65" class="p-1">
+            <mat-card>
+                <mat-card-header>
+                    <mat-card-title>Dimensiones y peso</mat-card-title>
+                </mat-card-header>
+                <mat-card-content>
+                    <div fxLayout="row wrap">
+                        <div fxFlex="100" fxFlex.gt-sm="25" class="px-1">
+                            <mat-form-field appearance="outline" class="w-100">
+                                <mat-label>Largo (cm)</mat-label>
+                                <input matInput formControlName="length" type="number" placeholder="0">
+                            </mat-form-field>
+                        </div>
+                        <div fxFlex="100" fxFlex.gt-sm="25" class="px-1">
+                            <mat-form-field appearance="outline" class="w-100">
+                                <mat-label>Ancho (cm)</mat-label>
+                                <input matInput formControlName="width" type="number" placeholder="0">
+                            </mat-form-field>
+                        </div>
+                        <div fxFlex="100" fxFlex.gt-sm="25" class="px-1">
+                            <mat-form-field appearance="outline" class="w-100">
+                                <mat-label>Alto (cm)</mat-label>
+                                <input matInput formControlName="height" type="number" placeholder="0">
+                            </mat-form-field>
+                        </div>
+                        <div fxFlex="100" fxFlex.gt-sm="25" class="px-1">
+                            <mat-form-field appearance="outline" class="w-100">
+                                <mat-label>Peso (kg)</mat-label>
+                                <input matInput formControlName="weight" type="number" placeholder="0">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+        </div>
+        <div fxFlex="100" fxFlex.gt-sm="65" class="p-1">
+            <mat-card>
+                <mat-card-header>
+                    <mat-card-title>Categoría</mat-card-title>
+                </mat-card-header>
+                <mat-card-content>
+                    <div fxLayout="row wrap">
+                        <div fxFlex="100" fxFlex.gt-sm="33.3" class="px-1">
+                            <mat-form-field appearance="outline" class="w-100">
+                                <mat-label>Categoría principal</mat-label>
+                                <mat-select formControlName="category_id" required
+                                    (selectionChange)="applyCategoryFilter($event)">
+                                    <mat-option *ngFor="let cat of categories" [value]="cat.id">
+                                        <span>{{cat.description}}</span>
+                                    </mat-option>
+                                </mat-select>
+                                <mat-error *ngIf="form.controls.category_id.errors?.required">La categoría es
+                                    requerida
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+
+                        <div fxFlex="100" fxFlex.gt-sm="33.3" class="px-1" *ngIf="secondCategories.length > 0">
+                            <mat-form-field appearance="outline" class="w-100">
+                                <mat-label>Segunda categoría</mat-label>
+                                <mat-select formControlName="secondCatId"
+                                    (selectionChange)="applySecondCategoryFilter($event)">
+                                    <mat-option *ngFor="let cat of secondCategories" [value]="cat.id">
+                                        <span>{{cat.description}}</span>
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+
+                        <div fxFlex="100" fxFlex.gt-sm="33.3" class="px-1" *ngIf="thirdCategories.length > 0">
+                            <mat-form-field appearance="outline" class="w-100">
+                                <mat-label>Tercera subcategoría</mat-label>
+                                <mat-select formControlName="thirdCatId"
+                                    (selectionChange)="applyThirdCategoryFilter($event)">
+                                    <mat-option *ngFor="let cat of thirdCategories" [value]="cat.id">
+                                        <span>{{cat.description}}</span>
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+
+                        <div fxFlex="100" fxFlex.gt-sm="33.3" class="px-1" *ngIf="fourthCategories.length > 0">
+                            <mat-form-field appearance="outline" class="w-100">
+                                <mat-label>Cuarta subcategoría</mat-label>
+                                <mat-select formControlName="fourthCatId"
+                                    (selectionChange)="applyFourthCategoryFilter($event)">
+                                    <mat-option *ngFor="let cat of fourthCategories" [value]="cat.id">
+                                        <span>{{cat.description}}</span>
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+        </div>
+        <div fxFlex="100" fxFlex.gt-sm="65" fxLayout="row wrap" fxLayoutAlign="end center" class="p-1">
+            <button mat-button color="primary" type="button" (click)="back()">Cancelar</button>
+            <button mat-raised-button color="primary"
+                type="submit">{{(id) ? 'Guardar cambios' : 'Añadir producto'}}</button>
+        </div>
+    </form>
+
+</div>

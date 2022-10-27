@@ -1,0 +1,34 @@
+::ng-deep #search-product .mat-form-field-wrapper {
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+
+.acts {
+    text-align: center;
+
+    button {
+        margin: 0 5px;
+    }
+}
+
+.lock-free {
+    color: #40C1A8;
+}
+
+.locked-out {
+    color: #FF4B4B;
+}
+
+.stroked {
+    button {
+        &:first-child {
+            color: #FF4B4B;
+        }
+
+        &:last-child {
+            color: #40C1A8;
+        }
+    }
+
+}

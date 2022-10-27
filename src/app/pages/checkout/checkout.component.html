@@ -1,0 +1,414 @@
+<mat-horizontal-stepper #horizontalStepper linear="true" class="mat-elevation-z2">
+  <mat-step [stepControl]="billingForm" label="Dirección de entrega">
+    <form [formGroup]="billingForm" class="p-2">
+      <mat-radio-group fxLayout="row wrap" aria-label="Select an option" class="w-100" formControlName="address">
+        <mat-radio-button [value]="address.id" color="primary" fxFlex="100" fxFlex.gt-sm="25"
+          *ngFor="let address of addresses">
+          <div fxLayout="column">
+            <span class="address-recipient">{{address.name}}&nbsp;</span>
+            <span>{{address.street}}&nbsp; </span>
+            <span>{{address.city}}, {{address.state_name}}
+              {{address.postal_code}}&nbsp;</span>
+            <span>{{address.country_name}}</span>
+          </div>
+        </mat-radio-button>
+      </mat-radio-group>
+      <div fxLayout="row" fxLayoutAlign="center center" class="mt-2 p-1">
+        <button mat-mini-fab matStepperNext color="primary" matTooltip="Next" matTooltipPosition="after">
+          <mat-icon>navigate_next</mat-icon>
+        </button>
+      </div>
+    </form>
+  </mat-step>
+  <mat-step [stepControl]="deliveryForm" label="Envío">
+    <form [formGroup]="deliveryForm" class="p-2">
+      <mat-radio-group formControlName="deliveryMethod" fxLayout="column" fxLayoutAlign="center" required
+        name="methods">
+        <mat-radio-button *ngFor="let method of deliveryMethods" color="primary" [value]="method" class="mt-1">
+          <b>{{method.name}}</b> {{method.desc}}</mat-radio-button>
+      </mat-radio-group>
+      <div fxLayout="row" fxLayoutAlign="center center" class="mt-2 p-1">
+        <button mat-mini-fab matStepperPrevious color="primary" matTooltip="Back" matTooltipPosition="before"
+          class="mr-1">
+          <mat-icon>navigate_before</mat-icon>
+        </button>
+        <button mat-mini-fab matStepperNext color="primary" matTooltip="Next" matTooltipPosition="after">
+          <mat-icon>navigate_next</mat-icon>
+        </button>
+      </div>
+    </form>
+  </mat-step>
+  <mat-step [stepControl]="paymentForm" label="Método de pago">
+    <form [formGroup]="paymentForm" class="p-2">
+      <mat-radio-group fxLayout="row wrap" class="w-100" formControlName="payment_type">
+        <mat-radio-button [value]="payment.id" color="primary" fxFlex="100" fxFlex.gt-sm="25"
+          *ngFor="let payment of payment_types"><span class="payment-desc">{{payment.description}}</span>
+        </mat-radio-button>
+      </mat-radio-group>
+
+      <div fxLayout="row wrap" *ngIf="paymentForm.controls.payment_type.value == 'card'" class="py-2">
+
+        <div fxFlex="100" fxFlex.gt-sm="50" class="px-1">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Nombre del titular</mat-label>
+            <input matInput placeholder="Nombre en la tarjeta" formControlName="cardHolderName" required>
+            <mat-error *ngIf="paymentForm.controls.cardHolderName.errors?.required">El nombre del tarjetahabiente es
+              requerido
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div fxFlex="100" fxFlex.gt-sm="50" class="px-1">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Número de tarjeta</mat-label>
+            <input matInput placeholder="Número de tarjeta" formControlName="cardNumber" required>
+            <mat-error *ngIf="paymentForm.controls.cardNumber.errors?.required">El número de tarjeta es requerido
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div fxFlex="100" fxFlex.gt-sm="33.3" class="px-1">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Mes de expiración</mat-label>
+            <mat-select placeholder="Mes de expiración" formControlName="expiredMonth" required>
+              <mat-option *ngFor="let month of months" [value]="month.value">
+                {{month.name}}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="paymentForm.controls.expiredMonth.errors?.required">El mes de expiración es requerido
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div fxFlex="100" fxFlex.gt-sm="33.3" class="px-1">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Año de expiración</mat-label>
+            <mat-select placeholder="Año de expiración" formControlName="expiredYear" required>
+              <mat-option *ngFor="let year of years" [value]="year">
+                {{year}}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="paymentForm.controls.expiredYear.errors?.required">El año de expiración es requerido
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div fxFlex="100" fxFlex.gt-sm="33.3" class="px-1">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>CVV</mat-label>
+            <input matInput placeholder="CVV" formControlName="cvv" required>
+            <mat-error *ngIf="paymentForm.controls.cvv.errors?.required">El código de seguridad es requerido</mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <div fxLayout="row" fxLayoutAlign="center center" class="mt-2 p-1">
+        <button mat-mini-fab matStepperPrevious color="primary" matTooltip="Back" matTooltipPosition="before"
+          class="mr-1">
+          <mat-icon>navigate_before</mat-icon>
+        </button>
+        <button mat-mini-fab (click)="validatePaymentData(horizontalStepper)" color="primary" matTooltip="Next"
+          matTooltipPosition="after">
+          <mat-icon>navigate_next</mat-icon>
+        </button>
+      </div>
+    </form>
+  </mat-step>
+  <mat-step label="Revisar pedido">
+    <div fxLayout="row wrap">
+      <div fxFlex="100" class="p-1">
+        <h3 class="text-muted">Carrito de compras</h3>
+        <div class="divider"></div>
+        <div class="mat-table review-order-table">
+          <div class="mat-header-row">
+            <div class="mat-header-cell">Artículo</div>
+            <div class="mat-header-cell">Descripción</div>
+            <div class="mat-header-cell">Precio unitario</div>
+            <div class="mat-header-cell">Cantidad</div>
+            <div class="mat-header-cell">Total</div>
+          </div>
+          <div *ngFor="let product of appService.Data.cartList" class="mat-row">
+            <div class="mat-cell"><img [src]="product.images[0].small"></div>
+            <div class="mat-cell">{{product.name}}</div>
+            <div class="mat-cell">${{product.price | number : '1.2-2'}}</div>
+            <div class="mat-cell text-muted"> {{product.cart_count}} </div>
+            <div class="mat-cell">${{ (product.price*product.cart_count) | number : '1.2-2'}}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--<div fxLayout="row wrap">
+      <div fxFlex="100" class="p-1">
+        <h3 class="text-muted mt-2">Billing information</h3>
+        <div class="divider"></div>
+      </div>
+      <div fxLayout="column" fxFlex="100" fxFlex.gt-sm="25" class="p-1">
+        <p class="text-muted">Nombre:</p>
+        <p></p>
+      </div>
+      <div fxLayout="column" fxFlex="100" fxFlex.gt-sm="25" class="p-1">
+        <p class="text-muted">Correo:</p>
+        <p></p>
+      </div>
+      <div fxLayout="column" fxFlex="100" fxFlex.gt-sm="25" class="p-1">
+        <p class="text-muted">Teléfono:</p>
+        <p></p>
+      </div>
+      <div fxLayout="column" fxFlex="100" fxFlex.gt-sm="25" class="p-1">
+        <p class="text-muted">País:</p>
+        <p></p>
+      </div>
+      <div fxLayout="column" fxFlex="100" fxFlex.gt-sm="25" class="p-1">
+        <p class="text-muted">Ciudad:</p>
+        <p></p>
+      </div>
+      <div fxLayout="column" fxFlex="100" fxFlex.gt-sm="25" class="p-1">
+        <p class="text-muted">Estado:</p>
+        <p></p>
+      </div>
+      <div fxLayout="column" fxFlex="100" fxFlex.gt-sm="25" class="p-1">
+        <p class="text-muted">Código postal:</p>
+        <p></p>
+      </div>
+      <div fxLayout="column" fxFlex="100" fxFlex.gt-sm="25" class="p-1">
+        <p class="text-muted">Dirección:</p>
+        <p></p>
+      </div>
+    </div>-->
+    <div fxLayout="row">
+      <div fxFlex="100" class="p-1">
+        <h3 class="text-muted mt-2">Información de envío</h3>
+        <div class="divider"></div>
+        <p class="py-1">{{deliveryForm.controls.deliveryMethod.value['name']}} <span
+            class="text-muted">{{deliveryForm.controls.deliveryMethod.value['desc']}}</span></p>
+      </div>
+    </div>
+    <div fxLayout="row">
+      <div fxFlex="100" class="p-1">
+        <h3 class="text-muted mt-2">Información del método de pago</h3>
+        <div class="divider"></div>
+        <p class="py-1"><span class="text-muted mr-1">{{ payment_label }}</span><span
+            *ngIf="paymentForm.controls.payment_type.value == 'card'">XXX-XXX-XXX-{{digits}}&nbsp;&nbsp;{{cardType.toUpperCase()}}
+          </span>
+        </p>
+      </div>
+    </div>
+    <div fxLayout="row" fxLayoutAlign="center center" class="p-1">
+      <h2><span class="text-muted mr-1">Precio total:</span><span>${{grandTotal | number : '1.2-2'}}</span></h2>
+    </div>
+    <div fxLayout="row" fxLayoutAlign="center center" class="mt-2 p-1">
+      <button mat-mini-fab matStepperPrevious color="primary" matTooltip="Back" matTooltipPosition="before"
+        class="mr-1">
+        <mat-icon>navigate_before</mat-icon>
+      </button>
+      <button mat-raised-button color="primary" (click)="placeOrder(horizontalStepper)">Realizar
+        pedido</button>
+    </div>
+  </mat-step>
+  <mat-step label="Confirmar">
+    <div fxLayout="column" fxLayoutAlign="center center" class="p-2 text-center">
+      <button mat-fab color="primary">
+        <mat-icon>check</mat-icon>
+      </button>
+      <h2 class="py-2">¡Felicidades!</h2>
+      <p class="text-muted">Tu pedido se ha realizado con éxito. Se ha creado la orden <b>#{{order}}</b>. Para
+        revisar su pedido, navega al apartado de Mis Pedidos en el Panel de Control.</p>
+    </div>
+    <div fxLayout="row" fxLayoutAlign="center center" class="mt-2 p-1">
+      <a [routerLink]="['/']" mat-button>Regresar a la tienda</a>
+      <a [routerLink]="['/admin/account/orders', order]" mat-raised-button color="primary">Ver mi pedido</a>
+    </div>
+
+  </mat-step>
+</mat-horizontal-stepper>
+
+<mat-vertical-stepper #verticalStepper linear="true" class="mat-elevation-z2" fxShow="false">
+  <mat-step [stepControl]="billingForm" label="Billing address">
+    <form [formGroup]="billingForm">
+
+      <div fxLayout="row" fxLayoutAlign="center center" class="mt-2 p-1">
+        <button mat-mini-fab matStepperNext color="primary" matTooltip="Next" matTooltipPosition="after">
+          <mat-icon>expand_more</mat-icon>
+        </button>
+      </div>
+    </form>
+  </mat-step>
+  <mat-step [stepControl]="deliveryForm" label="Delivery method">
+    <form [formGroup]="deliveryForm" class="p-2">
+      <mat-radio-group formControlName="deliveryMethod" fxLayout="column" fxLayoutAlign="center" required
+        name="methods">
+        <mat-radio-button *ngFor="let method of deliveryMethods" color="primary" [value]="method" class="mt-1">
+          <b>{{method.name}}</b> {{method.desc}}</mat-radio-button>
+      </mat-radio-group>
+      <div fxLayout="row" fxLayoutAlign="center center" class="mt-2 p-1">
+        <button mat-mini-fab matStepperPrevious color="primary" matTooltip="Back" matTooltipPosition="before"
+          class="mr-1">
+          <mat-icon>expand_less</mat-icon>
+        </button>
+        <button mat-mini-fab matStepperNext color="primary" matTooltip="Next" matTooltipPosition="after">
+          <mat-icon>expand_more</mat-icon>
+        </button>
+      </div>
+    </form>
+  </mat-step>
+  <mat-step [stepControl]="paymentForm" label="Payment method">
+    <form [formGroup]="paymentForm" id="payment-form">
+      <div fxLayout="row wrap">
+        <div fxFlex="100" fxLayout="column" fxLayoutAlign="start start" class="p-1">
+          <span class="text-muted">Credit Card</span>
+          <img src="assets/images/others/card-icon.png" alt="">
+        </div>
+        <div fxFlex="100" fxFlex.gt-sm="50" class="px-1">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Card holder name</mat-label>
+            <input matInput placeholder="Card holder name" formControlName="cardHolderName" required>
+            <mat-error *ngIf="paymentForm.controls.cardHolderName.errors?.required">Card holder name name is required
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div fxFlex="100" fxFlex.gt-sm="50" class="px-1">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Card number</mat-label>
+            <input matInput placeholder="Card number" formControlName="cardNumber" required>
+            <mat-error *ngIf="paymentForm.controls.cardNumber.errors?.required">Card number is required</mat-error>
+          </mat-form-field>
+        </div>
+        <div fxFlex="100" fxFlex.gt-sm="33.3" class="px-1">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Expired month</mat-label>
+            <mat-select placeholder="Expired month" formControlName="expiredMonth" required>
+              <mat-option *ngFor="let month of months" [value]="month.value">
+                {{month.name}}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="paymentForm.controls.expiredMonth.errors?.required">Expired month is required</mat-error>
+          </mat-form-field>
+        </div>
+        <div fxFlex="100" fxFlex.gt-sm="33.3" class="px-1">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Expired year</mat-label>
+            <mat-select placeholder="Expired year" formControlName="expiredYear" required>
+              <mat-option *ngFor="let year of years" [value]="year">
+                {{year}}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="paymentForm.controls.expiredYear.errors?.required">Expired year is required</mat-error>
+          </mat-form-field>
+        </div>
+        <div fxFlex="100" fxFlex.gt-sm="33.3" class="px-1">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>CVV</mat-label>
+            <input matInput placeholder="CVV" formControlName="cvv" required>
+            <mat-error *ngIf="paymentForm.controls.cvv.errors?.required">CVV is required</mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <div fxLayout="row" fxLayoutAlign="center center" class="mt-2 p-1">
+        <button mat-mini-fab matStepperPrevious color="primary" matTooltip="Back" matTooltipPosition="before"
+          class="mr-1">
+          <mat-icon>expand_less</mat-icon>
+        </button>
+        <button mat-mini-fab matStepperNext color="primary" matTooltip="Next" matTooltipPosition="after">
+          <mat-icon>expand_more</mat-icon>
+        </button>
+      </div>
+    </form>
+  </mat-step>
+  <mat-step label="Review Order">
+    <div fxLayout="row wrap">
+      <div fxFlex="100" class="p-1">
+        <h3 class="text-muted">Shopping Cart</h3>
+        <div class="divider"></div>
+        <div class="mat-table review-order-table">
+          <div class="mat-header-row">
+            <div class="mat-header-cell">Product</div>
+            <div class="mat-header-cell">Name</div>
+            <div class="mat-header-cell">Unit Price</div>
+            <div class="mat-header-cell">Quantity</div>
+            <div class="mat-header-cell">Total</div>
+          </div>
+          <div *ngFor="let product of appService.Data.cartList" class="mat-row">
+            <div class="mat-cell"><img [src]="product.images[0].small"></div>
+            <div class="mat-cell">{{product.name}}</div>
+            <div class="mat-cell">${{product.price | number : '1.2-2'}}</div>
+            <div class="mat-cell text-muted"> 1 </div>
+            <div class="mat-cell">${{product.price | number : '1.2-2'}}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div fxLayout="row wrap">
+      <div fxFlex="100" class="p-1">
+        <h3 class="text-muted mt-2">Billing information</h3>
+        <div class="divider"></div>
+      </div>
+      <div fxLayout="column" fxFlex="100" fxFlex.gt-sm="25" class="p-1">
+        <p class="text-muted">Name:</p>
+        <p></p>
+      </div>
+      <div fxLayout="column" fxFlex="100" fxFlex.gt-sm="25" class="p-1">
+        <p class="text-muted">Email:</p>
+        <p></p>
+      </div>
+      <div fxLayout="column" fxFlex="100" fxFlex.gt-sm="25" class="p-1">
+        <p class="text-muted">Phone:</p>
+        <p></p>
+      </div>
+      <div fxLayout="column" fxFlex="100" fxFlex.gt-sm="25" class="p-1">
+        <p class="text-muted">Country:</p>
+        <p></p>
+      </div>
+      <div fxLayout="column" fxFlex="100" fxFlex.gt-sm="25" class="p-1">
+        <p class="text-muted">City:</p>
+        <p></p>
+      </div>
+      <div fxLayout="column" fxFlex="100" fxFlex.gt-sm="25" class="p-1">
+        <p class="text-muted">State:</p>
+        <p></p>
+      </div>
+      <div fxLayout="column" fxFlex="100" fxFlex.gt-sm="25" class="p-1">
+        <p class="text-muted">Zip/PostalCode:</p>
+        <p></p>
+      </div>
+      <div fxLayout="column" fxFlex="100" fxFlex.gt-sm="25" class="p-1">
+        <p class="text-muted">Address:</p>
+        <p></p>
+      </div>
+    </div>
+    <div fxLayout="row">
+      <div fxFlex="100" class="p-1">
+        <h3 class="text-muted mt-2">Delivery information</h3>
+        <div class="divider"></div>
+        <p class="py-1">{{deliveryForm.controls.deliveryMethod.value['name']}} <span
+            class="text-muted">{{deliveryForm.controls.deliveryMethod.value['desc']}}</span></p>
+      </div>
+    </div>
+    <div fxLayout="row">
+      <div fxFlex="100" class="p-1">
+        <h3 class="text-muted mt-2">Payment information</h3>
+        <div class="divider"></div>
+        <p class="py-1"><span class="text-muted mr-1">Card number:</span><span>XXX-XXX-XXX-7224</span></p>
+      </div>
+    </div>
+    <div fxLayout="row" fxLayoutAlign="center center" class="p-1">
+      <h2><span class="text-muted mr-1">Total Price:</span><span>${{grandTotal | number : '1.2-2'}}</span></h2>
+    </div>
+    <div fxLayout="row" fxLayoutAlign="center center" class="mt-2 p-1">
+      <button mat-mini-fab matStepperPrevious color="primary" matTooltip="Back" matTooltipPosition="before"
+        class="mr-1">
+        <mat-icon>expand_less</mat-icon>
+      </button>
+      <button mat-raised-button matStepperNext color="primary" (click)="placeOrder(verticalStepper)">Place order
+        now</button>
+    </div>
+  </mat-step>
+  <mat-step label="Confirmar">
+    <div fxLayout="column" fxLayoutAlign="center center" class="p-2 text-center">
+      <button mat-fab color="primary">
+        <mat-icon>check</mat-icon>
+      </button>
+      <h2 class="py-2">Congratulation! Your order has been processed</h2>
+      <p class="text-muted lh">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed tempus dolor ante, ut luctus
+        mi faucibus a. Ut eu tincidunt neque. Proin porttitor id ligula id placerat. Integer nec nulla varius, dapibus
+        libero quis, semper eros. Aliquam erat volutpat. Proin volutpat tellus vel purus interdum euismod.</p>
+    </div>
+    <div fxLayout="row" fxLayoutAlign="center center" class="mt-2 p-1">
+      <a [routerLink]="['/']" mat-raised-button color="primary">Return to Shop</a>
+    </div>
+  </mat-step>
+</mat-vertical-stepper>

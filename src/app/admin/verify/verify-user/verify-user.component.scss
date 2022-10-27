@@ -1,0 +1,28 @@
+img {
+    margin-bottom: 16px;
+}
+
+ul {
+    list-style: none;
+    list-style-position: outside;
+
+    li::before {
+        content: "\2022";
+        color: #FF4B4B;
+        font-weight: bold;
+        display: inline-block;
+        width: 1em;
+    }
+}
+
+.prices p {
+    text-align: center;
+}
+
+.my-2 {
+    margin: 20px 0 !important;
+}
+
+.mb-2 {
+    margin-bottom: 20px !important;
+}

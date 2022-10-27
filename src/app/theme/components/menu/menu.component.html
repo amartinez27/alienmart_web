@@ -1,0 +1,154 @@
+<mat-toolbar id="menus" color="primary" class="top-navbar mat-elevation-z2">
+    <mat-toolbar-row fxLayoutAlign="space-between center" class="theme-container">
+        <div>
+            <a mat-button [matMenuTriggerFor]="menu" (click)="openMegaMenu()">Categorías<mat-icon class="caret">
+                    arrow_drop_down
+                </mat-icon></a>
+            <mat-menu #menu="matMenu" [overlapTrigger]="false" class="mega-menu app-dropdown">
+                <div fxLayout="row wrap">
+                    <div fxFlex="25" fxLayout="column" class="parents">
+                        <button [routerLink]="['/products', 'category', category.id, category.description]" mat-button
+                            *ngFor="let category of mainCategories | slice:0:12"
+                            (mouseover)="changeCategory($event.srcElement)" name="{{category.id}}">
+                            {{category.description}}
+                        </button>
+                    </div>
+                    <div fxFlex="75" fxLayout="row wrap" class="children">
+                        <div fxFlex="33.3" *ngFor="let sndCategory of secondCategories | slice:0:6" class="p-1">
+                            <a mat-menu-item
+                                [routerLink]="['/products', 'category', sndCategory.id, sndCategory.description]"><b>{{sndCategory.description}}</b></a>
+                            <mat-divider></mat-divider>
+                            <a mat-menu-item class="child-anchor"
+                                [routerLink]="['/products', 'category', cat.id, cat.description]"
+                                *ngFor="let cat of sndCategory.thirdCategories | slice:0:5">{{cat.description}}</a>
+                            <a mat-menu-item class="see-more" style="color: #0093FF !important;"
+                                [routerLink]="['/products', 'category', sndCategory.id, sndCategory.description]">Ver
+                                más subcategorías
+                                ></a>
+
+                        </div>
+                    </div>
+                    <!--<div fxFlex="20" class="p-1">
+                <mat-card class="mega-menu-widget p-0">
+                    <mat-chip-list>
+                        <mat-chip color="warn" selected="true">50% OFF</mat-chip>
+                    </mat-chip-list>
+                    <button mat-raised-button color="primary">Shop now</button>
+                    <img src="assets/images/others/mega_menu_img.png" alt="" class="w-100">
+                </mat-card>
+            </div>-->
+                </div>
+
+            </mat-menu>
+            <a mat-button routerLink="/" routerLinkActive="horizontal-active-link"
+                [routerLinkActiveOptions]="{exact:true}">Tienda</a>
+
+            <a mat-button [routerLink]="['/advertisements']" routerLinkActive="horizontal-active-link"
+                [routerLinkActiveOptions]="{exact:true}">Anuncios</a>
+            <!--<a mat-button [matMenuTriggerFor]="categories">Categorías<mat-icon class="caret">arrow_drop_down</mat-icon></a>
+    <mat-menu #categories="matMenu" [overlapTrigger]="false" class="app-dropdown">
+        <a mat-menu-item routerLink="/products" routerLinkActive="horizontal-active-link"
+            [routerLinkActiveOptions]="{exact:true}">Ver todas</a>
+        <a mat-menu-item [routerLink]="['/products', '2', 'PC All-in-One']" routerLinkActive="horizontal-active-link"
+            [routerLinkActiveOptions]="{exact:true}">Product detail</a>
+        <a mat-menu-item routerLink="/contact" routerLinkActive="horizontal-active-link"
+            [routerLinkActiveOptions]="{exact:true}">Inmuebles</a>
+        <a mat-menu-item routerLink="/">Vehículos</a>
+        <a mat-menu-item routerLink="/404">Empleos</a>
+        <a mat-menu-item routerLink="/landing">Servicios profesionales</a>
+        <a mat-menu-item routerLink="/">Servicios del hogar</a>
+        <a mat-menu-item [matMenuTriggerFor]="others">Others</a>
+        <a mat-menu-item routerLink="/">Servicios financieros</a>
+        <a mat-menu-item routerLink="/">Tecnología</a>
+        <a mat-menu-item routerLink="/">Productos de belleza</a>
+    </mat-menu>-->
+            <a mat-button [routerLink]="['/on-sale']" routerLinkActive="horizontal-active-link"
+                [routerLinkActiveOptions]="{exact:true}">Promociones</a>
+            <!-- <a mat-button [routerLink]="['/products', 'motors']" routerLinkActive="horizontal-active-link" [routerLinkActiveOptions]="{exact:true}">Motors</a> -->
+
+
+
+            <!--<mat-menu #others="matMenu" class="app-dropdown">
+        <a mat-menu-item href="http://themeseason.com" target="_blank">External Link</a>
+        <a mat-menu-item>Menu item</a>
+        <a mat-menu-item>Menu item</a>
+        <a mat-menu-item>Menu item</a>
+    </mat-menu>-->
+
+            <a mat-button routerLink="/sell-on-alienmart" routerLinkActive="horizontal-active-link"
+                [routerLinkActiveOptions]="{exact:true}">Vender</a>
+            <!--<a mat-button routerLink="/admin" routerLinkActive="horizontal-active-link"
+                [routerLinkActiveOptions]="{exact:true}">Panel</a>-->
+            <!--<a mat-button routerLink="/help" routerLinkActive="horizontal-active-link"
+                [routerLinkActiveOptions]="{exact:true}">Ayuda</a>-->
+        </div>
+        <div fxFlex fxLayout="row" fxLayoutAlign="end center">
+            <div fxLayoutAlign="center center" [@.disabled]="true">
+                <button mat-button [matMenuTriggerFor]="cartMenu" #cartMenuTrigger="matMenuTrigger"
+                    class="flex-row-button">
+                    <mat-icon ngClass="mat-icon-lg" ngClass.xs="mat-icon-md">shopping_cart</mat-icon>
+                    <span *ngIf="appService.Data.totalcart_count > 0"
+                        class="cart-items-count">{{appService.Data.totalcart_count}}</span>
+                    <mat-icon class="mat-icon-sm">arrow_drop_down</mat-icon>
+                </button>
+                <mat-menu #cartMenu="matMenu" [overlapTrigger]="false" xPosition="before"
+                    class="top-menu-dropdown cart-dropdown">
+                    <ng-template matMenuContent>
+                        <span (mouseleave)="cartMenuTrigger.closeMenu()" class="d-block">
+                            <div fxLayout="row" fxLayoutAlign="space-between center" class="text-muted">
+                                <b><span>{{appService.Data.totalcart_count}} ARTÍCULO<span
+                                            *ngIf="appService.Data.totalcart_count > 1 || appService.Data.totalcart_count == 0">S</span></span></b>
+                                <b><a [routerLink]="['/cart']" class="text-muted">VER CARRITO</a></b>
+                            </div>
+                            <div class="divider mt-1"></div>
+                            <div *ngIf="appService.Data.totalcart_count == 0" class="py-1 text-muted text-center">Tu
+                                carrito de compras está vacío.</div>
+                            <mat-list>
+                                <mat-list-item *ngFor="let product of appService.Data.cartList">
+                                    <h3 matLine class="text-muted"> {{product.name}} </h3>
+                                    <p matLine class="text-muted">
+                                        <bdi>{{product.cart_count}} x ${{product.price | number : '1.2-2'}}</bdi>
+                                    </p>
+                                    <img [src]="product.images[0].url" alt="image">
+                                    <!--<button mat-icon-button color="primary" class="remove"
+                                        (click)="remove(product);stopClickPropagate($event)" matTooltip="Remove"
+                                        matTooltipPosition="before">
+                                        <mat-icon class="mat-icon-sm">close</mat-icon>
+                                    </button>-->
+                                </mat-list-item>
+                            </mat-list>
+                            <div *ngIf="appService.Data.cartList.length > 0" class="cart-dropdown-footer">
+                                <div class="divider mt-1"></div>
+                                <div fxLayout="row" fxLayoutAlign="space-between center" class="text-muted mt-1">
+                                    <b>TOTAL:</b>
+                                    <b class="new-price">${{appService.Data.totalPrice | number : '1.2-2'}}</b>
+                                </div>
+                                <div class="divider mt-1"></div>
+                                <div fxLayout="row" fxLayoutAlign="space-between center" class="mt-1">
+                                    <button mat-mini-fab color="primary" (click)="clear();stopClickPropagate($event)"
+                                        matTooltip="Vaciar carrito" matTooltipPosition="after">
+                                        <mat-icon>remove_shopping_cart</mat-icon>
+                                    </button>
+                                    <a [routerLink]="['/checkout']" mat-mini-fab color="primary"
+                                        matTooltip="Ir al checkout" matTooltipPosition="before">
+                                        <mat-icon>arrow_forward</mat-icon>
+                                    </a>
+                                </div>
+                            </div>
+                        </span>
+                    </ng-template>
+                </mat-menu>
+            </div>
+            <div fxLayoutAlign="center center" [@.disabled]="true">
+                <button mat-button class="flex-row-button" [routerLink]="'/wishlist'">
+                    <mat-icon ngClass="mat-icon-lg" ngClass.xs="mat-icon-md">favorite</mat-icon>
+                    <span *ngIf="appService.Data.wishList.length > 0"
+                        class="wishlist-items-count">{{appService.Data.wishList.length}}</span>
+                    <div fxLayout="column" fxLayoutAlign="center center" fxShow="false" fxShow.gt-xs class="top-cart">
+                    </div>
+                </button>
+            </div>
+            <app-top-menu></app-top-menu>
+        </div>
+    </mat-toolbar-row>
+</mat-toolbar>

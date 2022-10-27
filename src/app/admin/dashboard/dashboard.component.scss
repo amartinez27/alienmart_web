@@ -1,0 +1,30 @@
+.order-number {
+    font-weight: bold;
+}
+
+.mat-row {
+    height: auto;
+}
+
+.mat-cell,
+.mat-header-cell {
+    padding: 8px 8px 8px 0;
+}
+
+.number-label {
+    font-size: 26px;
+    font-weight: bold;
+}
+
+.first .mat-icon {
+    font-size: 32px;
+    height: 32px;
+    width: 32px;
+    color: #19C09F;
+}
+
+.total-span {
+    margin-top: 8px;
+    color: #707070;
+    font-size: 14px;
+}

@@ -1,0 +1,126 @@
+<div fxLayout="row wrap">
+    <div fxFlex="100" class="p-1">
+        <h2>Banners</h2>
+    </div>
+    <div fxFlex="100" class="p-1">
+        <mat-tab-group mat-align-tabs="start">
+            <mat-tab label="Tienda en línea">
+                <div fxLayout="row" *ngFor="let image of shopBanners; let i = index;">
+                    <div fxFlex="90" class="p-1">
+                        <img class="banner-image" [src]="image.url" alt="">
+                    </div>
+                    <div fxFlex="10" fxLayout="column" fxLayoutAlign="space-between center" class="p-1">
+                        <div fxLayout="column" fxLayoutAlign="start center" class="py-2">
+                            <button mat-raised-button color="primary" (click)="deleteBanner(image)">
+                                <mat-icon>delete</mat-icon>
+                            </button>
+                            <!--<button mat-raised-button color="primary" class="mt-1">
+                                <mat-icon>edit</mat-icon>
+                            </button>-->
+
+                        </div>
+                        <div fxLayout="column" fxLayoutAlign="start center" class="py-2">
+                            <button mat-raised-button color="primary" [disabled]="i == 0"
+                                (click)="decreaseOrder(i, shopBanners)">
+                                <mat-icon>keyboard_arrow_up</mat-icon>
+                            </button>
+                            <span class="banner-order mt-1">{{i+1}}</span>
+                            <button mat-raised-button color="primary" class="mt-1"
+                                [disabled]="(i+1) == shopBanners.length" (click)="increaseOrder(i, shopBanners)">
+                                <mat-icon>keyboard_arrow_down</mat-icon>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <form [formGroup]="shop_form" autocomplete="off" fxLayout="row wrap" fxFlex="100">
+                    <div fxFlex="90" class="px-1">
+                        <input-file formControlName="image" fileLimit="1" fileAccept="image/*"
+                            (acceptedFile)="acceptFile($event, 'tienda')" iconAdd="image">
+                        </input-file>
+                    </div>
+                </form>
+            </mat-tab>
+            <mat-tab label="Anuncios">
+                <div fxLayout="row" *ngFor="let image of adBanners; let i = index;">
+                    <div fxFlex="90" class="p-1">
+                        <img class="banner-image" [src]="image.url" alt="">
+                    </div>
+                    <div fxFlex="10" fxLayout="column" fxLayoutAlign="space-between center" class="p-1">
+                        <div fxLayout="column" fxLayoutAlign="start center" class="py-2">
+                            <button mat-raised-button color="primary" (click)="deleteBanner(image)">
+                                <mat-icon>delete</mat-icon>
+                            </button>
+                            <!--<button mat-raised-button color="primary" class="mt-1">
+                                <mat-icon>edit</mat-icon>
+                            </button>-->
+
+                        </div>
+                        <div fxLayout="column" fxLayoutAlign="start center" class="py-2">
+                            <button mat-raised-button color="primary" [disabled]="i == 0"
+                                (click)="decreaseOrder(i, adBanners)">
+                                <mat-icon>keyboard_arrow_up</mat-icon>
+                            </button>
+                            <span class="banner-order mt-1">{{i+1}}</span>
+                            <button mat-raised-button color="primary" class="mt-1"
+                                [disabled]="(i+1) == adBanners.length" (click)="increaseOrder(i, adBanners)">
+                                <mat-icon>keyboard_arrow_down</mat-icon>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <form [formGroup]="ad_form" autocomplete="off" fxLayout="row wrap" fxFlex="100">
+                    <div fxFlex="90" class="px-1">
+                        <input-file formControlName="image" fileLimit="1" fileAccept="image/*"
+                            (acceptedFile)="acceptFile($event, 'anuncios')" iconAdd="image">
+                        </input-file>
+                    </div>
+                </form>
+            </mat-tab>
+            <mat-tab label="Promociones">
+                <div fxLayout="row" *ngFor="let image of promoBanners; let i = index;">
+                    <div fxFlex="90" class="p-1">
+                        <img class="banner-image" [src]="image.url" alt="">
+                    </div>
+                    <div fxFlex="10" fxLayout="column" fxLayoutAlign="space-between center" class="p-1">
+                        <div fxLayout="column" fxLayoutAlign="start center" class="py-2">
+                            <button mat-raised-button color="primary" (click)="deleteBanner(image)">
+                                <mat-icon>delete</mat-icon>
+                            </button>
+                            <!--<button mat-raised-button color="primary" class="mt-1">
+                                <mat-icon>edit</mat-icon>
+                            </button>-->
+
+                        </div>
+                        <div fxLayout="column" fxLayoutAlign="start center" class="py-2">
+                            <button mat-raised-button color="primary" [disabled]="i == 0"
+                                (click)="decreaseOrder(i, promoBanners)">
+                                <mat-icon>keyboard_arrow_up</mat-icon>
+                            </button>
+                            <span class="banner-order mt-1">{{i+1}}</span>
+                            <button mat-raised-button color="primary" class="mt-1"
+                                [disabled]="(i+1) == promoBanners.length" (click)="increaseOrder(i, promoBanners)">
+                                <mat-icon>keyboard_arrow_down</mat-icon>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <form [formGroup]="promo_form" autocomplete="off" fxLayout="row wrap" fxFlex="100">
+                    <div fxFlex="90" class="px-1">
+                        <input-file formControlName="image" fileLimit="1" fileAccept="image/*"
+                            (acceptedFile)="acceptFile($event, 'promos')" iconAdd="image">
+                        </input-file>
+                    </div>
+                </form>
+            </mat-tab>
+        </mat-tab-group>
+    </div>
+
+
+
+    <!--<div fxFlex="100" fxFlex.gt-sm="65" fxLayout="row wrap" fxLayoutAlign="end center" class="p-1">
+            <button mat-button color="primary">Cancelar</button>
+            <button mat-raised-button color="primary"
+                type="submit">{{(id) ? 'Guardar cambios' : 'Añadir producto'}}</button>
+        </div>-->
+
+</div>

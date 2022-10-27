@@ -1,0 +1,57 @@
+<div class="top-menu">
+    <!--<span fxShow="false" fxShow.gt-sm>
+        <a mat-button routerLink="/wishlist">Me gusta <span
+                *ngIf="settings.rtl">&rlm;</span>({{appService.Data.wishList.length}})</a>
+    </span>-->
+
+    <a mat-button [matMenuTriggerFor]="accountMenu" #accountMenuTrigger="matMenuTrigger">
+        <mat-icon class="account-icon" ngClass.gt-sm="mat-icon-lg">person</mat-icon>
+    </a>
+    <mat-menu #accountMenu="matMenu" [overlapTrigger]="false" xPosition="before" class="app-dropdown account">
+        <span (mouseleave)="accountMenuTrigger.closeMenu()">
+            <div *ngIf="appSettings.currentUser" fxLayout="row" fxLayoutAlign="space-around center" class="user-info">
+                <img *ngIf="appSettings.currentUser.image_url" [src]="appSettings.currentUser?.image_url"
+                    alt="user-image" width="50" height="50">
+                <img *ngIf="!appSettings.currentUser.image_url" src="assets/images/others/user.jpg" alt="user-image"
+                    width="50" height="50">
+                <p>{{appSettings.currentUser?.first_name.split(' ')[0]}}
+                    {{appSettings.currentUser?.last_name?.split(' ')[0]}} <br>
+                    <!--<small><span *ngIf="settings.rtl">&rlm;</span>(152
+                        <mat-icon class="mat-icon-xs">star</mat-icon>)</small></p>-->
+                    <small><span *ngIf="settings.rtl">&rlm;</span>{{appSettings.currentUser?.seller_type_desc}}</small>
+                </p>
+            </div>
+            <div *ngIf="appSettings.currentUser" class="divider"></div>
+
+            <a *ngIf="appSettings.currentUser" mat-menu-item routerLink="/admin/account/information">
+                <span>Configuración de cuenta</span>
+            </a>
+            <a *ngIf="!appSettings.currentUser" mat-menu-item routerLink="/sign-in">
+                <span>Iniciar sesión</span>
+            </a>
+            <a *ngIf="!appSettings.currentUser" mat-menu-item routerLink="/sign-in">
+                <span>Registrarme</span>
+            </a>
+            <div class="divider"></div>
+            <a *ngIf="appSettings.currentUser" mat-menu-item routerLink="/admin/account/orders">
+                <span>Mis compras</span>
+            </a>
+            <a *ngIf="appSettings.currentUser" mat-menu-item routerLink="/admin">
+                <span>Ir a panel de control</span>
+            </a>
+            <div *ngIf="appSettings.currentUser" class="divider"></div>
+            <!--<a mat-menu-item routerLink="/account">
+                <span>Seguridad</span>
+            </a>-->
+            <a mat-menu-item routerLink="/help">
+                <span>Ayuda</span>
+            </a>
+            <div *ngIf="appSettings.currentUser" class="divider"></div>
+            <a *ngIf="appSettings.currentUser" mat-menu-item (click)="logOut()">
+                <mat-icon class="mat-icon-sm">power_settings_new</mat-icon>
+                <span>Cerrar sesión</span>
+            </a>
+        </span>
+    </mat-menu>
+
+</div>

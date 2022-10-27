@@ -1,0 +1,23 @@
+<div fxLayout="row wrap" class="p-1" fxLayoutAlign="space-between center">
+    <h2>Preguntas frecuentes</h2>
+    <button mat-raised-button color="primary" (click)="openFaqDialog(null)">Agregar pregunta</button>
+</div>
+<div fxLayout="row wrap" class="p-1">
+    <div class="p-1" fxFlex="100" *ngFor="let faq of faqs; let i = index;">
+        <mat-card fxFlex="100" fxLayoutAlign="space-between center" fxLayout="row wrap">
+            <div fxLayout="column" fxLayoutAlign="center start" fxFlex="100" fxFlex.gt-sm="92">
+                <h3>{{i+1}}. {{faq.question}}</h3>
+                <p>{{faq.answer}}</p>
+            </div>
+            <div fxFlex.gt-sm="8" fxFlex="100" fxLayoutAlign="center center" fxLayoutAlign.gt-sm="end center">
+                <button mat-icon-button matTooltip="Editar pregunta" (click)="openFaqDialog(faq)">
+                    <mat-icon>edit</mat-icon>
+                </button>
+                <button mat-icon-button matTooltip="Eliminar pregunta" (click)="remove(faq)">
+                    <mat-icon>delete</mat-icon>
+                </button>
+            </div>
+        </mat-card>
+    </div>
+
+</div>

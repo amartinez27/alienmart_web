@@ -1,0 +1,319 @@
+<div fxLayout="row wrap" class="p-1" fxLayoutAlign="space-between center">
+    <div fxLayout="row wrap" fxLayoutAlign="start center">
+        <div>
+            <button routerLink=".." mat-icon-button color="primary">
+                <mat-icon>arrow_back_ios</mat-icon>
+            </button>
+        </div>
+        <div fxLayoutAlign="start center">
+            <h2>Orden #{{order?.id}}</h2>
+        </div>
+    </div>
+</div>
+<div class="p-1">
+    <mat-card>
+        <mat-tab-group>
+            <mat-tab label="Detalles de orden">
+                <div fxLayout="row wrap">
+                    <div fxFlex="100" class="p-1">
+                        <h3 class="text-muted mt-2">Información general</h3>
+                    </div>
+                    <div fxLayout="column" fxFlex="100" fxFlex.gt-sm="33.3" class="p-1">
+                        <p class="text-label">Fecha del pedido</p>
+                        <p>{{order?.created_on | date: 'dd/MMMM/yyyy HH:mm'}}</p>
+                    </div>
+                    <div fxLayout="column" fxFlex="100" fxFlex.gt-sm="33.3" class="p-1">
+                        <p class="text-label">A nombre de</p>
+                        <p>{{order?.customer}}</p>
+                    </div>
+                    <div fxLayout="column" fxFlex="100" fxFlex.gt-sm="33.3" class="p-1">
+                        <p class="text-label">TOTAL</p>
+                        <p>${{order?.total | number  : '1.2-2'}}</p>
+                    </div>
+                    <div fxLayout="column" fxFlex="100" fxFlex.gt-sm="33.3" class="p-1">
+                        <p class="text-label">Correo electrónico</p>
+                        <p>{{order?.customer_email}}</p>
+                    </div>
+                </div>
+                <div class="divider"></div>
+
+                <div fxLayout="row wrap">
+                    <div fxFlex="100" class="p-1">
+                        <h3 class="text-muted mt-2">Información de pago</h3>
+                    </div>
+                    <div fxLayout="column" fxFlex="100" fxFlex.gt-sm="33.3" class="p-1">
+                        <p class="text-label">Método de pago</p>
+                        <p>{{order?.payment_method.toUpperCase()}}</p>
+                    </div>
+                    <div *ngIf="order?.payment_method == 'card' && order" fxLayout="column" fxFlex="100"
+                        fxFlex.gt-sm="33.3" class="p-1">
+                        <p class="text-label">Información del pago</p>
+                        <p> {{order?.payment_data?.issuer?.toUpperCase()}}
+                            {{order?.payment_data?.brand?.toUpperCase()}}
+                        </p>
+                        <p>XXXX-XXXX-XXXX-{{order?.payment_data?.last4}}</p>
+                    </div>
+                    <div fxLayout="column" fxFlex="100" fxFlex.gt-sm="33.3" class="p-1">
+                        <p class="text-label">Estatus del pago</p>
+                        <p>{{order?.payment_data.status}}</p>
+                    </div>
+                    <div fxLayout="column" fxFlex="100" class="p-1" fxLayoutAlign="start start"
+                        *ngIf="order?.payment_method != 'card' && order">
+                        <p class="text-label">Referencia del pago</p>
+                        <p (click)="isVisible = !isVisible" class="hide-btn">{{isVisible ? 'Ocultar': 'Mostrar'}}
+                            referencia de pago</p>
+
+                        <div class="oxxo" *ngIf="isVisible && order?.payment_method == 'oxxo_cash'">
+                            <div class="opps">
+                                <div class="opps-header">
+                                    <div class="opps-reminder">Ficha digital. No es necesario imprimir.</div>
+                                    <div class="opps-info">
+                                        <div class="opps-brand"><img src="assets/images/oxxopay_brand.png"
+                                                alt="OXXOPay"></div>
+                                        <div class="opps-ammount">
+                                            <h3>Monto a pagar</h3>
+                                            <h2>$ {{order?.total | number: '1.2-2'}} <sup>MXN</sup></h2>
+                                            <p>OXXO cobrará una comisión adicional al momento de realizar el pago.</p>
+                                        </div>
+                                    </div>
+                                    <div class="opps-reference">
+                                        <h3>Referencia</h3>
+                                        <h1>{{order?.payment_data?.reference}}</h1>
+                                    </div>
+                                </div>
+                                <div class="opps-instructions">
+                                    <h3>Instrucciones</h3>
+                                    <ol>
+                                        <li>Acude a la tienda OXXO más cercana. <a
+                                                href="https://www.google.com.mx/maps/search/oxxo/"
+                                                target="_blank">Encuéntrala aquí</a>.</li>
+                                        <li>Indica en caja que quieres realizar un pago de <strong>OXXOPay</strong>.
+                                        </li>
+                                        <li>Dicta al cajero el número de referencia en esta ficha para que tecleé
+                                            directamete en la pantalla de venta.</li>
+                                        <li>Realiza el pago correspondiente con dinero en efectivo.</li>
+                                        <li>Al confirmar tu pago, el cajero te entregará un comprobante impreso.
+                                            <strong>En el podrás verificar que se haya realizado correctamente.</strong>
+                                            Conserva este comprobante de pago.</li>
+                                    </ol>
+                                    <div class="opps-footnote">Al completar estos pasos recibirás un correo de
+                                        <strong>Alienmart</strong> confirmando tu pago.</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="spei" *ngIf="isVisible && order?.payment_method == 'spei'">
+                            <div class="ps">
+                                <div class="ps-header">
+                                    <div class="ps-reminder">Ficha digital. No es necesario imprimir.</div>
+                                    <div class="ps-info">
+                                        <div class="ps-brand"><img src="assets/images/spei_brand.png" alt="Banorte">
+                                        </div>
+                                        <div class="ps-amount">
+                                            <h3>Monto a pagar</h3>
+                                            <h2>$ {{order?.total | number: '1.2-2'}} <sup>MXN</sup></h2>
+                                            <p>Utiliza exactamente esta cantidad al realizar el pago.</p>
+                                        </div>
+                                    </div>
+                                    <div class="ps-reference">
+                                        <h3>CLABE</h3>
+                                        <h1>{{order?.payment_data?.clabe}}</h1>
+                                    </div>
+                                </div>
+                                <div class="ps-instructions">
+                                    <h3>Instrucciones</h3>
+                                    <ol>
+                                        <li>Accede a tu banca en línea.</li>
+                                        <li>Da de alta la CLABE en esta ficha. <strong>El banco deberá de ser
+                                                STP</strong>.</li>
+                                        <li>Realiza la transferencia correspondiente por la cantidad exacta en esta
+                                            ficha, <strong>de lo contrario se rechazará el cargo</strong>.</li>
+                                        <li>Al confirmar tu pago, el portal de tu banco generará un comprobante digital.
+                                            <strong>En el podrás verificar que se haya realizado correctamente.</strong>
+                                            Conserva este comprobante de pago.</li>
+                                    </ol>
+                                    <div class="ps-footnote">Al completar estos pasos recibirás un correo de
+                                        <strong>Alienmart</strong> confirmando tu pago.</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="paynet" *ngIf="isVisible && order?.payment_method == 'paynet'">
+                            <div class="whitepaper">
+                                <div class="Header">
+                                    <div class="Logo_empresa">
+                                        <img src="assets/images/logos/logo-alienmart.png" alt="Logo">
+                                    </div>
+                                    <div class="Logo_paynet">
+                                        <div>Servicio a pagar</div>
+                                        <img src="assets/images/paynet/paynet_logo.png" alt="Logo Paynet">
+                                    </div>
+                                </div>
+                                <div class="Data">
+                                    <div class="Big_Bullet">
+                                        <span></span>
+                                    </div>
+                                    <div class="col1">
+                                        <h3>Fecha límite de pago</h3>
+                                        <h4>{{order?.payment_data?.expires | date: 'dd/MMMM/yyyy HH:mm' }}</h4>
+                                        <img width="300" [src]="order?.payment_data?.barcode_url"
+                                            alt="Código de Barras">
+                                        <center><span>{{order?.payment_data?.reference}}</span></center>
+                                        <small>En caso de que el escáner no sea capaz de leer el código de barras,
+                                            escribir la referencia tal como se muestra.</small>
+
+                                    </div>
+                                    <div class="col2">
+                                        <h2>Total a pagar</h2>
+                                        <h1>${{order?.total | number : '1.0-0'}}<span>.{{getDecimals(order?.total)}}</span><small>
+                                                MXN</small></h1>
+                                        <span class="note">La comisión por recepción del pago varía de acuerdo a los
+                                            términos y condiciones que cada cadena comercial establece.</span>
+                                    </div>
+                                </div>
+                                <div class="DT-margin"></div>
+                                <div class="Data">
+                                    <div class="Big_Bullet">
+                                        <span></span>
+                                    </div>
+                                    <div class="col1">
+                                        <h3>Detalles de la compra</h3>
+                                    </div>
+                                </div>
+                                <div class="Table-Data">
+                                    <div class="table-row color1">
+                                        <div>Descripción</div>
+                                        <span>{{order?.payment_data?.description}}</span>
+                                    </div>
+                                    <div class="table-row color2">
+                                        <div>Fecha y hora</div>
+                                        <span>{{order?.created_on | date: 'dd/MMMM/yyyy HH:mm' }}</span>
+                                    </div>
+                                    <div class="table-row color1">
+                                        <div>Correo del cliente</div>
+                                        <span>{{order?.customer_email}}</span>
+                                    </div>
+                                    <div class="table-row color2" style="display:none">
+                                        <div>&nbsp;</div>
+                                        <span>&nbsp;</span>
+                                    </div>
+                                    <div class="table-row color1" style="display:none">
+                                        <div>&nbsp;</div>
+                                        <span>&nbsp;</span>
+                                    </div>
+                                </div>
+                                <div class="DT-margin"></div>
+                                <div>
+                                    <div class="Big_Bullet">
+                                        <span></span>
+                                    </div>
+                                    <div class="col1">
+                                        <h3>Como realizar el pago</h3>
+                                        <ol>
+                                            <li>Acude a cualquier tienda afiliada</li>
+                                            <li>Entrega al cajero el código de barras y menciona que realizarás un pago
+                                                de servicio Paynet</li>
+                                            <li>Realizar el pago en efectivo por
+                                                ${{data?.payment.total | number : '1.0-0'}}.{{getDecimals(data?.payment.total)}}
+                                                MXN </li>
+                                            <li>Conserva el ticket para cualquier aclaración</li>
+                                        </ol>
+                                        <small>Si tienes dudas comunícate a NOMBRE TIENDA al teléfono TELEFONO TIENDA o
+                                            al correo CORREO SOPORTE TIENDA</small>
+                                    </div>
+                                    <div class="col1">
+                                        <h3>Instrucciones para el cajero</h3>
+                                        <ol>
+                                            <li>Ingresar al menú de Pago de Servicios</li>
+                                            <li>Seleccionar Paynet</li>
+                                            <li>Escanear el código de barras o ingresar el núm. de referencia</li>
+                                            <li>Ingresa la cantidad total a pagar</li>
+                                            <li>Cobrar al cliente el monto total más la comisión</li>
+                                            <li>Confirmar la transacción y entregar el ticket al cliente</li>
+                                        </ol>
+                                        <small>Para cualquier duda sobre como cobrar, por favor llamar al teléfono +52
+                                            (55) 5351 7371 en un horario de 8am a 9pm de lunes a domingo</small>
+                                    </div>
+                                </div>
+
+                                <div class="logos-tiendas">
+
+                                    <ul>
+                                        <li><img src="assets/images/paynet/01.png" width="100" height="50"></li>
+                                        <li><img src="assets/images/paynet/02.png" width="100" height="50"></li>
+                                        <li><img src="assets/images/paynet/03.png" width="100" height="50"></li>
+                                        <li><img src="assets/images/paynet/04.png" width="100" height="50"></li>
+                                        <li><img src="assets/images/paynet/05.png" width="100" height="50"></li>
+                                        <li><img src="assets/images/paynet/06.png" width="100" height="50"></li>
+                                        <li><img src="assets/images/paynet/07.png" width="100" height="50"></li>
+                                        <li><img src="assets/images/paynet/08.png" width="100" height="50"></li>
+                                    </ul>
+                                    <div style="height: 90px; width: 190px; float: right; margin-top: 30px;">
+                                        ¿Quieres pagar en otras tiendas? visítanos en: www.openpay.mx/tiendas
+                                    </div>
+
+                                </div>
+                                <div class="Powered">
+                                    <img src="assets/images/paynet/powered_openpay.png" alt="Powered by Openpay"
+                                        width="150">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </mat-tab>
+            <mat-tab label="Artículos">
+                <div class="p-2 mt-1">
+                    <div class="mat-table items-table">
+                        <div class="mat-header-row">
+                            <div class="mat-header-cell">NOMBRE</div>
+                            <div class="mat-header-cell">PRECIO</div>
+                            <div class="mat-header-cell">CANTIDAD</div>
+                            <div class="mat-header-cell">TOTAL</div>
+                            <div class="mat-header-cell text-center">
+                            </div>
+                        </div>
+                        <div *ngFor="let product of order?.order_items" class="mat-row">
+                            <div class="mat-cell"><a [routerLink]="['/products', product.product_id, product.name]"
+                                    class="product-name">{{product.name}}</a></div>
+                            <div class="mat-cell">${{product.price | number : '1.2-2'}}</div>
+                            <div class="mat-cell">{{product.quantity}}</div>
+                            <div class="mat-cell">${{total[product.id] | number : '1.2-2'}}</div>
+                            <div fxLayout="column" class="help-buttons">
+                                <a mat-stroked-button target="_blank"
+                                    [routerLink]="['/products', product.product_id, product.name]">Comprar de nuevo </a>
+                                <div class="mt-1"></div>
+                                <button mat-stroked-button (click)="openIssueDialog(product)">Necesito ayuda <mat-icon>
+                                        help_outline</mat-icon></button>
+                            </div>
+                        </div>
+                        <div class="mat-row">
+                            <div class="mat-cell">
+                            </div>
+                            <div class="mat-cell"></div>
+                            <div class="mat-cell"></div>
+                            <div class="mat-cell">
+                                Total: ${{order?.total | number : '1.2-2'}}
+                            </div>
+                            <div class="mat-cell">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </mat-tab>
+            <mat-tab label="Información de envío">
+                <div fxLayout="row wrap">
+                    <div fxFlex="100" class="p-1">
+                        <h3 class="text-muted mt-2">Información general</h3>
+                    </div>
+                    <div fxLayout="column" fxFlex="100" class="p-1">
+                        <p class="text-label">Una vez realizado y confirmado el pago de tu pedido, podrás consultar aquí
+                            tu referencia FEDEX del envío.</p>
+                    </div>
+                    <div fxLayout="column" fxFlex="100" fxFlex.gt-sm="33.3" class="p-1">
+                        <p class="text-label">Fecha del pedido</p>
+                        <p>{{order?.created_on | date: 'dd/MMMM/yyyy HH:mm'}}</p>
+                    </div>
+                </div>
+            </mat-tab>
+        </mat-tab-group>
+    </mat-card>
+</div>

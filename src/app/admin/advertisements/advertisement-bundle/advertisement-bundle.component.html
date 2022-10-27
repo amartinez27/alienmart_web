@@ -1,0 +1,212 @@
+<div fxLayout="row wrap" class="p-1">
+    <div fxFlex="100" fxLayoutAlign="start center">
+        <h2>Paquetes de anuncios</h2>
+    </div>
+    <p class="mt-1" fxFlex="100">Para poder publicar un anuncio en Alienmart, debes adquirir el paquete de anuncios que
+        mejor se
+        acople a tus
+        necesidades.</p>
+</div>
+<div fxLayout="row-wrap" class="p-1">
+    <mat-card fxFlex="100">
+        <mat-horizontal-stepper linear #stepper>
+            <mat-step [stepControl]="categorySelectGroup">
+                <form [formGroup]="categorySelectGroup">
+                    <ng-template matStepLabel>Categoría</ng-template>
+                    <div fxLayout="row wrap" fxLayoutAlign="center start">
+                        <h3 fxFlex="100">¿Qué tipo de anuncio deseas publicar?</h3>
+                        <div fxFlex="100" fxFlex.gt-sm="20" fxFlex.gt-xs="33.33" fxLayout="row wrap" class="mt-1 p-1"
+                            *ngFor="let category of bundles">
+                            <div fxFlex="100" class="mat-elevation-z2 p-1 type-option" fxLayout="column"
+                                fxLayoutAlign="center center" (click)="selectCategory(stepper, category)">
+                                <mat-icon color="primary">{{category.icon_name}}</mat-icon>
+                                <h3 class="text-center">{{category.description}}</h3>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </mat-step>
+            <mat-step [stepControl]="bundleSelectGroup">
+                <form [formGroup]="bundleSelectGroup">
+                    <ng-template matStepLabel>Paquete</ng-template>
+                    <div fxLayout="row wrap">
+                        <h3 fxFlex="100">Selecciona el paquete que mejor se acople a tus necesidades</h3>
+                        <div fxFlex="100" fxFlex.gt-xs="33.33" fxFlex.gt-sm="25" fxLayout="row wrap" class="mt-1 p-1"
+                            *ngFor="let bundle of appliedBundles">
+                            <div fxFlex="100" class="mat-elevation-z2 p-1  bundle-option" fxLayout="row wrap">
+                                <h3 fxFlex="50">{{bundle.name}}</h3>
+                                <span fxFlex="50" class="duration">{{bundle.duration}}
+                                    día{{bundle.duration > 1 ? 's': ''}}</span>
+                                <span fxFlex="100"
+                                    class="new-price text-center">${{bundle.price | number: '1.2-2'}}</span>
+
+                                <p fxFlex="100" class="bundle-desc mt-1">
+                                    Máxima exposición en página web, aplicación Android y iOS.
+                                    Podrás publicar {{bundle.quantity}}
+                                    anuncio{{bundle.quantity > 1 ? 's': ''}} en este
+                                    lapso.
+                                </p>
+                                <div fxFlex="100" class="text-center p-1 mt-1">
+                                    <button mat-raised-button color="primary"
+                                        (click)="selectBundle(stepper, bundle)">Seleccionar</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div fxFlex="100" fxLayoutAlign="center center" class="mt-2">
+                            <button mat-button color="primary" matStepperPrevious>
+                                <mat-icon>navigate_before</mat-icon>
+                                Regresar
+                            </button>
+                        </div>
+                    </div>
+                    <div>
+                        <!--<button mat-button matStepperPrevious>Back</button>
+                        <button mat-button matStepperNext>Next</button>-->
+                    </div>
+                </form>
+            </mat-step>
+            <mat-step [stepControl]="paymentForm">
+                <form [formGroup]="paymentForm" class="p-2">
+                    <ng-template matStepLabel>Método de pago</ng-template>
+
+                    <mat-radio-group fxLayout="row wrap" class="w-100" formControlName="payment_type">
+                        <mat-radio-button [value]="payment.id" color="primary" fxFlex="100" fxFlex.gt-sm="25"
+                            *ngFor="let payment of payment_types">{{payment.description}}
+                        </mat-radio-button>
+                    </mat-radio-group>
+
+                    <div fxLayout="row wrap" *ngIf="paymentForm.controls.payment_type.value == 'card'" class="py-2">
+
+                        <div fxFlex="100" fxFlex.gt-sm="50" class="px-1">
+                            <mat-form-field appearance="outline" class="w-100">
+                                <mat-label>Nombre del titular</mat-label>
+                                <input matInput placeholder="Nombre en la tarjeta" formControlName="cardHolderName"
+                                    required>
+                                <mat-error *ngIf="paymentForm.controls.cardHolderName.errors?.required">El nombre del
+                                    tarjetahabiente es
+                                    requerido
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                        <div fxFlex="100" fxFlex.gt-sm="50" class="px-1">
+                            <mat-form-field appearance="outline" class="w-100">
+                                <mat-label>Número de tarjeta</mat-label>
+                                <input matInput placeholder="Número de tarjeta" formControlName="cardNumber" required>
+                                <mat-error *ngIf="paymentForm.controls.cardNumber.errors?.required">El número de tarjeta
+                                    es requerido
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                        <div fxFlex="100" fxFlex.gt-sm="33.3" class="px-1">
+                            <mat-form-field appearance="outline" class="w-100">
+                                <mat-label>Mes de expiración</mat-label>
+                                <mat-select placeholder="Mes de expiración" formControlName="expiredMonth" required>
+                                    <mat-option *ngFor="let month of months" [value]="month.value">
+                                        {{month.name}}
+                                    </mat-option>
+                                </mat-select>
+                                <mat-error *ngIf="paymentForm.controls.expiredMonth.errors?.required">El mes de
+                                    expiración es requerido
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                        <div fxFlex="100" fxFlex.gt-sm="33.3" class="px-1">
+                            <mat-form-field appearance="outline" class="w-100">
+                                <mat-label>Año de expiración</mat-label>
+                                <mat-select placeholder="Año de expiración" formControlName="expiredYear" required>
+                                    <mat-option *ngFor="let year of years" [value]="year">
+                                        {{year}}
+                                    </mat-option>
+                                </mat-select>
+                                <mat-error *ngIf="paymentForm.controls.expiredYear.errors?.required">El año de
+                                    expiración es requerido
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                        <div fxFlex="100" fxFlex.gt-sm="33.3" class="px-1">
+                            <mat-form-field appearance="outline" class="w-100">
+                                <mat-label>CVV</mat-label>
+                                <input matInput placeholder="CVV" formControlName="cvv" required>
+                                <mat-error *ngIf="paymentForm.controls.cvv.errors?.required">El código de seguridad es
+                                    requerido</mat-error>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div fxLayout="row" fxLayoutAlign="center center" class="mt-2 p-1">
+                        <button mat-button matStepperPrevious color="primary" class="mr-1">
+                            <mat-icon>navigate_before</mat-icon> Regresar
+                        </button>
+                        <button mat-raised-button (click)="validatePaymentData(stepper)" color="primary">
+                            Continuar<mat-icon>navigate_next</mat-icon>
+                        </button>
+                    </div>
+                </form>
+            </mat-step>
+            <mat-step>
+                <ng-template matStepLabel>Revisar pedido</ng-template>
+                <div fxLayout="row wrap">
+                    <div fxFlex="100" class="p-1">
+                        <h3>Paquete de anuncios</h3>
+                        <div class="divider"></div>
+                        <div class="mat-table review-order-table">
+                            <div class="mat-header-row">
+                                <div class="mat-header-cell">Descripción</div>
+                                <div class="mat-header-cell">Duración</div>
+                                <div class="mat-header-cell">Anuncios</div>
+                                <div class="mat-header-cell">Categoría</div>
+                                <div class="mat-header-cell">Precio</div>
+                            </div>
+                            <div class="mat-row">
+                                <div class="mat-cell">{{selectedBundle?.name}}</div>
+                                <div class="mat-cell">{{selectedBundle?.duration}}
+                                    día{{selectedBundle?.duration > 1 ? 's': ''}}</div>
+                                <div class="mat-cell">{{selectedBundle?.quantity}}
+                                    anuncio{{selectedBundle?.quantity > 1 ? 's': ''}}</div>
+                                <div class="mat-cell text-muted">{{category?.description}}</div>
+                                <div class="mat-cell">${{selectedBundle?.price | number : '1.2-2'}}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div fxLayout="row">
+                    <div fxFlex="100" class="p-1">
+                        <h3 class="mt-2">Información del método de pago</h3>
+                        <div class="divider"></div>
+                        <p class="py-1"><span class="text-muted mr-1">{{ payment_label }}</span><span
+                                *ngIf="paymentForm.controls.payment_type.value == 'card'">XXX-XXX-XXX-{{digits}}&nbsp;&nbsp;{{cardType.toUpperCase()}}
+                            </span>
+                        </p>
+                    </div>
+                </div>
+                <div fxLayout="row" fxLayoutAlign="center center" class="p-1">
+                    <h2><span class="text-muted mr-1">Precio
+                            total:</span><span>${{selectedBundle?.price | number : '1.2-2'}}</span></h2>
+                </div>
+                <div fxLayout="row" fxLayoutAlign="center center" class="mt-2 p-1">
+                    <button mat-button matStepperPrevious color="primary" class="mr-1">
+                        <mat-icon>navigate_before</mat-icon>Regresar
+                    </button>
+                    <button mat-raised-button color="primary" (click)="placeOrder(stepper)">Realizar
+                        pedido</button>
+                </div>
+            </mat-step>
+            <mat-step label="Confirmar">
+                <div fxLayout="column" fxLayoutAlign="center center" class="p-2 text-center">
+                    <button mat-fab color="primary">
+                        <mat-icon>check</mat-icon>
+                    </button>
+                    <h2 class="py-2">¡Felicidades!</h2>
+                    <p class="text-muted">Tu pedido se ha realizado con éxito. En unos instantes recibirás un correo
+                        electrónico con
+                        la confirmación de tu pedido.</p>
+                </div>
+                <div fxLayout="row" fxLayoutAlign="center center" class="mt-2 p-1">
+                    <a [routerLink]="['/admin/advertisements/add-advertisement']" mat-raised-button color="primary">Ir a
+                        publicar un
+                        anuncio</a>
+                </div>
+
+            </mat-step>
+        </mat-horizontal-stepper>
+    </mat-card>
+</div>
